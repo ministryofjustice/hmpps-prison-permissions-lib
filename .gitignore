@@ -1,17 +1,11 @@
 # editors
 /.idea/
 
-# root project
 /node_modules/
+/dist/
+/coverage/
 /package-lock.json
+/ministryofjustice-*.tgz
 /.eslintcache
-
-# packages
-/packages/*/node_modules/
-/packages/*/package-lock.json
-/packages/*/dist/
-/packages/*/coverage/
-/packages/*/.eslintcache
-/packages/*/ministryofjustice-*.tgz
 
 **/.DS_Store
