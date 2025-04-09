@@ -1,0 +1,17 @@
+# editors
+/.idea/
+
+# root project
+/node_modules/
+/package-lock.json
+/.eslintcache
+
+# packages
+/packages/*/node_modules/
+/packages/*/package-lock.json
+/packages/*/dist/
+/packages/*/coverage/
+/packages/*/.eslintcache
+/packages/*/ministryofjustice-*.tgz
+
+**/.DS_Store
