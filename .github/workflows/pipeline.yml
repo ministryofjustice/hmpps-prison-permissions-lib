@@ -1,0 +1,124 @@
+name: Test, lint & publish
+
+# run testing and linting pipeline…
+on:
+  # on pull requests
+  pull_request:
+  # when main branch is updated
+  push:
+    branches:
+      - main
+  # when a release is published
+  release:
+    types: [published]
+  # and manually
+  workflow_dispatch:
+
+# cancel builds when PR is updated
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: npm install
+      - name: Test build step
+        run: npm run build
+      - name: Run unit tests
+        run: npm test
+
+  lint:
+    name: Run linting checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Clean build step
+        run: npm run clean
+      - name: Test build step
+        run: npm run build
+      - name: Run linting checks
+        run: npm run lint
+
+  publish:
+    name: Publish packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    needs:
+      - test
+      - lint
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup node with public npmjs.com registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@ministryofjustice'
+      - name: Install dependencies
+        run: npm install
+      - name: Build all packages
+        run: |
+          npm run clean
+          npm run build
+      - name: Publish new versions of packages
+        run: |
+          root_path=$(pwd)
+
+          echo "→ Finding packages"
+          all_package_json_files=$( find packages -maxdepth 2 -name package.json )
+          echo "${all_package_json_files}"
+
+          echo "${all_package_json_files}" | while read -r package_json_files
+          do
+            package_dir=$(dirname "${package_json_files}")
+
+            cd "${root_path}/${package_dir}"
+            name=$(jq -r .name package.json)
+
+            latest_version=$(npm view $name version || echo unpublished)
+            version=$(jq -r .version package.json)
+
+            if [ "$version" == "$latest_version" ]; then
+              echo "package ${name} has already published latest version: ${version}, skipping..."
+
+            else
+              echo "→ Existing published version is ${latest_version}, publishing version ${version} of ${name}…"
+
+              echo "→ Building package ${name}"
+              package_name=$(npm pack)
+
+              echo "→ Uploading package ${package_name} to Github release"
+              gh release upload ${{ github.event.release.tag_name }} "${package_name}"
+
+              echo "→ Publishing package ${name} v${version} to npmjs.com"
+              npm publish --provenance --access public
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,11 @@
+# editors
+/.idea/
+
+/node_modules/
+/dist/
+/coverage/
+/package-lock.json
+/ministryofjustice-*.tgz
+/.eslintcache
+
+**/.DS_Store
