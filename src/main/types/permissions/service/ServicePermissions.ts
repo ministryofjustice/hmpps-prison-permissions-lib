@@ -1,5 +1,5 @@
 import {
-  globalSearchServicePermission,
+  checkGlobalSearchServiceAccess,
   GlobalSearchServicePermission,
   GlobalSearchServicePermissions,
   isGlobalSearchServicePermission,
@@ -19,7 +19,10 @@ export type ServicePermission = GlobalSearchServicePermission
 
 export function servicePermission(permission: ServicePermission, permissions: ServicePermissions): boolean {
   if (isGlobalSearchServicePermission(permission as string, permissions.services.globalSearch)) {
-    return globalSearchServicePermission(permission as GlobalSearchServicePermission, permissions.services.globalSearch)
+    return checkGlobalSearchServiceAccess(
+      permission as GlobalSearchServicePermission,
+      permissions.services.globalSearch,
+    )
   }
 
   return false

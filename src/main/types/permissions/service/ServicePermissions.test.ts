@@ -13,8 +13,8 @@ describe('Service Permissions', () => {
   }
 
   it.each([
-    [GlobalSearchServicePermission.performSearch, true],
-    [GlobalSearchServicePermission.performSearch, false],
+    [GlobalSearchServicePermission.perform_search, true],
+    [GlobalSearchServicePermission.perform_search, false],
   ])('Can check Global Search permission: %s is %s', (permission: ServicePermission, allTrue: boolean) => {
     expect(servicePermission(permission, servicePermissions(allTrue))).toBe(allTrue)
   })

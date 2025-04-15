@@ -1,5 +1,5 @@
 import {
-  corePersonRecordPermission,
+  checkCorePersonRecordAccess,
   CorePersonRecordPermission,
   CorePersonRecordPermissions,
   isCorePersonRecordPermission,
@@ -7,16 +7,15 @@ import {
 import {
   isPersonHealthAndMedicationPermission,
   PersonHealthAndMedicationPermission,
-  personHealthAndMedicationPermission,
+  checkPersonHealthAndMedicationAccess,
   PersonHealthAndMedicationPermissions,
 } from './PersonHealthAndMedicationPermissions'
 import {
   isPersonPersonalRelationshipsPermission,
-  personPersonalRelationshipPermission,
+  checkPersonPersonalRelationshipAccess,
   PersonPersonalRelationshipsPermission,
   PersonPersonalRelationshipsPermissions,
 } from './PersonPersonalRelationshipsPermissions'
-import { Operations, noAccess } from '../../Operations'
 
 export interface PersonDomainPermissions {
   // Not a full list, for demonstration purposes at the moment:
@@ -38,27 +37,27 @@ export function isPersonDomainPermission(permission: string, permissions: Person
   )
 }
 
-export function personDomainPermission(
+export function checkPersonDomainAccess(
   permission: PersonDomainPermission,
   permissions: PersonDomainPermissions,
-): Operations {
+): boolean {
   if (isCorePersonRecordPermission(permission, permissions.corePersonRecord)) {
-    return corePersonRecordPermission(permission as CorePersonRecordPermission, permissions.corePersonRecord)
+    return checkCorePersonRecordAccess(permission as CorePersonRecordPermission, permissions.corePersonRecord)
   }
 
   if (isPersonHealthAndMedicationPermission(permission, permissions.personHealthAndMedication)) {
-    return personHealthAndMedicationPermission(
+    return checkPersonHealthAndMedicationAccess(
       permission as PersonHealthAndMedicationPermission,
       permissions.personHealthAndMedication,
     )
   }
 
   if (isPersonPersonalRelationshipsPermission(permission, permissions.personPersonalRelationships)) {
-    return personPersonalRelationshipPermission(
+    return checkPersonPersonalRelationshipAccess(
       permission as PersonPersonalRelationshipsPermission,
       permissions.personPersonalRelationships,
     )
   }
 
-  return noAccess()
+  return false
 }

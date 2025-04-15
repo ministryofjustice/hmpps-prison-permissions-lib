@@ -1,10 +1,9 @@
 import {
   isPersonCourtSchedulesPermission,
-  personCourtSchedulesPermission,
+  checkPersonCourtSchedulesAccess,
   PersonCourtSchedulesPermission,
   PersonCourtSchedulesPermissions,
 } from './PersonCourtSchedulesPermissions'
-import { Operations, noAccess } from '../../Operations'
 
 export interface CourtAndLegalDomainPermissions {
   // Not a full list, for demonstration purposes at the moment:
@@ -17,16 +16,16 @@ export function isCourtAndLegalDomainPermission(permission: string, permissions:
   return isPersonCourtSchedulesPermission(permission, permissions.personCourtSchedules)
 }
 
-export function courtAndLegalDomainPermission(
+export function checkCourtAndLegalDomainAccess(
   permission: CourtAndLegalDomainPermission,
   permissions: CourtAndLegalDomainPermissions,
-): Operations {
+): boolean {
   if (isPersonCourtSchedulesPermission(permission, permissions.personCourtSchedules)) {
-    return personCourtSchedulesPermission(
+    return checkPersonCourtSchedulesAccess(
       permission as PersonCourtSchedulesPermission,
       permissions.personCourtSchedules,
     )
   }
 
-  return noAccess()
+  return false
 }

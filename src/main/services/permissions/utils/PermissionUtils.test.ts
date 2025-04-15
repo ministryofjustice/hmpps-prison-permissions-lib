@@ -7,18 +7,18 @@ describe('PermissionUtils', () => {
     const permissions = (canReadHeight: boolean) =>
       ({
         domainGroups: {
-          person: { corePersonRecord: { [CorePersonRecordPermission.height]: { read: canReadHeight } } },
+          person: { corePersonRecord: { [CorePersonRecordPermission.read_height]: canReadHeight } },
         },
       }) as unknown as PrisonerPermissions
 
     it('Can run getter function if permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.height, permissions(true), () => 1.23)
+      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(true), () => 1.23)
 
       expect(result).toEqual(1.23)
     })
 
     it('Can run async getter function if permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.height, permissions(true), () =>
+      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(true), () =>
         Promise.resolve(1.23),
       )
 
@@ -26,7 +26,7 @@ describe('PermissionUtils', () => {
     })
 
     it('Will return null if not permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.height, permissions(false), () =>
+      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(false), () =>
         Promise.resolve(1.23),
       )
 

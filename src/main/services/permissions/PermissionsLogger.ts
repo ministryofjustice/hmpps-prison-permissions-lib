@@ -1,9 +1,9 @@
 import { TelemetryClient } from 'applicationinsights'
 import type Logger from 'bunyan'
-import { PrisonerPermission, PrisonerPermissionOperation } from '../../types/permissions/prisoner/PrisonerPermissions'
 import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
 import { HmppsUser } from '../../types/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import { PrisonerPermission } from '../../types/permissions/prisoner/PrisonerPermissions'
 
 export default class PermissionsLogger {
   constructor(
@@ -14,7 +14,7 @@ export default class PermissionsLogger {
   logPermissionCheckStatus(
     user: HmppsUser,
     prisoner: Prisoner,
-    permission: PrisonerPermissionOperation,
+    permission: PrisonerPermission,
     permissionCheckStatus: PermissionCheckStatus,
   ) {
     if (permissionCheckStatus === PermissionCheckStatus.OK) return
@@ -31,7 +31,9 @@ export default class PermissionsLogger {
         },
       })
     } else {
-      this.logger.info(`Prisoner permission check failed: ${permission} : ${permissionCheckStatus}`)
+      this.logger.info(
+        `Prisoner permission check failed: ${permission} (${permissionCheckStatus}) for user ${user.username}`,
+      )
     }
   }
 }

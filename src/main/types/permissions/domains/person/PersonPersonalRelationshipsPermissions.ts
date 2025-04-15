@@ -1,14 +1,12 @@
-import { Operations } from '../../Operations'
-
 export enum PersonPersonalRelationshipsPermission {
-  domesticStatus = 'prisoner:person-personal-relationships:domestic-status',
-  numberOfChildren = 'prisoner:person-personal-relationships:number-of-children',
+  read_domestic_status = 'prisoner:person-personal-relationships:domestic-status:read',
+  read_number_of_children = 'prisoner:person-personal-relationships:number-of-children:read',
 }
 
 export interface PersonPersonalRelationshipsPermissions {
   // Not a full list, for demonstration purposes at the moment:
-  [PersonPersonalRelationshipsPermission.domesticStatus]: Operations
-  [PersonPersonalRelationshipsPermission.numberOfChildren]: Operations
+  [PersonPersonalRelationshipsPermission.read_domestic_status]: boolean
+  [PersonPersonalRelationshipsPermission.read_number_of_children]: boolean
 }
 
 export function isPersonPersonalRelationshipsPermission(
@@ -18,9 +16,9 @@ export function isPersonPersonalRelationshipsPermission(
   return permission in permissions
 }
 
-export function personPersonalRelationshipPermission(
+export function checkPersonPersonalRelationshipAccess(
   permission: PersonPersonalRelationshipsPermission,
   permissions: PersonPersonalRelationshipsPermissions,
-): Operations {
+): boolean {
   return permissions[permission]
 }

@@ -1,10 +1,9 @@
 import {
   isPersonCommunicationNeedsPermission,
   PersonCommunicationNeedsPermission,
-  personCommunicationNeedsPermission,
+  checkPersonCommunicationNeedsAccess,
   PersonCommunicationNeedsPermissions,
 } from './PersonCommunicationNeedsPermissions'
-import { Operations, noAccess } from '../../Operations'
 
 export interface PersonPlanAndNeedsDomainPermissions {
   // Not a full list, for demonstration purposes at the moment:
@@ -20,13 +19,13 @@ export function isPersonPlanAndNeedsDomainPermission(
   return isPersonCommunicationNeedsPermission(permission, permissions.personCommunicationNeeds)
 }
 
-export function personPlanAndNeedsDomainPermission(
+export function checkPersonPlanAndNeedsDomainAccess(
   permission: PersonPlanAndNeedsDomainPermission,
   permissions: PersonPlanAndNeedsDomainPermissions,
-): Operations {
+): boolean {
   if (isPersonCommunicationNeedsPermission(permission, permissions.personCommunicationNeeds)) {
-    return personCommunicationNeedsPermission(permission, permissions.personCommunicationNeeds)
+    return checkPersonCommunicationNeedsAccess(permission, permissions.personCommunicationNeeds)
   }
 
-  return noAccess()
+  return false
 }

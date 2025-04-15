@@ -1,26 +1,23 @@
 import { HmppsUser } from '../../../../../../types/user/HmppsUser'
 import Prisoner from '../../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import {
-  PrisonerPermission,
-  PrisonerPermissionOperation,
-} from '../../../../../../types/permissions/prisoner/PrisonerPermissions'
 import PermissionsLogger from '../../../../PermissionsLogger'
 import {
   PersonCourtSchedulesPermission,
   PersonCourtSchedulesPermissions,
 } from '../../../../../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
-import courtScheduleCheck from './checks/CourtScheduleCheck'
+import courtScheduleReadCheck from './checks/CourtScheduleReadCheck'
 import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
+import { PrisonerPermission } from '../../../../../../types/permissions/prisoner/PrisonerPermissions'
 
 export default function personCourtScheduleCheck(
   user: HmppsUser,
   prisoner: Prisoner,
   baseCheckStatus: PermissionCheckStatus,
-  requestDependentOn: PrisonerPermissionOperation[],
+  requestDependentOn: PrisonerPermission[],
   permissionsLogger: PermissionsLogger,
 ): PersonCourtSchedulesPermissions {
   return {
-    [PersonCourtSchedulesPermission.schedule]: courtScheduleCheck(
+    [PersonCourtSchedulesPermission.read_schedule]: courtScheduleReadCheck(
       user,
       prisoner,
       baseCheckStatus,

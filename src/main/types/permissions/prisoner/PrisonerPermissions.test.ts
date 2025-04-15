@@ -1,87 +1,85 @@
-import { PrisonerPermission, prisonerPermission, PrisonerPermissions } from './PrisonerPermissions'
-import { Operations } from '../Operations'
+import { PrisonerPermission, checkPrisonerAccess, PrisonerPermissions } from './PrisonerPermissions'
 import { CorePersonRecordPermission } from '../domains/person/CorePersonRecordPermissions'
 import { PersonHealthAndMedicationPermission } from '../domains/person/PersonHealthAndMedicationPermissions'
 import { PersonPersonalRelationshipsPermission } from '../domains/person/PersonPersonalRelationshipsPermissions'
 import { PersonCommunicationNeedsPermission } from '../domains/personPlanAndNeeds/PersonCommunicationNeedsPermissions'
 
 describe('Prisoner Permissions', () => {
-  const prisonerPermissions = (allTrue: boolean): PrisonerPermissions => {
-    const crudOperations: Operations = { create: allTrue, read: allTrue, update: allTrue, delete: allTrue }
+  const prisonerPermissions = (allowed: boolean): PrisonerPermissions => {
     return {
-      'prisoner:basic': { read: allTrue },
+      'prisoner:base-record:read': allowed,
 
-      // domainGroups: {
-      //   person: {
-      //     corePersonRecord: {
-      //       'prisoner:core-person-record:height': crudOperations,
-      //       'prisoner:core-person-record:weight': crudOperations,
-      //     },
-      //     personHealthAndMedication: {
-      //       'prisoner:person-health-and-medication:pregnancy': crudOperations,
-      //       'prisoner:person-health-and-medication:type-of-diet': crudOperations,
-      //     },
-      //     personPersonalRelationships: {
-      //       'prisoner:person-personal-relationships:domestic-status': crudOperations,
-      //       'prisoner:person-personal-relationships:number-of-children': crudOperations,
-      //     },
-      //   },
-      //   personPlanAndNeeds: {
-      //     personCommunicationNeeds: {
-      //       'prisoner:person-communication-needs:writing-level': crudOperations,
-      //       'prisoner:person-communication-needs:numeracy': crudOperations,
-      //     },
-      //   },
-      // },
-    } as PrisonerPermissions
+      domainGroups: {
+        person: {
+          corePersonRecord: {
+            'prisoner:core-person-record:height:read': allowed,
+            'prisoner:core-person-record:weight:read': allowed,
+          },
+          personHealthAndMedication: {
+            'prisoner:person-health-and-medication:pregnancy:read': allowed,
+            'prisoner:person-health-and-medication:type-of-diet:read': allowed,
+          },
+          personPersonalRelationships: {
+            'prisoner:person-personal-relationships:domestic-status:read': allowed,
+            'prisoner:person-personal-relationships:number-of-children:read': allowed,
+          },
+        },
+        personPlanAndNeeds: {
+          personCommunicationNeeds: {
+            'prisoner:person-communication-needs:writing-level:read': allowed,
+            'prisoner:person-communication-needs:numeracy:read': allowed,
+          },
+        },
+      },
+    } as unknown as PrisonerPermissions
   }
 
   it.each([
-    [CorePersonRecordPermission.height, true],
-    [CorePersonRecordPermission.height, false],
-    [CorePersonRecordPermission.weight, true],
-    [CorePersonRecordPermission.weight, false],
-  ])('Can check Core Person Record permission: %s is %s', (permission: PrisonerPermission, allTrue: boolean) => {
-    checkCrudOperations(allTrue, permission)
+    [CorePersonRecordPermission.read_height, true],
+    [CorePersonRecordPermission.read_height, false],
+    [CorePersonRecordPermission.read_weight, true],
+    [CorePersonRecordPermission.read_weight, false],
+  ])('Can check Core Person Record permission: %s is %s', (permission: PrisonerPermission, allowed: boolean) => {
+    checkAccess(allowed, permission)
   })
 
   it.each([
-    [PersonHealthAndMedicationPermission.pregnancy, true],
-    [PersonHealthAndMedicationPermission.pregnancy, false],
-    [PersonHealthAndMedicationPermission.typeOfDiet, true],
-    [PersonHealthAndMedicationPermission.typeOfDiet, false],
-  ])('Can check Health and Medication permission: %s is %s', (permission: PrisonerPermission, allTrue: boolean) => {
-    checkCrudOperations(allTrue, permission)
+    [PersonHealthAndMedicationPermission.read_pregnancy, true],
+    [PersonHealthAndMedicationPermission.read_pregnancy, false],
+    [PersonHealthAndMedicationPermission.read_type_of_diet, true],
+    [PersonHealthAndMedicationPermission.read_type_of_diet, false],
+  ])('Can check Health and Medication permission: %s is %s', (permission: PrisonerPermission, allowed: boolean) => {
+    checkAccess(allowed, permission)
   })
 
   it.each([
-    [PersonPersonalRelationshipsPermission.numberOfChildren, true],
-    [PersonPersonalRelationshipsPermission.numberOfChildren, false],
-    [PersonPersonalRelationshipsPermission.domesticStatus, true],
-    [PersonPersonalRelationshipsPermission.domesticStatus, false],
+    [PersonPersonalRelationshipsPermission.read_number_of_children, true],
+    [PersonPersonalRelationshipsPermission.read_number_of_children, false],
+    [PersonPersonalRelationshipsPermission.read_domestic_status, true],
+    [PersonPersonalRelationshipsPermission.read_domestic_status, false],
   ])(
     'Can check Person Personal Relationships permission: %s is %s',
-    (permission: PrisonerPermission, allTrue: boolean) => {
-      checkCrudOperations(allTrue, permission)
+    (permission: PrisonerPermission, allowed: boolean) => {
+      checkAccess(allowed, permission)
     },
   )
 
   it.each([
-    [PersonCommunicationNeedsPermission.writingLevel, true],
-    [PersonCommunicationNeedsPermission.writingLevel, false],
-    [PersonCommunicationNeedsPermission.numeracy, true],
-    [PersonCommunicationNeedsPermission.numeracy, false],
+    [PersonCommunicationNeedsPermission.read_writing_level, true],
+    [PersonCommunicationNeedsPermission.read_writing_level, false],
+    [PersonCommunicationNeedsPermission.read_numeracy, true],
+    [PersonCommunicationNeedsPermission.read_numeracy, false],
   ])(
     'Can check Person Communication Needs permission: %s is %s',
-    (permission: PrisonerPermission, allTrue: boolean) => {
-      checkCrudOperations(allTrue, permission)
+    (permission: PrisonerPermission, allowed: boolean) => {
+      checkAccess(allowed, permission)
     },
   )
 
-  function checkCrudOperations(allTrue: boolean, permission: PrisonerPermission) {
-    expect(prisonerPermission(permission, prisonerPermissions(allTrue)).create).toBe(allTrue)
-    expect(prisonerPermission(permission, prisonerPermissions(allTrue)).read).toBe(allTrue)
-    expect(prisonerPermission(permission, prisonerPermissions(allTrue)).update).toBe(allTrue)
-    expect(prisonerPermission(permission, prisonerPermissions(allTrue)).delete).toBe(allTrue)
+  function checkAccess(allowed: boolean, permission: PrisonerPermission) {
+    expect(checkPrisonerAccess(permission, prisonerPermissions(allowed))).toBe(allowed)
+    expect(checkPrisonerAccess(permission, prisonerPermissions(allowed))).toBe(allowed)
+    expect(checkPrisonerAccess(permission, prisonerPermissions(allowed))).toBe(allowed)
+    expect(checkPrisonerAccess(permission, prisonerPermissions(allowed))).toBe(allowed)
   }
 })

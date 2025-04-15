@@ -1,7 +1,6 @@
 import {
-  prisonerPermission,
+  checkPrisonerAccess,
   PrisonerPermission,
-  PrisonerPermissionOperation,
   PrisonerPermissions,
 } from '../../../types/permissions/prisoner/PrisonerPermissions'
 import { HmppsUser } from '../../../types/user/HmppsUser'
@@ -11,15 +10,15 @@ export async function getIfReadPermitted<T>(
   permissions: PrisonerPermissions,
   getter: () => T | Promise<T>,
 ): Promise<T> {
-  if (prisonerPermission(permission, permissions).read) return getter()
+  if (checkPrisonerAccess(permission, permissions)) return getter()
   return null as T
 }
 
 export function isRequiredPermission(
-  permissionOperation: PrisonerPermissionOperation,
-  requiredPermissionOperations: PrisonerPermissionOperation[],
+  permission: PrisonerPermission,
+  requiredPermissions: PrisonerPermission[],
 ): boolean {
-  return requiredPermissionOperations.includes(permissionOperation)
+  return requiredPermissions.includes(permission)
 }
 
 export const isActiveCaseLoad = (prisonId: string, user: HmppsUser) =>

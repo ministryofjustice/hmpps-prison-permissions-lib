@@ -1,13 +1,11 @@
-import { Operations } from '../../Operations'
-
 export enum PersonCommunicationNeedsPermission {
-  writingLevel = 'prisoner:person-communication-needs:writing-level',
-  numeracy = 'prisoner:person-communication-needs:numeracy',
+  read_writing_level = 'prisoner:person-communication-needs:writing-level:read',
+  read_numeracy = 'prisoner:person-communication-needs:numeracy:read',
 }
 export interface PersonCommunicationNeedsPermissions {
   // Not a full list, for demonstration purposes at the moment:
-  [PersonCommunicationNeedsPermission.writingLevel]: Operations
-  [PersonCommunicationNeedsPermission.numeracy]: Operations
+  [PersonCommunicationNeedsPermission.read_writing_level]: boolean
+  [PersonCommunicationNeedsPermission.read_numeracy]: boolean
 }
 
 export function isPersonCommunicationNeedsPermission(
@@ -17,9 +15,9 @@ export function isPersonCommunicationNeedsPermission(
   return permission in permissions
 }
 
-export function personCommunicationNeedsPermission(
+export function checkPersonCommunicationNeedsAccess(
   permission: PersonCommunicationNeedsPermission,
   permissions: PersonCommunicationNeedsPermissions,
-): Operations {
+): boolean {
   return permissions[permission]
 }

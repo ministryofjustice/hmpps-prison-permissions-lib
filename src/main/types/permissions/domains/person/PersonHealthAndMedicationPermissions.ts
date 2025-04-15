@@ -1,14 +1,12 @@
-import { Operations } from '../../Operations'
-
 export enum PersonHealthAndMedicationPermission {
-  pregnancy = 'prisoner:person-health-and-medication:pregnancy',
-  typeOfDiet = 'prisoner:person-health-and-medication:type-of-diet',
+  read_pregnancy = 'prisoner:person-health-and-medication:pregnancy:read',
+  read_type_of_diet = 'prisoner:person-health-and-medication:type-of-diet',
 }
 
 export interface PersonHealthAndMedicationPermissions {
   // Not a full list, for demonstration purposes at the moment:
-  [PersonHealthAndMedicationPermission.pregnancy]: Operations
-  [PersonHealthAndMedicationPermission.typeOfDiet]: Operations
+  [PersonHealthAndMedicationPermission.read_pregnancy]: boolean
+  [PersonHealthAndMedicationPermission.read_type_of_diet]: boolean
 }
 
 export function isPersonHealthAndMedicationPermission(
@@ -18,9 +16,9 @@ export function isPersonHealthAndMedicationPermission(
   return permission in permissions
 }
 
-export function personHealthAndMedicationPermission(
+export function checkPersonHealthAndMedicationAccess(
   permission: PersonHealthAndMedicationPermission,
   permissions: PersonHealthAndMedicationPermissions,
-): Operations {
+): boolean {
   return permissions[permission]
 }

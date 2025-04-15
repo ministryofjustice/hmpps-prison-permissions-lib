@@ -7,7 +7,7 @@ import { PermissionCheckStatus } from '../../../../types/permissions/PermissionC
 /*
  * Restricted patients can be accessed in the following circumstances:
  * - The user has the "Inactive Bookings" role
- * - The user is a POM user & has the supporting prison ID in their caseloads
+ * - The user is a POM user and has the supporting prison ID in their caseloads
  */
 export default function restrictedPatientCheck(user: HmppsUser, prisoner: Prisoner): PermissionCheckStatus {
   const { userRoles } = user

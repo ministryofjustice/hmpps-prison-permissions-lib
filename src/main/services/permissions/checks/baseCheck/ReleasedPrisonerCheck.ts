@@ -1,15 +1,7 @@
 import { HmppsUser } from '../../../../types/user/HmppsUser'
-import Prisoner from '../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import {
-  PrisonerBasePermission,
-  PrisonerPermission,
-  PrisonerPermissionOperation,
-} from '../../../../types/permissions/prisoner/PrisonerPermissions'
-import { Operations } from '../../../../types/permissions/Operations'
-import { isInUsersCaseLoad, userHasRoles } from '../../utils/PermissionUtils'
+import { userHasRoles } from '../../utils/PermissionUtils'
 import { Role } from '../../../../types/user/Role'
 import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
-import PermissionsLogger from '../../PermissionsLogger'
 
 /*
  * Released prisoners can be accessed in the following circumstances:

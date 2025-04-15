@@ -1,23 +1,21 @@
-import { Operations } from '../../Operations'
-
 export enum CorePersonRecordPermission {
-  height = 'prisoner:core-person-record:height',
-  weight = 'prisoner:core-person-record:weight',
+  read_height = 'prisoner:core-person-record:height:read',
+  read_weight = 'prisoner:core-person-record:weight:read',
 }
 
 export interface CorePersonRecordPermissions {
   // Not a full list, for demonstration purposes at the moment:
-  [CorePersonRecordPermission.height]: Operations
-  [CorePersonRecordPermission.weight]: Operations
+  [CorePersonRecordPermission.read_height]: boolean
+  [CorePersonRecordPermission.read_weight]: boolean
 }
 
 export function isCorePersonRecordPermission(permission: string, permissions: CorePersonRecordPermissions) {
   return permission in permissions
 }
 
-export function corePersonRecordPermission(
+export function checkCorePersonRecordAccess(
   permission: CorePersonRecordPermission,
   permissions: CorePersonRecordPermissions,
-): Operations {
+): boolean {
   return permissions[permission]
 }
