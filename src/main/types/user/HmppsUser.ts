@@ -29,7 +29,7 @@ export interface PrisonUser extends BaseUser {
   staffId: number
   activeCaseLoadId: string
   caseLoads: CaseLoad[]
-  isAKeyWorker: boolean
+  keyWorkerAtPrisons: Record<string, boolean>
 }
 
 /**

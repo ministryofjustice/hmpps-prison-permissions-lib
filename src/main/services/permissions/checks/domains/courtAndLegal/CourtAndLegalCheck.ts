@@ -6,7 +6,7 @@ import personCourtSchedulesCheck from './personCourtSchedules/PersonCourtSchedul
 import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
 import { PrisonerPermission } from '../../../../../types/permissions/prisoner/PrisonerPermissions'
 
-export default function courtAndLegalCheck(
+export default function prisonerSpecificCheck(
   user: HmppsUser,
   prisoner: Prisoner,
   baseCheckStatus: PermissionCheckStatus,

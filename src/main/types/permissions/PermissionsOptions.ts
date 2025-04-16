@@ -4,6 +4,7 @@ import type bunyan from 'bunyan'
 
 export default interface PermissionsOptions {
   prisonApiConfig: ApiConfig
+  prisonerSearchConfig: ApiConfig
   logger?: bunyan | typeof console
   telemetryClient?: TelemetryClient
 }
