@@ -6,7 +6,7 @@ export default class PrisonApiClient extends RestClient {
     super('Prison API', config, logger)
   }
 
-  isUserAKeyWorker(token: string, staffId: number, agencyId: string) {
-    return this.get<boolean>({ path: `/api/staff/${staffId}/${agencyId}/roles/KW` }, asUser(token))
+  isUserAKeyWorker(userToken: string, staffId: number, agencyId: string): Promise<boolean> {
+    return this.get<boolean>({ path: `/api/staff/${staffId}/${agencyId}/roles/KW` }, asUser(userToken))
   }
 }

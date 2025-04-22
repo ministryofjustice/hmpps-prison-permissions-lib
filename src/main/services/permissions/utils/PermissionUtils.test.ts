@@ -1,36 +1,49 @@
-import { getIfReadPermitted } from './PermissionUtils'
-import { CorePersonRecordPermission } from '../../../types/permissions/domains/person/CorePersonRecordPermissions'
-import { PrisonerPermissions } from '../../../types/permissions/prisoner/PrisonerPermissions'
+import { isInUsersCaseLoad, userHasRoles } from './PermissionUtils'
+import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
+import CaseLoad from '../../../types/user/CaseLoad'
 
 describe('PermissionUtils', () => {
-  describe('getIfReadPermitted', () => {
-    const permissions = (canReadHeight: boolean) =>
-      ({
-        domainGroups: {
-          person: { corePersonRecord: { [CorePersonRecordPermission.read_height]: canReadHeight } },
-        },
-      }) as unknown as PrisonerPermissions
+  describe('userHasRoles', () => {
+    it.each([
+      { roles: ['GLOBAL_SEARCH'], userRoles: ['GLOBAL_SEARCH'], result: true },
+      { roles: ['GLOBAL_SEARCH'], userRoles: ['SOME_ROLE', 'GLOBAL_SEARCH'], result: true },
+      { roles: ['GLOBAL_SEARCH'], userRoles: [], result: false },
+      { roles: [], userRoles: ['GLOBAL_SEARCH'], result: false },
+      { roles: ['GLOBAL_SEARCH', 'SOME_ROLE'], userRoles: ['SOME_ROLE'], result: true },
+      { roles: ['GLOBAL_SEARCH'], userRoles: ['ROLE_GLOBAL_SEARCH'], result: true },
+      { roles: ['ROLE_GLOBAL_SEARCH'], userRoles: ['GLOBAL_SEARCH'], result: true },
+    ])('Should return the correct result when checking user roles', ({ roles, userRoles, result }) => {
+      expect(userHasRoles(roles, userRoles)).toEqual(result)
+    })
+  })
 
-    it('Can run getter function if permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(true), () => 1.23)
+  describe('isInUsersCaseLoad', () => {
+    it('Should return true when the user has a caseload matching the prisoner', () => {
+      const caseLoads: CaseLoad[] = [
+        { caseloadFunction: '', caseLoadId: 'ABC', currentlyActive: false, description: '', type: '' },
+        { caseloadFunction: '', caseLoadId: 'DEF', currentlyActive: false, description: '', type: '' },
+      ]
+      const user = { authSource: 'nomis', caseLoads } as PrisonUser
 
-      expect(result).toEqual(1.23)
+      expect(isInUsersCaseLoad('DEF', user)).toEqual(true)
     })
 
-    it('Can run async getter function if permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(true), () =>
-        Promise.resolve(1.23),
-      )
+    it('Should return false when the user has a caseload that doesnt match the prisoner', () => {
+      const caseLoads: CaseLoad[] = [
+        { caseloadFunction: '', caseLoadId: 'ABC', currentlyActive: false, description: '', type: '' },
+        { caseloadFunction: '', caseLoadId: 'DEF', currentlyActive: false, description: '', type: '' },
+      ]
+      const user = { authSource: 'nomis', caseLoads } as PrisonUser
 
-      expect(result).toEqual(1.23)
+      expect(isInUsersCaseLoad('123', user)).toEqual(false)
     })
 
-    it('Will return null if not permitted', async () => {
-      const result = await getIfReadPermitted(CorePersonRecordPermission.read_height, permissions(false), () =>
-        Promise.resolve(1.23),
-      )
+    it('Should return false for non prison users', () => {
+      const probationUser = { authSource: 'delius' } as ProbationUser
+      const externalUser = { authSource: 'external' } as ExternalUser
 
-      expect(result).toBeNull()
+      expect(isInUsersCaseLoad('123', probationUser)).toEqual(false)
+      expect(isInUsersCaseLoad('123', externalUser)).toEqual(false)
     })
   })
 })

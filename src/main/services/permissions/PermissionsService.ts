@@ -1,10 +1,10 @@
-import { ApiConfig, AuthenticationClient } from '@ministryofjustice/hmpps-rest-client'
 import type bunyan from 'bunyan'
+import { ApiConfig, AuthenticationClient } from '@ministryofjustice/hmpps-rest-client'
 import { TelemetryClient } from 'applicationinsights'
+import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import PrisonApiClient from '../../data/prisonApi/PrisonApiClient'
 import { HmppsUser } from '../../types/user/HmppsUser'
 import PermissionsLogger from './PermissionsLogger'
-import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import {
   PrisonerBasePermission,
   PrisonerPermission,
@@ -12,7 +12,6 @@ import {
 } from '../../types/permissions/prisoner/PrisonerPermissions'
 import baseCheck from './checks/baseCheck/BaseCheck'
 import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
-import courtAndLegalCheck from './checks/domains/courtAndLegal/CourtAndLegalCheck'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 
 export default class PermissionsService {
@@ -22,7 +21,7 @@ export default class PermissionsService {
 
   readonly permissionsLogger: PermissionsLogger
 
-  constructor({
+  static create({
     prisonApiConfig,
     prisonerSearchConfig,
     authenticationClient,
@@ -34,10 +33,22 @@ export default class PermissionsService {
     authenticationClient: AuthenticationClient
     logger?: bunyan | typeof console
     telemetryClient?: TelemetryClient
-  }) {
-    this.prisonApiClient = new PrisonApiClient(logger, prisonApiConfig)
-    this.prisonerSearchClient = new PrisonerSearchClient(logger, prisonerSearchConfig, authenticationClient)
-    this.permissionsLogger = new PermissionsLogger(logger, telemetryClient)
+  }): PermissionsService {
+    return new PermissionsService(
+      new PrisonApiClient(logger, prisonApiConfig),
+      new PrisonerSearchClient(logger, prisonerSearchConfig, authenticationClient),
+      new PermissionsLogger(logger, telemetryClient),
+    )
+  }
+
+  private constructor(
+    prisonApiClient: PrisonApiClient,
+    prisonerSearchClient: PrisonerSearchClient,
+    permissionsLogger: PermissionsLogger,
+  ) {
+    this.prisonApiClient = prisonApiClient
+    this.prisonerSearchClient = prisonerSearchClient
+    this.permissionsLogger = permissionsLogger
   }
 
   public getPrisonerPermissions({
@@ -59,14 +70,15 @@ export default class PermissionsService {
     return {
       [PrisonerBasePermission.read]: baseCheckStatus === PermissionCheckStatus.OK,
 
-      domainGroups: {
-        courtAndLegal: courtAndLegalCheck(user, prisoner, baseCheckStatus, requestDependentOn, this.permissionsLogger),
-      },
+      // TODO:
+      // domainGroups: {
+      //    ...
+      // },
     } as PrisonerPermissions
   }
 
   public async isUserAKeyWorkerAtPrison(token: string, user: HmppsUser, prison: string): Promise<boolean> {
-    if (user.authSource !== 'nomis' || !user.activeCaseLoadId) {
+    if (user.authSource !== 'nomis') {
       return Promise.resolve(false)
     }
     return this.prisonApiClient.isUserAKeyWorker(token, user.staffId, prison)

@@ -21,7 +21,6 @@ export default function baseCheck(user: HmppsUser, prisoner: Prisoner): Permissi
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
   const globalSearchUser = userHasRoles([Role.GlobalSearch], user.userRoles)
 
-  // for checks that don't allow global search, simply repeat the three checks below and don't allow globalsearchuser
   if (prisoner.restrictedPatient) return restrictedPatientCheck(user, prisoner)
   if (prisoner.prisonId === 'OUT') return releasedPrisonerCheck(user)
   if (prisoner.prisonId === 'TRN') return transferringPrisonerCheck(user)

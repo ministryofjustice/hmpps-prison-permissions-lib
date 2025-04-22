@@ -17,7 +17,7 @@ export default function prisonerPermissionsGuard(
 
   return async (req: Request, res: Response, next: NextFunction) => {
     const prisonerData = await getPrisonerData(req, permissionsService, getPrisonerNumberFunction)
-    if (!prisonerData) return next(Error('Could not determine prisoner number from request'))
+    if (!prisonerData) return next(Error('Could not retrieve prisoner data'))
 
     await populateKeyWorkerData(req, res, prisonerData, permissionsService)
 
@@ -67,8 +67,9 @@ async function populateKeyWorkerData(
 
   const userCaseLoads = res.locals.user?.caseLoads?.map(caseLoad => caseLoad.caseLoadId)
 
-  // The session is used to cache whether the user is a key worker at various prisons:
+  if (!req.session) throw new Error('User session required in order to cache key worker status')
   const keyWorkerAtPrisons = req.session.keyWorkerAtPrisons ?? {}
+
   if (
     prisoner.prisonId &&
     userCaseLoads?.includes(prisoner.prisonId) &&
