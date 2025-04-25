@@ -1,0 +1,94 @@
+import PermissionsService from './PermissionsService'
+import PrisonApiClient from '../../data/prisonApi/PrisonApiClient'
+import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
+import PermissionsLogger from './PermissionsLogger'
+import { HmppsUser, PrisonUser } from '../../types/user/HmppsUser'
+import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import {
+  checkPrisonerAccess,
+  PrisonerBasePermission,
+  PrisonerPermission,
+} from '../../types/permissions/prisoner/PrisonerPermissions'
+import { TestScenario, TestScenarios } from '../../testUtils/TestScenario'
+import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
+import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
+import { PersonCourtSchedulesPermission } from '../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
+import { courtScheduleReadScenarios } from './checks/domains/courtAndLegal/personCourtSchedules/courtScheduleRead/CourtScheduleReadTestScenarios'
+
+describe('PermissionsService', () => {
+  let prisonApiClient: PrisonApiClient
+  let prisonerSearchClient: PrisonerSearchClient
+  let permissionsLogger: PermissionsLogger
+
+  let service: PermissionsService
+
+  beforeEach(() => {
+    prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
+    prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
+    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+
+    // @ts-expect-error - We are using a private constructor here for testing
+    service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
+  })
+
+  describe('getPrisonerPermissions', () => {
+    describe('Base check', () => {
+      scenarioTest(baseCheckScenarios, PrisonerBasePermission.read)
+    })
+
+    describe('Domains', () => {
+      describe('Court / Legal', () => {
+        describe('Person Court Schedules', () => {
+          scenarioTest(courtScheduleReadScenarios, PersonCourtSchedulesPermission.read_schedule)
+        })
+      })
+    })
+  })
+
+  describe('isUserAKeyWorkerAtPrison', () => {
+    it.each([true, false])(`returns result: '%s' from Prison API`, async response => {
+      const prisonUser = { authSource: 'nomis', staffId: 123 } as PrisonUser
+
+      prisonApiClient.isUserAKeyWorker = jest.fn(() => Promise.resolve(response))
+
+      expect(await service.isUserAKeyWorkerAtPrison('token', prisonUser, 'MDI')).toEqual(response)
+    })
+
+    it.each(['delius', 'external', 'azuread'])('returns false for a non-prison user of type: %s', async userType => {
+      const user = { authSource: userType, staffId: 123 } as HmppsUser
+
+      expect(await service.isUserAKeyWorkerAtPrison('token', user, 'MDI')).toBeFalsy()
+    })
+  })
+
+  describe('getPrisonerDetails', () => {
+    it('returns result from Prisoner Search client', async () => {
+      const prisonerData = { prisonerNumber: 'A1234BC' } as Prisoner
+
+      prisonerSearchClient.getPrisonerDetails = jest.fn(() => Promise.resolve(prisonerData))
+
+      expect(await service.getPrisonerDetails('A1234BC')).toEqual(prisonerData)
+    })
+  })
+
+  function scenarioTest(scenarios: TestScenarios, permissionUnderTest: PrisonerPermission) {
+    describe(`Permission: ${permissionUnderTest}`, () => {
+      it.each(scenarios.toTestArray())(
+        `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
+        (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
+          const { user, prisoner, expectedStatus } = testScenario as TestScenario
+
+          const permissions = service.getPrisonerPermissions({
+            user,
+            prisoner,
+            requestDependentOn: [permissionUnderTest],
+          })
+
+          expect(checkPrisonerAccess(permissionUnderTest, permissions)).toEqual(
+            expectedStatus === PermissionCheckStatus.OK,
+          )
+        },
+      )
+    })
+  }
+})
