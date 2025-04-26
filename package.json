@@ -31,7 +31,7 @@
     "prepare": "husky",
     "build": "rollup -c rollup.config.ts --bundleConfigAsCjs",
     "clean": "rm -rf ./dist/",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "lint": "eslint . --cache --max-warnings 0",
     "lint-fix": "eslint . --cache --max-warnings 0 --fix"
   },
