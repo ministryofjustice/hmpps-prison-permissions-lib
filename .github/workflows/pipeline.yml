@@ -99,7 +99,7 @@ jobs:
             echo "→ Existing published version is ${latest_version}, publishing version ${version} of ${name}…"
 
             echo "→ Building package ${name}"
-            package_name=$(npm pack)
+            package_name=$(npm pack --ignore-scripts)
 
             echo "→ Uploading package ${package_name} to Github release"
             gh release upload ${{ github.event.release.tag_name }} "${package_name}"
