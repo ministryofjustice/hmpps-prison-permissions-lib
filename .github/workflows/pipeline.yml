@@ -53,6 +53,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Use latest npm version
+        run: npm install -g npm
       - name: Install dependencies
         run: npm install
       - name: Clean build step
@@ -81,6 +83,8 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
           scope: '@ministryofjustice'
+      - name: Use latest npm version
+        run: npm install -g npm
       - name: Install dependencies
         run: npm install
       - name: Build all packages
