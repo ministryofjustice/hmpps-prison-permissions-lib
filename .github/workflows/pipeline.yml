@@ -10,7 +10,7 @@ on:
       - main
   # when a release is published
   release:
-    types: [published]
+    types: [ published ]
   # and manually
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [20, 22]
+        node: [ 20, 22 ]
     needs: lint
     steps:
       - name: Checkout repository
@@ -61,7 +61,7 @@ jobs:
         run: npm run lint
 
   publish:
-    name: Publish packages
+    name: Publish
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -85,40 +85,28 @@ jobs:
         run: |
           npm run clean
           npm run build
-      - name: Publish new versions of packages
+      - name: Publish new version of package
         run: |
-          root_path=$(pwd)
+          name=$(jq -r .name package.json)
 
-          echo "→ Finding packages"
-          all_package_json_files=$( find packages -maxdepth 2 -name package.json )
-          echo "${all_package_json_files}"
+          latest_version=$(npm view $name version || echo unpublished)
+          version=$(jq -r .version package.json)
 
-          echo "${all_package_json_files}" | while read -r package_json_files
-          do
-            package_dir=$(dirname "${package_json_files}")
+          if [ "$version" == "$latest_version" ]; then
+            echo "package ${name} has already published latest version: ${version}, skipping..."
 
-            cd "${root_path}/${package_dir}"
-            name=$(jq -r .name package.json)
+          else
+            echo "→ Existing published version is ${latest_version}, publishing version ${version} of ${name}…"
 
-            latest_version=$(npm view $name version || echo unpublished)
-            version=$(jq -r .version package.json)
+            echo "→ Building package ${name}"
+            package_name=$(npm pack)
 
-            if [ "$version" == "$latest_version" ]; then
-              echo "package ${name} has already published latest version: ${version}, skipping..."
+            echo "→ Uploading package ${package_name} to Github release"
+            gh release upload ${{ github.event.release.tag_name }} "${package_name}"
 
-            else
-              echo "→ Existing published version is ${latest_version}, publishing version ${version} of ${name}…"
-
-              echo "→ Building package ${name}"
-              package_name=$(npm pack)
-
-              echo "→ Uploading package ${package_name} to Github release"
-              gh release upload ${{ github.event.release.tag_name }} "${package_name}"
-
-              echo "→ Publishing package ${name} v${version} to npmjs.com"
-              npm publish --provenance --access public
-            fi
-          done
+            echo "→ Publishing package ${name} v${version} to npmjs.com"
+            npm publish --provenance --access public
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
