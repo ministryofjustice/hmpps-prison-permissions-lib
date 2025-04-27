@@ -111,7 +111,7 @@ jobs:
             gh release upload ${{ github.event.release.tag_name }} "${package_name}"
 
             echo "→ Publishing package ${name} v${version} to npmjs.com"
-            npm publish --tag ${{ github.event.release.tag_name }} --access public --provenance
+            npm publish --tag ${{ github.event.release.prerelease && 'alpha' || 'latest' }} --access public --provenance
           fi
         env:
           GH_TOKEN: ${{ github.token }}
