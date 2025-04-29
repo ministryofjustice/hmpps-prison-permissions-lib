@@ -4,13 +4,8 @@ import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchC
 import PermissionsLogger from './PermissionsLogger'
 import { HmppsUser, PrisonUser } from '../../types/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import {
-  checkPrisonerAccess,
-  PrisonerBasePermission,
-  PrisonerPermission,
-} from '../../types/permissions/prisoner/PrisonerPermissions'
-import { TestScenario, TestScenarios } from '../../testUtils/TestScenario'
-import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
+import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
+import { scenarioTest } from '../../testUtils/TestScenario'
 import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
 import { PersonCourtSchedulesPermission } from '../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
 import { courtScheduleReadScenarios } from './checks/domains/courtAndLegal/personCourtSchedules/courtScheduleRead/CourtScheduleReadTestScenarios'
@@ -70,25 +65,4 @@ describe('PermissionsService', () => {
       expect(await service.getPrisonerDetails('A1234BC')).toEqual(prisonerData)
     })
   })
-
-  function scenarioTest(scenarios: TestScenarios, permissionUnderTest: PrisonerPermission) {
-    describe(`Permission: ${permissionUnderTest}`, () => {
-      it.each(scenarios.toTestArray())(
-        `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
-        (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
-          const { user, prisoner, expectedStatus } = testScenario as TestScenario
-
-          const permissions = service.getPrisonerPermissions({
-            user,
-            prisoner,
-            requestDependentOn: [permissionUnderTest],
-          })
-
-          expect(checkPrisonerAccess(permissionUnderTest, permissions)).toEqual(
-            expectedStatus === PermissionCheckStatus.OK,
-          )
-        },
-      )
-    })
-  }
 })
