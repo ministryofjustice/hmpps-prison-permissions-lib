@@ -6,9 +6,9 @@ import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import { prisonUserMock } from '../testUtils/UserMocks'
 import { prisonerMock } from '../testUtils/PrisonerMocks'
 import {
-  PersonCourtSchedulesPermission,
-  setPersonCourtSchedulesPermission,
-} from '../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
+  PersonSentenceCalculationPermission,
+  setPersonSentenceCalculationPermission,
+} from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 import { PrisonerPermissions } from '../types/permissions/prisoner/PrisonerPermissions'
 
 const examplePermissions = {
@@ -40,11 +40,11 @@ describe('PrisonerPermissionsGuard', () => {
 
   describe('required permissions checked', () => {
     test.each`
-      requestDependentOn                              | permissions                                                                               | requestSucceeds
-      ${PrisonerBasePermission.read}                  | ${{ [PrisonerBasePermission.read]: true }}                                                | ${true}
-      ${PrisonerBasePermission.read}                  | ${{ [PrisonerBasePermission.read]: false }}                                               | ${false}
-      ${PersonCourtSchedulesPermission.read_schedule} | ${setPersonCourtSchedulesPermission(PersonCourtSchedulesPermission.read_schedule, true)}  | ${true}
-      ${PersonCourtSchedulesPermission.read_schedule} | ${setPersonCourtSchedulesPermission(PersonCourtSchedulesPermission.read_schedule, false)} | ${false}
+      requestDependentOn                          | permissions                                                                                | requestSucceeds
+      ${PrisonerBasePermission.read}              | ${{ [PrisonerBasePermission.read]: true }}                                                 | ${true}
+      ${PrisonerBasePermission.read}              | ${{ [PrisonerBasePermission.read]: false }}                                                | ${false}
+      ${PersonSentenceCalculationPermission.read} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}  | ${true}
+      ${PersonSentenceCalculationPermission.read} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false)} | ${false}
     `(
       'requestDependentOn: $requestDependentOn, requestSucceeds: $requestSucceeds',
       async ({ requestDependentOn, permissions, requestSucceeds }) => {
@@ -65,14 +65,14 @@ describe('PrisonerPermissionsGuard', () => {
   describe('multiple required permissions checked', () => {
     it('request succeeds when all permission checks pass', async () => {
       const permissions = {
-        ...setPersonCourtSchedulesPermission(PersonCourtSchedulesPermission.read_schedule, true),
+        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true),
         [PrisonerBasePermission.read]: true,
       }
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
       permissionsGuard = prisonerPermissionsGuard(permissionsService, {
-        requestDependentOn: [PrisonerBasePermission.read, PersonCourtSchedulesPermission.read_schedule],
+        requestDependentOn: [PrisonerBasePermission.read, PersonSentenceCalculationPermission.read],
       })
 
       await permissionsGuard(req, res, next)
@@ -82,36 +82,36 @@ describe('PrisonerPermissionsGuard', () => {
 
     it('request fails when a single permission check fails', async () => {
       const permissions = {
-        ...setPersonCourtSchedulesPermission(PersonCourtSchedulesPermission.read_schedule, false),
+        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: true,
       }
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
       permissionsGuard = prisonerPermissionsGuard(permissionsService, {
-        requestDependentOn: [PrisonerBasePermission.read, PersonCourtSchedulesPermission.read_schedule],
+        requestDependentOn: [PrisonerBasePermission.read, PersonSentenceCalculationPermission.read],
       })
 
       await permissionsGuard(req, res, next)
 
-      expectRequestFails([PersonCourtSchedulesPermission.read_schedule])
+      expectRequestFails([PersonSentenceCalculationPermission.read])
     })
 
     it('request fails when multiple permission checks fail', async () => {
       const permissions = {
-        ...setPersonCourtSchedulesPermission(PersonCourtSchedulesPermission.read_schedule, false),
+        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: false,
       }
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
       permissionsGuard = prisonerPermissionsGuard(permissionsService, {
-        requestDependentOn: [PrisonerBasePermission.read, PersonCourtSchedulesPermission.read_schedule],
+        requestDependentOn: [PrisonerBasePermission.read, PersonSentenceCalculationPermission.read],
       })
 
       await permissionsGuard(req, res, next)
 
-      expectRequestFails([PrisonerBasePermission.read, PersonCourtSchedulesPermission.read_schedule])
+      expectRequestFails([PrisonerBasePermission.read, PersonSentenceCalculationPermission.read])
     })
   })
 
