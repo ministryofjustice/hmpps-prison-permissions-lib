@@ -6,6 +6,11 @@ import { Role } from '../types/user/Role'
 import CaseLoad from '../types/user/CaseLoad'
 import { prisonUserMock } from './UserMocks'
 import { prisonerMock } from './PrisonerMocks'
+import { checkPrisonerAccess, PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
+import { PermissionsService } from '../index'
+import PrisonApiClient from '../data/prisonApi/PrisonApiClient'
+import PrisonerSearchClient from '../data/hmppsPrisonerSearch/PrisonerSearchClient'
+import PermissionsLogger from '../services/permissions/PermissionsLogger'
 
 export function userWithActiveCaseLoad(caseLoad: string) {
   return new TestScenarioBuilder(caseLoad) as RolesOrCaseLoadBuilder
@@ -198,4 +203,40 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
       expectedStatus: this.expectedStatus,
     })
   }
+}
+
+export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: PrisonerPermission) {
+  let prisonApiClient: PrisonApiClient
+  let prisonerSearchClient: PrisonerSearchClient
+  let permissionsLogger: PermissionsLogger
+
+  let service: PermissionsService
+
+  beforeEach(() => {
+    prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
+    prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
+    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+
+    // @ts-expect-error - We are using a private constructor here for testing
+    service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
+  })
+
+  describe(`Permission: ${permissionUnderTest}`, () => {
+    it.each(scenarios.toTestArray())(
+      `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
+      (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
+        const { user, prisoner, expectedStatus } = testScenario as TestScenario
+
+        const permissions = service.getPrisonerPermissions({
+          user,
+          prisoner,
+          requestDependentOn: [permissionUnderTest],
+        })
+
+        expect(checkPrisonerAccess(permissionUnderTest, permissions)).toEqual(
+          expectedStatus === PermissionCheckStatus.OK,
+        )
+      },
+    )
+  })
 }
