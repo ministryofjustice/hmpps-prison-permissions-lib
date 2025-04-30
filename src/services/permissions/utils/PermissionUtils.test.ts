@@ -2,20 +2,18 @@ import { isInUsersCaseLoad, isRequiredPermission, userHasRoles } from './Permiss
 import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
 import CaseLoad from '../../../types/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
-import { PersonCourtSchedulesPermission } from '../../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
+import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 
 describe('PermissionUtils', () => {
   describe('isRequiredPermission', () => {
     it('returns true if permission is required', async () => {
       expect(isRequiredPermission(PrisonerBasePermission.read, [])).toBe(false)
-      expect(isRequiredPermission(PrisonerBasePermission.read, [PersonCourtSchedulesPermission.read_schedule])).toBe(
-        false,
-      )
+      expect(isRequiredPermission(PrisonerBasePermission.read, [PersonSentenceCalculationPermission.read])).toBe(false)
       expect(isRequiredPermission(PrisonerBasePermission.read, [PrisonerBasePermission.read])).toBe(true)
       expect(
         isRequiredPermission(PrisonerBasePermission.read, [
           PrisonerBasePermission.read,
-          PersonCourtSchedulesPermission.read_schedule,
+          PersonSentenceCalculationPermission.read,
         ]),
       ).toBe(true)
     })

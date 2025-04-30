@@ -1,18 +1,21 @@
-import { checkPrisonerAccess, PrisonerPermissions, PrisonerBasePermission } from './PrisonerPermissions'
-import { PersonCourtSchedulesPermission } from '../domains/courtAndLegal/PersonCourtSchedulesPermissions'
+import { checkPrisonerAccess, PrisonerBasePermission, PrisonerPermissions } from './PrisonerPermissions'
+import {
+  PersonSentenceCalculationPermission,
+  setPersonSentenceCalculationPermission,
+} from '../domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 
 describe('Prisoner Permissions', () => {
   const prisonerPermissions: PrisonerPermissions = {
     'prisoner:base-record:read': false,
 
     domainGroups: {
-      courtAndLegal: {
-        personCourtSchedules: {
-          'prisoner:person-court-schedule:schedule:read': false,
+      sentenceAndOffence: {
+        personSentenceCalculation: {
+          'prisoner:person-sentence-calculation:read': false,
         },
       },
     },
-  } as unknown as PrisonerPermissions
+  } as PrisonerPermissions
 
   describe('Base record permissions', () => {
     it.each([PrisonerBasePermission.read])(
@@ -25,13 +28,13 @@ describe('Prisoner Permissions', () => {
     )
   })
 
-  describe('Court / Legal domain permissions', () => {
-    it.each([PersonCourtSchedulesPermission.read_schedule])(
-      'Can check person court schedules permission: %s',
-      (permission: PersonCourtSchedulesPermission) => {
+  describe('Sentence / Offence domain permissions', () => {
+    it.each([PersonSentenceCalculationPermission.read])(
+      'Can check person sentence calculation permission: %s',
+      (permission: PersonSentenceCalculationPermission) => {
         const permissions = (allowed: boolean) => ({
           ...prisonerPermissions,
-          domainGroups: { courtAndLegal: { personCourtSchedules: { [permission]: allowed } } },
+          ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, allowed),
         })
 
         expect(checkPrisonerAccess(permission, permissions(true))).toBe(true)

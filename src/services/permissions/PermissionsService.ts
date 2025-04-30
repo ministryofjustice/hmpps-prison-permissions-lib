@@ -11,7 +11,7 @@ import {
   PrisonerPermissions,
 } from '../../types/permissions/prisoner/PrisonerPermissions'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
-import courtAndLegalCheck from './checks/domains/courtAndLegal/CourtAndLegalCheck'
+import sentenceAndOffenceCheck from './checks/domains/sentenceAndOffence/SentenceAndOffenceCheck'
 import baseCheck from './checks/baseCheck/BaseCheck'
 import PermissionsCheckRequest from './checks/PermissionsCheckRequest'
 import baseCheckStatus from './checks/baseCheck/status/BaseCheckStatus'
@@ -74,7 +74,7 @@ export default class PermissionsService {
       [PrisonerBasePermission.read]: baseCheck(request),
 
       domainGroups: {
-        courtAndLegal: courtAndLegalCheck(request),
+        sentenceAndOffence: sentenceAndOffenceCheck(request),
       },
     } as PrisonerPermissions
   }

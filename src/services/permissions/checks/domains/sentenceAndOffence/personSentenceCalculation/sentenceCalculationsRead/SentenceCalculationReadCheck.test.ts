@@ -1,7 +1,7 @@
-import courtScheduleReadCheck from './CourtScheduleReadCheck'
+import sentenceCalculationReadCheck from './SentenceCalculationReadCheck'
 import PermissionsLogger from '../../../../../PermissionsLogger'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
-import { PersonCourtSchedulesPermission } from '../../../../../../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
+import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 import { Role } from '../../../../../../../types/user/Role'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
@@ -9,7 +9,7 @@ import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
-describe('CourtScheduleReadCheck', () => {
+describe('SentenceCalculationReadCheck', () => {
   let permissionsLogger: PermissionsLogger
 
   beforeEach(() => {
@@ -26,11 +26,11 @@ describe('CourtScheduleReadCheck', () => {
     'baseCheckStatus: $baseCheckStatus, roles: $roles; permitted: $permitted',
     async ({ baseCheckStatus, roles, loggedStatus, permitted }) => {
       const user = { ...prisonUserMock, userRoles: roles }
-      const result = courtScheduleReadCheck({
+      const result = sentenceCalculationReadCheck({
         user,
         prisoner: prisonerMock,
         baseCheckStatus,
-        requestDependentOn: [PersonCourtSchedulesPermission.read_schedule],
+        requestDependentOn: [PersonSentenceCalculationPermission.read],
         permissionsLogger,
       })
 
@@ -40,7 +40,7 @@ describe('CourtScheduleReadCheck', () => {
         expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
           user,
           prisonerMock,
-          PersonCourtSchedulesPermission.read_schedule,
+          PersonSentenceCalculationPermission.read,
           loggedStatus,
         )
       } else {
@@ -50,7 +50,7 @@ describe('CourtScheduleReadCheck', () => {
   )
 
   it('does not log permission failure if request not dependent on permission', () => {
-    const result = courtScheduleReadCheck({
+    const result = sentenceCalculationReadCheck({
       user: prisonUserMock,
       prisoner: prisonerMock,
       baseCheckStatus: baseCheckStatusFail,

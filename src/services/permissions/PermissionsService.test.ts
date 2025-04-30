@@ -7,8 +7,8 @@ import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
 import { scenarioTest } from '../../testUtils/TestScenario'
 import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
-import { PersonCourtSchedulesPermission } from '../../types/permissions/domains/courtAndLegal/PersonCourtSchedulesPermissions'
-import { courtScheduleReadScenarios } from './checks/domains/courtAndLegal/personCourtSchedules/courtScheduleRead/CourtScheduleReadTestScenarios'
+import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationsRead/SentenceCalculationReadTestScenarios'
 
 describe('PermissionsService', () => {
   let prisonApiClient: PrisonApiClient
@@ -32,9 +32,9 @@ describe('PermissionsService', () => {
     })
 
     describe('Domains', () => {
-      describe('Court / Legal', () => {
-        describe('Person Court Schedules', () => {
-          scenarioTest(courtScheduleReadScenarios, PersonCourtSchedulesPermission.read_schedule)
+      describe('Sentence / Offence', () => {
+        describe('Person Sentence Calculation', () => {
+          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
         })
       })
     })
