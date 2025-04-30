@@ -12,4 +12,12 @@ drives whether the panel at the top of the overview with release date calculatio
 shown:  https://github.com/ministryofjustice/hmpps-prisoner-profile/blob/main/server/controllers/overviewController.ts#L67
 
 ---
-courtCases.edit =
+courtCases.edit = prisoner:person-sentence-calculation:adjustments:edit
+
+this is again badly named in prisoner profile - actually whether a user can make adjustments - drives what the link
+in the release date calculation block
+shows.https://github.com/ministryofjustice/hmpps-prisoner-profile/blob/main/server/controllers/utils/overviewController/mapCourtCaseSummary.ts#L22
+
+---
+
+money.view =

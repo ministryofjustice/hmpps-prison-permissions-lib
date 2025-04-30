@@ -10,7 +10,7 @@
  */
 import { HmppsUser } from '../../../../../types/user/HmppsUser'
 import Prisoner from '../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { isInUsersCaseLoad, userHasRoles } from '../../../utils/PermissionUtils'
+import { isInUsersCaseLoad, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
 import restrictedPatientStatus from './RestrictedPatientStatus'
@@ -19,7 +19,7 @@ import transferringPrisonerStatus from './TransferringPrisonerStatus'
 
 export default function baseCheckStatus(user: HmppsUser, prisoner: Prisoner): PermissionCheckStatus {
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
-  const globalSearchUser = userHasRoles([Role.GlobalSearch], user.userRoles)
+  const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], user.userRoles)
 
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
   if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)

@@ -1,8 +1,9 @@
-import { isInUsersCaseLoad, isRequiredPermission, userHasRoles } from './PermissionUtils'
+import { isInUsersCaseLoad, isRequiredPermission, userHasRole, userHasSomeRolesFrom } from './PermissionUtils'
 import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
 import CaseLoad from '../../../types/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
 import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { Role } from '../../../types/user/Role'
 
 describe('PermissionUtils', () => {
   describe('isRequiredPermission', () => {
@@ -19,17 +20,27 @@ describe('PermissionUtils', () => {
     })
   })
 
-  describe('userHasRoles', () => {
+  describe('userHasSomeRolesFrom', () => {
     it.each([
-      { roles: ['GLOBAL_SEARCH'], userRoles: ['GLOBAL_SEARCH'], result: true },
-      { roles: ['GLOBAL_SEARCH'], userRoles: ['SOME_ROLE', 'GLOBAL_SEARCH'], result: true },
-      { roles: ['GLOBAL_SEARCH'], userRoles: [], result: false },
-      { roles: [], userRoles: ['GLOBAL_SEARCH'], result: false },
-      { roles: ['GLOBAL_SEARCH', 'SOME_ROLE'], userRoles: ['SOME_ROLE'], result: true },
-      { roles: ['GLOBAL_SEARCH'], userRoles: ['ROLE_GLOBAL_SEARCH'], result: true },
-      { roles: ['ROLE_GLOBAL_SEARCH'], userRoles: ['GLOBAL_SEARCH'], result: true },
+      { roles: [Role.GlobalSearch], userRoles: [Role.GlobalSearch], result: true },
+      { roles: [Role.GlobalSearch], userRoles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], result: true },
+      { roles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], userRoles: [Role.AdjustmentsMaintainer], result: true },
+      { roles: [Role.GlobalSearch], userRoles: [Role.AdjustmentsMaintainer, Role.PomUser], result: false },
+      { roles: [Role.GlobalSearch], userRoles: [], result: false },
+      { roles: [], userRoles: [Role.GlobalSearch], result: false },
     ])('Should return the correct result when checking user roles', ({ roles, userRoles, result }) => {
-      expect(userHasRoles(roles, userRoles)).toEqual(result)
+      expect(userHasSomeRolesFrom(roles, userRoles)).toEqual(result)
+    })
+  })
+
+  describe('userHasRole', () => {
+    it.each([
+      { role: Role.GlobalSearch, userRoles: [Role.GlobalSearch], result: true },
+      { role: Role.GlobalSearch, userRoles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], result: true },
+      { role: Role.GlobalSearch, userRoles: [Role.AdjustmentsMaintainer, Role.PomUser], result: false },
+      { role: Role.GlobalSearch, userRoles: [], result: false },
+    ])('Should return the correct result when checking user roles', ({ role, userRoles, result }) => {
+      expect(userHasRole(role, userRoles)).toEqual(result)
     })
   })
 

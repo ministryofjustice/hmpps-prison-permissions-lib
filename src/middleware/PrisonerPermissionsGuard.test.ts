@@ -40,11 +40,13 @@ describe('PrisonerPermissionsGuard', () => {
 
   describe('required permissions checked', () => {
     test.each`
-      requestDependentOn                          | permissions                                                                                | requestSucceeds
-      ${PrisonerBasePermission.read}              | ${{ [PrisonerBasePermission.read]: true }}                                                 | ${true}
-      ${PrisonerBasePermission.read}              | ${{ [PrisonerBasePermission.read]: false }}                                                | ${false}
-      ${PersonSentenceCalculationPermission.read} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}  | ${true}
-      ${PersonSentenceCalculationPermission.read} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false)} | ${false}
+      requestDependentOn                                      | permissions                                                                                            | requestSucceeds
+      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: true }}                                                             | ${true}
+      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: false }}                                                            | ${false}
+      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}              | ${true}
+      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false)}             | ${false}
+      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, true)}  | ${true}
+      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, false)} | ${false}
     `(
       'requestDependentOn: $requestDependentOn, requestSucceeds: $requestSucceeds',
       async ({ requestDependentOn, permissions, requestSucceeds }) => {
@@ -67,7 +69,7 @@ describe('PrisonerPermissionsGuard', () => {
       const permissions = {
         ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true),
         [PrisonerBasePermission.read]: true,
-      }
+      } as unknown as PrisonerPermissions
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
@@ -84,7 +86,7 @@ describe('PrisonerPermissionsGuard', () => {
       const permissions = {
         ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: true,
-      }
+      } as unknown as PrisonerPermissions
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
@@ -101,7 +103,7 @@ describe('PrisonerPermissionsGuard', () => {
       const permissions = {
         ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: false,
-      }
+      } as unknown as PrisonerPermissions
 
       permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 

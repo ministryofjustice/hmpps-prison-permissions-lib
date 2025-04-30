@@ -1,6 +1,6 @@
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
 import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
-import { isRequiredPermission, userHasRoles } from '../../../../../utils/PermissionUtils'
+import { isRequiredPermission, userHasRole } from '../../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../../types/user/Role'
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 
@@ -10,7 +10,7 @@ export default function sentenceCalculationReadCheck(request: PermissionsCheckRe
   const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const check = baseCheckPassed && userHasRoles([Role.ReleaseDatesCalculator], user.userRoles)
+  const check = baseCheckPassed && userHasRole(Role.ReleaseDatesCalculator, user.userRoles)
 
   if (!check && isRequiredPermission(permission, requestDependentOn)) {
     const status = baseCheckPassed ? PermissionCheckStatus.ROLE_NOT_PRESENT : baseCheckStatus

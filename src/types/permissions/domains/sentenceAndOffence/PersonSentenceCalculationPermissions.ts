@@ -1,10 +1,11 @@
 export enum PersonSentenceCalculationPermission {
   read = 'prisoner:person-sentence-calculation:read',
+  edit_adjustments = 'prisoner:person-sentence-calculation:adjustments:edit',
 }
 
 export interface PersonSentenceCalculationPermissions {
-  // Not a full list, for demonstration purposes at the moment:
   [PersonSentenceCalculationPermission.read]: boolean
+  [PersonSentenceCalculationPermission.edit_adjustments]: boolean
 }
 
 export function isPersonSentenceCalculationPermission(

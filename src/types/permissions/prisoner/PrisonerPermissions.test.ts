@@ -1,8 +1,5 @@
 import { checkPrisonerAccess, PrisonerBasePermission, PrisonerPermissions } from './PrisonerPermissions'
-import {
-  PersonSentenceCalculationPermission,
-  setPersonSentenceCalculationPermission,
-} from '../domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 
 describe('Prisoner Permissions', () => {
   const prisonerPermissions: PrisonerPermissions = {
@@ -12,6 +9,7 @@ describe('Prisoner Permissions', () => {
       sentenceAndOffence: {
         personSentenceCalculation: {
           'prisoner:person-sentence-calculation:read': false,
+          'prisoner:person-sentence-calculation:adjustments:edit': false,
         },
       },
     },
@@ -29,12 +27,19 @@ describe('Prisoner Permissions', () => {
   })
 
   describe('Sentence / Offence domain permissions', () => {
-    it.each([PersonSentenceCalculationPermission.read])(
+    it.each([PersonSentenceCalculationPermission.read, PersonSentenceCalculationPermission.edit_adjustments])(
       'Can check person sentence calculation permission: %s',
       (permission: PersonSentenceCalculationPermission) => {
         const permissions = (allowed: boolean) => ({
           ...prisonerPermissions,
-          ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, allowed),
+          domainGroups: {
+            sentenceAndOffence: {
+              personSentenceCalculation: {
+                ...prisonerPermissions.domainGroups.sentenceAndOffence.personSentenceCalculation,
+                [permission]: allowed,
+              },
+            },
+          },
         })
 
         expect(checkPrisonerAccess(permission, permissions(true))).toBe(true)
