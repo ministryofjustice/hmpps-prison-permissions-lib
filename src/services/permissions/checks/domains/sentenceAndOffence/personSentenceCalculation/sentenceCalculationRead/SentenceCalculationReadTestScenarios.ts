@@ -1,18 +1,18 @@
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 import { Role } from '../../../../../../../types/user/Role'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
-import { failingBaseCheckScenarios, passingBaseCheckScenarios } from '../../../../baseCheck/BaseCheckTestScenarios'
+import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckTestScenarios'
 
-const failingSentenceCalculationReadScenarios: TestScenarios = passingBaseCheckScenarios
+const deniedSentenceCalculationReadScenarios: TestScenarios = grantedBaseCheckScenarios
   .withoutUserRoles([Role.ReleaseDatesCalculator])
   .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
-  .and(failingBaseCheckScenarios.withUserRoles([Role.ReleaseDatesCalculator]))
+  .and(deniedBaseCheckScenarios.withUserRoles([Role.ReleaseDatesCalculator]))
 
-const passingSentenceCalculationReadScenarios = passingBaseCheckScenarios
+const grantedSentenceCalculationReadScenarios = grantedBaseCheckScenarios
   .withUserRoles([Role.ReleaseDatesCalculator])
   .withExpectedStatus(PermissionCheckStatus.OK)
 
 // eslint-disable-next-line import/prefer-default-export
-export const sentenceCalculationReadScenarios = passingSentenceCalculationReadScenarios.and(
-  failingSentenceCalculationReadScenarios,
+export const sentenceCalculationReadScenarios = grantedSentenceCalculationReadScenarios.and(
+  deniedSentenceCalculationReadScenarios,
 )

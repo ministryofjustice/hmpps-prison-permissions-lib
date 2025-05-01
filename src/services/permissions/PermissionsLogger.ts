@@ -21,7 +21,7 @@ export default class PermissionsLogger {
 
     if (this.telemetryClient) {
       this.telemetryClient.trackEvent({
-        name: 'prisoner-permission-check-failed',
+        name: 'prisoner-permission-denied',
         properties: {
           username: user.username,
           prisonerNumber: prisoner.prisonerNumber,
@@ -31,9 +31,7 @@ export default class PermissionsLogger {
         },
       })
     } else {
-      this.logger.info(
-        `Prisoner permission check failed: ${permission} (${permissionCheckStatus}) for user ${user.username}`,
-      )
+      this.logger.info(`Prisoner permission denied: ${permission} (${permissionCheckStatus}) for user ${user.username}`)
     }
   }
 }

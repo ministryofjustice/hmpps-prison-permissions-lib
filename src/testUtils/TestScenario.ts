@@ -6,11 +6,12 @@ import { Role } from '../types/user/Role'
 import CaseLoad from '../types/user/CaseLoad'
 import { prisonUserMock } from './UserMocks'
 import { prisonerMock } from './PrisonerMocks'
-import { checkPrisonerAccess, PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
-import { PermissionsService } from '../index'
+import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
 import PrisonApiClient from '../data/prisonApi/PrisonApiClient'
 import PrisonerSearchClient from '../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from '../services/permissions/PermissionsLogger'
+import checkPrisonerAccess from '../types/permissions/prisoner/PrisonerPermissionsUtils'
+import PermissionsService from '../services/permissions/PermissionsService'
 
 export function userWithActiveCaseLoad(caseLoad: string) {
   return new TestScenarioBuilder(caseLoad) as RolesOrCaseLoadBuilder
@@ -53,6 +54,19 @@ export class TestScenario {
     })
   }
 
+  public withCaseLoads(caseLoads: CaseLoad[]): TestScenario {
+    const user = this.user as PrisonUser
+    return new TestScenario({
+      user: {
+        ...user,
+        activeCaseLoadId: caseLoads.find(cl => cl.currentlyActive)?.caseLoadId,
+        caseLoads,
+      } as PrisonUser,
+      prisoner: { ...this.prisoner },
+      expectedStatus: this.expectedStatus,
+    })
+  }
+
   public withExpectedStatus(expectedStatus: PermissionCheckStatus): TestScenario {
     return new TestScenario({
       user: { ...this.user },
@@ -88,12 +102,20 @@ export class TestScenarios {
     return new TestScenarios([...this.scenarios, ...that.scenarios])
   }
 
+  public andScenarioWhere(that: TestScenario) {
+    return new TestScenarios([...this.scenarios, that])
+  }
+
   public withUserRoles(roles: Role[]): TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withUserRoles(roles)))
   }
 
   public withoutUserRoles(roles: Role[]): TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withoutUserRoles(roles)))
+  }
+
+  public withCaseLoads(caseLoads: CaseLoad[]): TestScenarios {
+    return new TestScenarios(this.scenarios.map(s => s.withCaseLoads(caseLoads)))
   }
 
   public withExpectedStatus(expectedBaseCheckStatus: PermissionCheckStatus): TestScenarios {
@@ -132,13 +154,13 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 
   private roles: Role[] = []
 
-  prisonId: string = 'OUT'
+  private prisonId: string = 'OUT'
 
-  restrictedPatient: boolean = false
+  private restrictedPatient: boolean = false
 
-  supportedByPrison?: string
+  private supportedByPrison?: string
 
-  expectedStatus: PermissionCheckStatus = PermissionCheckStatus.NOT_PERMITTED
+  private expectedStatus: PermissionCheckStatus = PermissionCheckStatus.NOT_PERMITTED
 
   public constructor(activeCaseLoad: string) {
     this.activeCaseLoad = activeCaseLoad

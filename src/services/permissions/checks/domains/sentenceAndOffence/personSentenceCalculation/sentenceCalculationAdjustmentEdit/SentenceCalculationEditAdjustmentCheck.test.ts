@@ -6,8 +6,8 @@ import { Role } from '../../../../../../../types/user/Role'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusGranted = PermissionCheckStatus.OK
+const baseCheckStatusDenied = PermissionCheckStatus.NOT_PERMITTED
 
 describe('SentenceCalculationEditAdjustmentCheck', () => {
   let permissionsLogger: PermissionsLogger
@@ -17,11 +17,11 @@ describe('SentenceCalculationEditAdjustmentCheck', () => {
   })
 
   test.each`
-    baseCheckStatus        | roles                           | loggedStatus                              | permitted
-    ${baseCheckStatusFail} | ${[]}                           | ${baseCheckStatusFail}                    | ${false}
-    ${baseCheckStatusFail} | ${[Role.AdjustmentsMaintainer]} | ${baseCheckStatusFail}                    | ${false}
-    ${baseCheckStatusPass} | ${[]}                           | ${PermissionCheckStatus.ROLE_NOT_PRESENT} | ${false}
-    ${baseCheckStatusPass} | ${[Role.AdjustmentsMaintainer]} | ${undefined}                              | ${true}
+    baseCheckStatus           | roles                           | loggedStatus                              | permitted
+    ${baseCheckStatusDenied}  | ${[]}                           | ${baseCheckStatusDenied}                  | ${false}
+    ${baseCheckStatusDenied}  | ${[Role.AdjustmentsMaintainer]} | ${baseCheckStatusDenied}                  | ${false}
+    ${baseCheckStatusGranted} | ${[]}                           | ${PermissionCheckStatus.ROLE_NOT_PRESENT} | ${false}
+    ${baseCheckStatusGranted} | ${[Role.AdjustmentsMaintainer]} | ${undefined}                              | ${true}
   `(
     'baseCheckStatus: $baseCheckStatus, roles: $roles; permitted: $permitted',
     async ({ baseCheckStatus, roles, loggedStatus, permitted }) => {
@@ -53,7 +53,7 @@ describe('SentenceCalculationEditAdjustmentCheck', () => {
     const result = sentenceCalculationEditAdjustmentCheck({
       user: prisonUserMock,
       prisoner: prisonerMock,
-      baseCheckStatus: baseCheckStatusFail,
+      baseCheckStatus: baseCheckStatusDenied,
       requestDependentOn: [],
       permissionsLogger,
     })

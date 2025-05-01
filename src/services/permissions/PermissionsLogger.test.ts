@@ -31,7 +31,7 @@ describe('PermissionsLogger', () => {
       permissionsLogger.logPermissionCheckStatus(user, prisoner, permission, permissionCheckStatus)
 
       expect(logger.info).toHaveBeenCalledWith(
-        `Prisoner permission check failed: ${permission} (${permissionCheckStatus}) for user ${user.username}`,
+        `Prisoner permission denied: ${permission} (${permissionCheckStatus}) for user ${user.username}`,
       )
     })
 
@@ -41,7 +41,7 @@ describe('PermissionsLogger', () => {
       permissionsLogger.logPermissionCheckStatus(user, prisoner, permission, permissionCheckStatus)
 
       expect(telemetryClient.trackEvent).toHaveBeenCalledWith({
-        name: 'prisoner-permission-check-failed',
+        name: 'prisoner-permission-denied',
         properties: {
           username: user.username,
           prisonerNumber: prisoner.prisonerNumber,

@@ -2,7 +2,7 @@ import { TestScenarios, userWithActiveCaseLoad } from '../../../../testUtils/Tes
 import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
 import { Role } from '../../../../types/user/Role'
 
-export const failingRestrictedPatientCheckScenarios = new TestScenarios([
+export const deniedRestrictedPatientCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([])
     .accessingRestrictedPatientSupportedBy('MDI')
@@ -14,7 +14,7 @@ export const failingRestrictedPatientCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.RESTRICTED_PATIENT),
 ])
 
-export const passingRestrictedPatientCheckScenarios = new TestScenarios([
+export const grantedRestrictedPatientCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.PomUser])
     .accessingRestrictedPatientSupportedBy('MDI')
@@ -43,28 +43,28 @@ export const passingRestrictedPatientCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.OK),
 ])
 
-export const failingReleasedPrisonerCheckScenarios = new TestScenarios([
+export const deniedReleasedPrisonerCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([])
     .accessingReleasedPrisoner()
     .expectsStatus(PermissionCheckStatus.PRISONER_IS_RELEASED),
 ])
 
-export const passingReleasedPrisonerCheckScenarios = new TestScenarios([
+export const grantedReleasedPrisonerCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.InactiveBookings])
     .accessingReleasedPrisoner()
     .expectsStatus(PermissionCheckStatus.OK),
 ])
 
-export const failingTransferringPrisonerCheckScenarios = new TestScenarios([
+export const deniedTransferringPrisonerCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([])
     .accessingTransferringPrisoner()
     .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
 ])
 
-export const passingTransferringPrisonerCheckScenarios = new TestScenarios([
+export const grantedTransferringPrisonerCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.GlobalSearch])
     .accessingTransferringPrisoner()
@@ -76,7 +76,7 @@ export const passingTransferringPrisonerCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.OK),
 ])
 
-export const failingCaseLoadCheckScenarios = new TestScenarios([
+export const deniedCaseLoadCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([])
     .accessingPrisonerAt('LEI')
@@ -88,7 +88,7 @@ export const failingCaseLoadCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
 ])
 
-export const passingCaseLoadCheckScenarios = new TestScenarios([
+export const grantedCaseLoadCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI').withRoles([]).accessingPrisonerAt('MDI').expectsStatus(PermissionCheckStatus.OK),
 
   userWithActiveCaseLoad('MDI')
@@ -108,14 +108,14 @@ export const passingCaseLoadCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.OK),
 ])
 
-export const failingBaseCheckScenarios = failingRestrictedPatientCheckScenarios
-  .and(failingReleasedPrisonerCheckScenarios)
-  .and(failingTransferringPrisonerCheckScenarios)
-  .and(failingCaseLoadCheckScenarios)
+export const deniedBaseCheckScenarios = deniedRestrictedPatientCheckScenarios
+  .and(deniedReleasedPrisonerCheckScenarios)
+  .and(deniedTransferringPrisonerCheckScenarios)
+  .and(deniedCaseLoadCheckScenarios)
 
-export const passingBaseCheckScenarios = passingRestrictedPatientCheckScenarios
-  .and(passingReleasedPrisonerCheckScenarios)
-  .and(passingTransferringPrisonerCheckScenarios)
-  .and(passingCaseLoadCheckScenarios)
+export const grantedBaseCheckScenarios = grantedRestrictedPatientCheckScenarios
+  .and(grantedReleasedPrisonerCheckScenarios)
+  .and(grantedTransferringPrisonerCheckScenarios)
+  .and(grantedCaseLoadCheckScenarios)
 
-export const baseCheckScenarios = passingBaseCheckScenarios.and(failingBaseCheckScenarios)
+export const baseCheckScenarios = grantedBaseCheckScenarios.and(deniedBaseCheckScenarios)
