@@ -1,15 +1,20 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import { PermissionsService, PrisonerBasePermission, PrisonerPermission } from '../index'
 import prisonerPermissionsGuard from './PrisonerPermissionsGuard'
 import { PrisonUser } from '../types/user/HmppsUser'
 import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import { prisonUserMock } from '../testUtils/UserMocks'
 import { prisonerMock } from '../testUtils/PrisonerMocks'
+import { PersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 import {
-  PersonSentenceCalculationPermission,
-  setPersonSentenceCalculationPermission,
-} from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
-import { PrisonerPermissions } from '../types/permissions/prisoner/PrisonerPermissions'
+  PrisonerBasePermission,
+  PrisonerPermission,
+  PrisonerPermissions,
+} from '../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { prisonerPermissionsMock } from '../testUtils/PrisonerPermissionsMock'
+import { setPersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissionsUtils'
+import { setPrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissionsUtils'
+import PermissionsService from '../services/permissions/PermissionsService'
 
 const examplePermissions = {
   [PrisonerBasePermission.read]: true,
@@ -40,25 +45,28 @@ describe('PrisonerPermissionsGuard', () => {
 
   describe('required permissions checked', () => {
     test.each`
-      requestDependentOn                                      | permissions                                                                                            | requestSucceeds
-      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: true }}                                                             | ${true}
-      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: false }}                                                            | ${false}
-      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}              | ${true}
-      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false)}             | ${false}
-      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, true)}  | ${true}
-      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, false)} | ${false}
+      requestDependentOn                                      | grantedPermission
+      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: true }}
+      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}
+      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, true)}
+      ${PrisonerMoneyPermission.read}                         | ${setPrisonerMoneyPermission(PrisonerMoneyPermission.read, true)}
     `(
-      'requestDependentOn: $requestDependentOn, requestSucceeds: $requestSucceeds',
-      async ({ requestDependentOn, permissions, requestSucceeds }) => {
-        permissionsGuard = prisonerPermissionsGuard(permissionsService, { requestDependentOn: [requestDependentOn] })
-        permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
+      'requestDependentOn: $requestDependentOn successfully checked',
+      async ({ requestDependentOn, grantedPermission }) => {
+        await checkPermissionsGuard(grantedPermission, true)
+        await checkPermissionsGuard(prisonerPermissionsMock, false) // by default these are denied permissions
 
-        await permissionsGuard(req, res, next)
+        async function checkPermissionsGuard(permissions: PrisonerPermissions, expectSuccess: boolean) {
+          permissionsGuard = prisonerPermissionsGuard(permissionsService, { requestDependentOn: [requestDependentOn] })
+          permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
-        if (requestSucceeds) {
-          expectRequestSucceeds(permissions)
-        } else {
-          expectRequestFails([requestDependentOn])
+          await permissionsGuard(req, res, next)
+
+          if (expectSuccess) {
+            expectRequestAllowed(permissions)
+          } else {
+            expectRequestDenied([requestDependentOn])
+          }
         }
       },
     )
@@ -79,7 +87,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(permissions)
+      expectRequestAllowed(permissions)
     })
 
     it('request fails when a single permission check fails', async () => {
@@ -96,7 +104,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestFails([PersonSentenceCalculationPermission.read])
+      expectRequestDenied([PersonSentenceCalculationPermission.read])
     })
 
     it('request fails when multiple permission checks fail', async () => {
@@ -113,7 +121,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestFails([PrisonerBasePermission.read, PersonSentenceCalculationPermission.read])
+      expectRequestDenied([PrisonerBasePermission.read, PersonSentenceCalculationPermission.read])
     })
   })
 
@@ -130,7 +138,7 @@ describe('PrisonerPermissionsGuard', () => {
     it('sets permissions and calls next()', async () => {
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(examplePermissions)
+      expectRequestAllowed(examplePermissions)
     })
   })
 
@@ -148,7 +156,7 @@ describe('PrisonerPermissionsGuard', () => {
     it('sets permissions and calls next()', async () => {
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(examplePermissions)
+      expectRequestAllowed(examplePermissions)
     })
   })
 
@@ -165,7 +173,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(examplePermissions)
+      expectRequestAllowed(examplePermissions)
       expectUserIsAKeyWorker()
     })
 
@@ -174,7 +182,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(examplePermissions)
+      expectRequestAllowed(examplePermissions)
       expectUserIsAKeyWorker()
     })
 
@@ -184,7 +192,7 @@ describe('PrisonerPermissionsGuard', () => {
 
       await permissionsGuard(req, res, next)
 
-      expectRequestSucceeds(examplePermissions)
+      expectRequestAllowed(examplePermissions)
       expectUserIsAKeyWorker({ LEI: false, MDI: true })
     })
   })
@@ -198,14 +206,14 @@ describe('PrisonerPermissionsGuard', () => {
   })
 })
 
-function expectRequestSucceeds(expected: PrisonerPermissions) {
+function expectRequestAllowed(expected: PrisonerPermissions) {
   expect(next).toHaveBeenCalledWith()
   expect(req.middleware?.prisonerData).toEqual(prisonerMock)
   expect(res.locals.prisonerPermissions).toEqual(expected)
 }
 
-function expectRequestFails(failedPermissionChecks: PrisonerPermission[]) {
-  expect(next).toHaveBeenCalledWith(new PrisonerPermissionError('Failed permissions checks', failedPermissionChecks))
+function expectRequestDenied(failedPermissionChecks: PrisonerPermission[]) {
+  expect(next).toHaveBeenCalledWith(new PrisonerPermissionError('Denied permissions', failedPermissionChecks))
 }
 
 function expectUserIsAKeyWorker(expected: Record<string, boolean> = { MDI: true }) {

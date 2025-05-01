@@ -15,6 +15,7 @@ import sentenceAndOffenceCheck from './checks/domains/sentenceAndOffence/Sentenc
 import baseCheck from './checks/baseCheck/BaseCheck'
 import PermissionsCheckRequest from './checks/PermissionsCheckRequest'
 import baseCheckStatus from './checks/baseCheck/status/BaseCheckStatus'
+import prisonerSpecificCheck from './checks/domains/prisonerSpecific/PrisonerSpecificCheck'
 
 export default class PermissionsService {
   private readonly prisonApiClient: PrisonApiClient
@@ -75,6 +76,7 @@ export default class PermissionsService {
 
       domainGroups: {
         sentenceAndOffence: sentenceAndOffenceCheck(request),
+        prisonerSpecific: prisonerSpecificCheck(request),
       },
     } as PrisonerPermissions
   }

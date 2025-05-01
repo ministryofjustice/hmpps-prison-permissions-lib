@@ -10,6 +10,8 @@ import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
 import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
 import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadTestScenarios'
 import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentTestScenarios'
+import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/prisonerMoney/prisonerMoneyRead/PrisonerMoneyReadTestScenarios'
 
 describe('PermissionsService', () => {
   let prisonApiClient: PrisonApiClient
@@ -37,6 +39,12 @@ describe('PermissionsService', () => {
         describe('Person Sentence Calculation', () => {
           scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
           scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
+        })
+      })
+
+      describe('Prisoner Specific', () => {
+        describe('Prisoner Money', () => {
+          scenarioTest(prisonerMoneyReadScenarios, PrisonerMoneyPermission.read)
         })
       })
     })

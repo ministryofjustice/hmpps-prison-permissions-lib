@@ -1,5 +1,5 @@
 import { HmppsUser } from '../../../../../types/user/HmppsUser'
-import { userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
+import { userHasRole, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
 
@@ -10,7 +10,7 @@ import { PermissionCheckStatus } from '../../../../../types/permissions/Permissi
  */
 export default function transferringPrisonerStatus(user: HmppsUser): PermissionCheckStatus {
   const { userRoles } = user
-  const inactiveBookingsUser = userHasSomeRolesFrom([Role.InactiveBookings], userRoles)
+  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, userRoles)
   const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], userRoles)
 
   if (globalSearchUser) return PermissionCheckStatus.OK

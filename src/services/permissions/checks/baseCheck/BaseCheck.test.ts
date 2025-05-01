@@ -5,8 +5,8 @@ import baseCheck from './BaseCheck'
 import { prisonerMock } from '../../../../testUtils/PrisonerMocks'
 import { PrisonerBasePermission } from '../../../../types/permissions/prisoner/PrisonerPermissions'
 
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusGranted = PermissionCheckStatus.OK
+const baseCheckStatusDenied = PermissionCheckStatus.NOT_PERMITTED
 
 describe('BaseCheck', () => {
   let permissionsLogger: PermissionsLogger
@@ -16,9 +16,9 @@ describe('BaseCheck', () => {
   })
 
   test.each`
-    baseCheckStatus        | permitted
-    ${baseCheckStatusFail} | ${false}
-    ${baseCheckStatusPass} | ${true}
+    baseCheckStatus           | permitted
+    ${baseCheckStatusDenied}  | ${false}
+    ${baseCheckStatusGranted} | ${true}
   `('baseCheckStatus: $baseCheckStatus, permitted: $permitted', async ({ baseCheckStatus, permitted }) => {
     const user = prisonUserMock
     const result = baseCheck({
@@ -47,7 +47,7 @@ describe('BaseCheck', () => {
     const result = baseCheck({
       user: prisonUserMock,
       prisoner: prisonerMock,
-      baseCheckStatus: baseCheckStatusFail,
+      baseCheckStatus: baseCheckStatusDenied,
       requestDependentOn: [],
       permissionsLogger,
     })

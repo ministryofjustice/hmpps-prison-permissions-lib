@@ -1,8 +1,9 @@
 import type { NextFunction, Request, Response } from 'express'
-import { checkPrisonerAccess, PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
 import PermissionsService from '../services/permissions/PermissionsService'
 import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import checkPrisonerAccess from '../types/permissions/prisoner/PrisonerPermissionsUtils'
 
 export default function prisonerPermissionsGuard(
   permissionsService: PermissionsService,
@@ -27,9 +28,11 @@ export default function prisonerPermissionsGuard(
       requestDependentOn,
     })
 
-    const failedChecks = requestDependentOn.filter(permission => !checkPrisonerAccess(permission, prisonerPermissions))
+    const deniedPermissions = requestDependentOn.filter(
+      permission => !checkPrisonerAccess(permission, prisonerPermissions),
+    )
 
-    if (failedChecks.length) return next(new PrisonerPermissionError('Failed permissions checks', failedChecks))
+    if (deniedPermissions.length) return next(new PrisonerPermissionError('Denied permissions', deniedPermissions))
 
     req.middleware = { ...req.middleware, prisonerData }
     res.locals.prisonerPermissions = prisonerPermissions

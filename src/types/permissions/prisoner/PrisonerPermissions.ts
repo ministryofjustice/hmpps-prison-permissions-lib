@@ -1,9 +1,11 @@
 import {
-  checkSentenceAndOffenceDomainAccess,
-  isSentenceAndOffenceDomainPermission,
   SentenceAndOffenceDomainPermission,
   SentenceAndOffenceDomainPermissions,
 } from '../domains/sentenceAndOffence/SentenceAndOffenceDomainPermissions'
+import {
+  PrisonerSpecificDomainPermission,
+  PrisonerSpecificDomainPermissions,
+} from '../domains/prisonerSpecific/PrisonerSpecificDomainPermissions'
 
 export enum PrisonerBasePermission {
   read = 'prisoner:base-record:read',
@@ -16,24 +18,12 @@ export interface PrisonerPermissions {
   [PrisonerBasePermission.read]: boolean
 
   domainGroups: {
-    // Not a full list, for demonstration purposes at the moment:
     sentenceAndOffence: SentenceAndOffenceDomainPermissions
+    prisonerSpecific: PrisonerSpecificDomainPermissions
   }
 }
 
-export type PrisonerPermission = PrisonerBasePermission | SentenceAndOffenceDomainPermission
-
-export function checkPrisonerAccess(permission: PrisonerPermission, permissions: PrisonerPermissions): boolean {
-  if (permission === PrisonerBasePermission.read) {
-    return permissions[PrisonerBasePermission.read]
-  }
-
-  if (isSentenceAndOffenceDomainPermission(permission as string, permissions.domainGroups.sentenceAndOffence)) {
-    return checkSentenceAndOffenceDomainAccess(
-      permission as SentenceAndOffenceDomainPermission,
-      permissions.domainGroups.sentenceAndOffence,
-    )
-  }
-
-  return false
-}
+export type PrisonerPermission =
+  | PrisonerBasePermission
+  | SentenceAndOffenceDomainPermission
+  | PrisonerSpecificDomainPermission
