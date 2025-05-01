@@ -1,5 +1,5 @@
-import { PrisonerPermissions } from '../../prisoner/PrisonerPermissions'
-import { prisonerPermissionsMock } from '../../../../testUtils/PrisonerPermissionsMock'
+import { PrisonerPermissions } from '../../../prisoner/PrisonerPermissions'
+import { prisonerPermissionsMock } from '../../../../../testUtils/PrisonerPermissionsMock'
 import {
   PersonSentenceCalculationPermission,
   PersonSentenceCalculationPermissions,

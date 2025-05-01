@@ -4,7 +4,7 @@ import { PermissionCheckStatus } from '../../../../../../../types/permissions/Pe
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import CaseLoad from '../../../../../../../types/user/CaseLoad'
-import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED

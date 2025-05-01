@@ -1,8 +1,12 @@
-import { PrisonerBasePermission, PrisonerPermissions } from './PrisonerPermissions'
-import { PersonSentenceCalculationPermission } from '../domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
-import { PrisonerMoneyPermission } from '../domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { PrisonerBasePermission } from './PrisonerPermissions'
+import { PersonSentenceCalculationPermission } from '../domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
+import { PrisonerMoneyPermission } from '../domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { prisonerPermissionsMock } from '../../../testUtils/PrisonerPermissionsMock'
 import checkPrisonerAccess from './PrisonerPermissionsUtils'
+import { PrisonerAdjudicationsPermission } from '../domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+import { setPersonSentenceCalculationPermission } from '../domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissionsUtils'
+import { setPrisonerMoneyPermission } from '../domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionsUtils'
+import { setPrisonerAdjudicationsPermission } from '../domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissionsUtils'
 
 describe('Prisoner Permissions', () => {
   describe('Base record permissions', () => {
@@ -20,19 +24,7 @@ describe('Prisoner Permissions', () => {
     it.each([PersonSentenceCalculationPermission.read, PersonSentenceCalculationPermission.edit_adjustments])(
       'Can check person sentence calculation permission: %s',
       (permission: PersonSentenceCalculationPermission) => {
-        const permissions = (allowed: boolean) =>
-          ({
-            ...prisonerPermissionsMock,
-            domainGroups: {
-              sentenceAndOffence: {
-                personSentenceCalculation: {
-                  ...prisonerPermissionsMock.domainGroups.sentenceAndOffence.personSentenceCalculation,
-                  [permission]: allowed,
-                },
-              },
-            },
-          }) as PrisonerPermissions
-
+        const permissions = (allowed: boolean) => setPersonSentenceCalculationPermission(permission, allowed)
         expect(checkPrisonerAccess(permission, permissions(true))).toBe(true)
         expect(checkPrisonerAccess(permission, permissions(false))).toBe(false)
       },
@@ -43,19 +35,16 @@ describe('Prisoner Permissions', () => {
     it.each([PrisonerMoneyPermission.read])(
       'Can check prisoner money permission: %s',
       (permission: PrisonerMoneyPermission) => {
-        const permissions = (allowed: boolean) =>
-          ({
-            ...prisonerPermissionsMock,
-            domainGroups: {
-              prisonerSpecific: {
-                prisonerMoney: {
-                  ...prisonerPermissionsMock.domainGroups.prisonerSpecific.prisonerMoney,
-                  [permission]: allowed,
-                },
-              },
-            },
-          }) as PrisonerPermissions
+        const permissions = (allowed: boolean) => setPrisonerMoneyPermission(permission, allowed)
+        expect(checkPrisonerAccess(permission, permissions(true))).toBe(true)
+        expect(checkPrisonerAccess(permission, permissions(false))).toBe(false)
+      },
+    )
 
+    it.each([PrisonerAdjudicationsPermission.read])(
+      'Can check prisoner adjudications permission: %s',
+      (permission: PrisonerAdjudicationsPermission) => {
+        const permissions = (allowed: boolean) => setPrisonerAdjudicationsPermission(permission, allowed)
         expect(checkPrisonerAccess(permission, permissions(true))).toBe(true)
         expect(checkPrisonerAccess(permission, permissions(false))).toBe(false)
       },

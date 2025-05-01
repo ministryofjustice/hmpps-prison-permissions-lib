@@ -7,11 +7,13 @@ import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
 import { scenarioTest } from '../../testUtils/TestScenario'
 import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
-import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadTestScenarios'
 import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentTestScenarios'
-import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/prisonerMoney/prisonerMoneyRead/PrisonerMoneyReadTestScenarios'
+import { prisonerAdjudicationsReadScenarios } from './checks/domains/prisonerSpecific/prisonerAdjudications/prisonerAdjudicationsRead/PrisonerAdjudicationsReadTestScenarios'
+import { PrisonerAdjudicationsPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 
 describe('PermissionsService', () => {
   let prisonApiClient: PrisonApiClient
@@ -45,6 +47,9 @@ describe('PermissionsService', () => {
       describe('Prisoner Specific', () => {
         describe('Prisoner Money', () => {
           scenarioTest(prisonerMoneyReadScenarios, PrisonerMoneyPermission.read)
+        })
+        describe('Prisoner Adjudications', () => {
+          scenarioTest(prisonerAdjudicationsReadScenarios, PrisonerAdjudicationsPermission.read)
         })
       })
     })

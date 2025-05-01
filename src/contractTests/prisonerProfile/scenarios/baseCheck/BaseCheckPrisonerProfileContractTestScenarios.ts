@@ -9,6 +9,11 @@ export const deniedRestrictedPatientCheckScenarios = new TestScenarios([
     .expectsStatus(PermissionCheckStatus.RESTRICTED_PATIENT),
 
   userWithActiveCaseLoad('MDI')
+    .withRoles([Role.GlobalSearch])
+    .accessingRestrictedPatientSupportedBy('MDI')
+    .expectsStatus(PermissionCheckStatus.RESTRICTED_PATIENT),
+
+  userWithActiveCaseLoad('MDI')
     .withRoles([Role.PomUser])
     .accessingRestrictedPatientSupportedBy('LEI')
     .expectsStatus(PermissionCheckStatus.RESTRICTED_PATIENT),
@@ -46,6 +51,11 @@ export const grantedRestrictedPatientCheckScenarios = new TestScenarios([
 export const deniedReleasedPrisonerCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([])
+    .accessingReleasedPrisoner()
+    .expectsStatus(PermissionCheckStatus.PRISONER_IS_RELEASED),
+
+  userWithActiveCaseLoad('MDI')
+    .withRoles([Role.GlobalSearch])
     .accessingReleasedPrisoner()
     .expectsStatus(PermissionCheckStatus.PRISONER_IS_RELEASED),
 ])
@@ -96,14 +106,11 @@ export const grantedCaseLoadCheckScenarios = new TestScenarios([
     .withRoles([])
     .accessingPrisonerAt('LEI')
     .expectsStatus(PermissionCheckStatus.OK),
+])
 
+export const grantedGlobalSearchCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.GlobalSearch])
-    .accessingPrisonerAt('LEI')
-    .expectsStatus(PermissionCheckStatus.OK),
-
-  userWithActiveCaseLoad('MDI')
-    .withRoles([Role.GlobalSearch, Role.PomUser])
     .accessingPrisonerAt('LEI')
     .expectsStatus(PermissionCheckStatus.OK),
 ])
@@ -117,5 +124,6 @@ export const grantedBaseCheckScenarios = grantedRestrictedPatientCheckScenarios
   .and(grantedReleasedPrisonerCheckScenarios)
   .and(grantedTransferringPrisonerCheckScenarios)
   .and(grantedCaseLoadCheckScenarios)
+  .and(grantedGlobalSearchCheckScenarios)
 
 export const baseCheckPrisonerProfileScenarios = grantedBaseCheckScenarios.and(deniedBaseCheckScenarios)

@@ -1,7 +1,7 @@
 import sentenceCalculationEditAdjustmentCheck from './SentenceCalculationEditAdjustmentCheck'
 import PermissionsLogger from '../../../../../PermissionsLogger'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
-import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../../../../../types/user/Role'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'

@@ -2,7 +2,7 @@ import { isInUsersCaseLoad, isRequiredPermission, userHasRole, userHasSomeRolesF
 import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
 import CaseLoad from '../../../types/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
-import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../types/user/Role'
 
 describe('PermissionUtils', () => {

@@ -1,8 +1,8 @@
-import { PersonSentenceCalculationPermission } from './PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from './personSentenceCalculation/PersonSentenceCalculationPermissions'
 import {
   checkPersonSentenceCalculationAccess,
   isPersonSentenceCalculationPermission,
-} from './PersonSentenceCalculationPermissionsUtils'
+} from './personSentenceCalculation/PersonSentenceCalculationPermissionsUtils'
 import {
   SentenceAndOffenceDomainPermission,
   SentenceAndOffenceDomainPermissions,
