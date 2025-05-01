@@ -1,5 +1,5 @@
 import { HmppsUser } from '../../../../../types/user/HmppsUser'
-import { userHasRoles } from '../../../utils/PermissionUtils'
+import { userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
 
@@ -9,7 +9,7 @@ import { PermissionCheckStatus } from '../../../../../types/permissions/Permissi
  */
 export default function releasedPrisonerStatus(user: HmppsUser): PermissionCheckStatus {
   const { userRoles } = user
-  const inactiveBookingsUser = userHasRoles([Role.InactiveBookings], userRoles)
+  const inactiveBookingsUser = userHasSomeRolesFrom([Role.InactiveBookings], userRoles)
 
   if (inactiveBookingsUser) return PermissionCheckStatus.OK
 

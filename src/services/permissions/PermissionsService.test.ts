@@ -8,7 +8,8 @@ import { PrisonerBasePermission } from '../../types/permissions/prisoner/Prisone
 import { scenarioTest } from '../../testUtils/TestScenario'
 import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
 import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
-import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationsRead/SentenceCalculationReadTestScenarios'
+import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadTestScenarios'
+import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentTestScenarios'
 
 describe('PermissionsService', () => {
   let prisonApiClient: PrisonApiClient
@@ -35,6 +36,7 @@ describe('PermissionsService', () => {
       describe('Sentence / Offence', () => {
         describe('Person Sentence Calculation', () => {
           scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
+          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
         })
       })
     })
