@@ -1,5 +1,5 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
 import { isInUsersCaseLoad, logDeniedPermissionCheck } from '../../../../../utils/PermissionUtils'
 

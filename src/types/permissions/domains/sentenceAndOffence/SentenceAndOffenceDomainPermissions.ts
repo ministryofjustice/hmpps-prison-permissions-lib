@@ -1,10 +1,9 @@
 import {
   PersonSentenceCalculationPermission,
   PersonSentenceCalculationPermissions,
-} from './PersonSentenceCalculationPermissions'
+} from './personSentenceCalculation/PersonSentenceCalculationPermissions'
 
 export interface SentenceAndOffenceDomainPermissions {
-  // Not a full list, for demonstration purposes at the moment:
   personSentenceCalculation: PersonSentenceCalculationPermissions
 }
 

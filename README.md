@@ -61,13 +61,13 @@ and store it at `req.middleware.prisonerData`.
 
 ## How do I implement this library?
 
-### 1. Install the library
+#### 1. Install the library
 
 ```shell
 npm install @ministryofjustice/hmpps-prison-permissions-lib
 ```
 
-### 2. Create the PermissionsService
+#### 2. Create the PermissionsService
 
 The permissions service should be created just like any other of your services. It requires the following:
 
@@ -100,12 +100,12 @@ const prisonPermissionsService = PermissionsService.create({
 })
 ```
 
-### 3. Ensure your client has the role `ROLE_VIEW_PRISONER_DATA`...
+#### 3. Ensure your client has the role `ROLE_VIEW_PRISONER_DATA`...
 
 ...in order to be able to successfully call Prisoner
 Search ([see Swagger docs](https://prisoner-search-dev.prison.service.justice.gov.uk/swagger-ui/index.html)).
 
-### 4. Add the `prisonerPermissionsGuard` middleware to your service's routes:
+#### 4. Add the `prisonerPermissionsGuard` middleware to your service's routes:
 
 e.g.
 
@@ -122,7 +122,7 @@ get(
   ...
 ```
 
-### 5. Ensure you handle 403s as required
+#### 5. Ensure you handle 403s as required
 
 If the user does not have the required permissions listed in `requestDependentOn`, then the middleware will
 throw a `PrisonerPermissionError` with a status code of 403. The Typescript Template by default logs the user

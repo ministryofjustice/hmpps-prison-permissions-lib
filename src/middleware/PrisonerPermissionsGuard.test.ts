@@ -4,17 +4,19 @@ import { PrisonUser } from '../types/user/HmppsUser'
 import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import { prisonUserMock } from '../testUtils/UserMocks'
 import { prisonerMock } from '../testUtils/PrisonerMocks'
-import { PersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import {
   PrisonerBasePermission,
   PrisonerPermission,
   PrisonerPermissions,
 } from '../types/permissions/prisoner/PrisonerPermissions'
-import { PrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { prisonerPermissionsMock } from '../testUtils/PrisonerPermissionsMock'
-import { setPersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissionsUtils'
-import { setPrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/PrisonerMoneyPermissionsUtils'
+import { setPersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissionsUtils'
+import { setPrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionsUtils'
 import PermissionsService from '../services/permissions/PermissionsService'
+import { PrisonerAdjudicationsPermission } from '../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+import { setPrisonerAdjudicationsPermission } from '../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissionsUtils'
 
 const examplePermissions = {
   [PrisonerBasePermission.read]: true,
@@ -50,6 +52,7 @@ describe('PrisonerPermissionsGuard', () => {
       ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}
       ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, true)}
       ${PrisonerMoneyPermission.read}                         | ${setPrisonerMoneyPermission(PrisonerMoneyPermission.read, true)}
+      ${PrisonerAdjudicationsPermission.read}                 | ${setPrisonerAdjudicationsPermission(PrisonerAdjudicationsPermission.read, true)}
     `(
       'requestDependentOn: $requestDependentOn successfully checked',
       async ({ requestDependentOn, grantedPermission }) => {

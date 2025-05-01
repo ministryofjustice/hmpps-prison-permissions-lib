@@ -5,5 +5,6 @@ export enum Role {
   InactiveBookings = 'ROLE_INACTIVE_BOOKINGS',
   PomUser = 'ROLE_POM',
   PrisonUser = 'ROLE_PRISON',
+  ReceptionUser = 'ROLE_PRISON_RECEPTION',
   ReleaseDatesCalculator = 'ROLE_RELEASE_DATES_CALCULATOR',
 }

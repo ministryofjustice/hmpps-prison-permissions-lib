@@ -1,8 +1,12 @@
-import { PrisonerMoneyPermission, PrisonerMoneyPermissions } from './PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission, PrisonerMoneyPermissions } from './prisonerMoney/PrisonerMoneyPermissions'
+import {
+  PrisonerAdjudicationsPermission,
+  PrisonerAdjudicationsPermissions,
+} from './prisonerAdjudications/PrisonerAdjudicationsPermissions'
 
 export interface PrisonerSpecificDomainPermissions {
-  // Not a full list, for demonstration purposes at the moment:
   prisonerMoney: PrisonerMoneyPermissions
+  prisonerAdjudications: PrisonerAdjudicationsPermissions
 }
 
-export type PrisonerSpecificDomainPermission = PrisonerMoneyPermission
+export type PrisonerSpecificDomainPermission = PrisonerMoneyPermission | PrisonerAdjudicationsPermission

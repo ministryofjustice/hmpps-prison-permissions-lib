@@ -1,7 +1,7 @@
 import {
   PersonSentenceCalculationPermission,
   PersonSentenceCalculationPermissions,
-} from '../../../../../../types/permissions/domains/sentenceAndOffence/PersonSentenceCalculationPermissions'
+} from '../../../../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import sentenceCalculationReadCheck from './sentenceCalculationRead/SentenceCalculationReadCheck'
 import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
 import sentenceCalculationEditAdjustmentCheck from './sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentCheck'

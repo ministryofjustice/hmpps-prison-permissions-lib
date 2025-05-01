@@ -1,4 +1,4 @@
-import { PrisonerPermissions } from '../../prisoner/PrisonerPermissions'
+import { PrisonerPermissions } from '../../../prisoner/PrisonerPermissions'
 import { PrisonerMoneyPermission, PrisonerMoneyPermissions } from './PrisonerMoneyPermissions'
 
 export function isPrisonerMoneyPermission(permission: string, permissions: PrisonerMoneyPermissions) {

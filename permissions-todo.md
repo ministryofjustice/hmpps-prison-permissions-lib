@@ -20,4 +20,13 @@ shows.https://github.com/ministryofjustice/hmpps-prisoner-profile/blob/main/serv
 
 ---
 
-money.view = prisoner:prisoner-money:read
+money.view = prisoner:prisoner-money:read ✅
+
+---
+
+adjudications.view = prisoner:prisoner-adjudications:read ✅
+
+---
+
+visits.view =
+
