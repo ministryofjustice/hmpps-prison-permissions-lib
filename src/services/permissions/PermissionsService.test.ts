@@ -18,6 +18,8 @@ import { prisonerVisitsAndVisitorsReadScenarios } from './checks/domains/running
 import { PrisonerVisitsAndVisitorsPermission } from '../../types/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
 import { prisonerIncentivesReadScenarios } from './checks/domains/prisonerSpecific/prisonerIncentives/prisonerIncentivesRead/PrisonerIncentivesReadScenarios'
 import { PrisonerIncentivesPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
+import { personPrisonCategoryEditScenarios } from './checks/domains/prisonerSpecific/personPrisonCategory/personPrisonCategoryEdit/PersonPrisonCategoryEditScenarios'
+import { PersonPrisonCategoryPermission } from '../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -57,6 +59,9 @@ describe('PermissionsService', () => {
         })
         describe('Prisoner Incentives', () => {
           scenarioTest(prisonerIncentivesReadScenarios, PrisonerIncentivesPermission.read)
+        })
+        describe('Person Prison Category', () => {
+          scenarioTest(personPrisonCategoryEditScenarios, PersonPrisonCategoryPermission.edit)
         })
       })
 

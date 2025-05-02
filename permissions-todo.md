@@ -36,7 +36,7 @@ incentives.view = prisoner:prisoner-incentives:read ✅
 
 ---
 
-category.edit =
+category.edit = prisoner:person-prison-category:edit
 
 
 
