@@ -19,6 +19,11 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:prisoner-adjudications:read': false,
       },
     },
+    runningAPrison: {
+      prisonerVisitsAndVisitors: {
+        'prisoner:prisoner-visits-and-visitors:read': false,
+      },
+    },
   },
 }
 

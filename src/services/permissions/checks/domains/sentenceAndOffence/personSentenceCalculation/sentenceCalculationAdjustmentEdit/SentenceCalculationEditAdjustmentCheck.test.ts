@@ -1,64 +1,58 @@
 import sentenceCalculationEditAdjustmentCheck from './SentenceCalculationEditAdjustmentCheck'
-import PermissionsLogger from '../../../../../PermissionsLogger'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
 import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../../../../../types/user/Role'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
+import {
+  requestDependentOnPermissionTest,
+  requestNotDependentOnPermissionTest,
+} from '../../../../../../../testUtils/PermissionCheckTest'
 
-const baseCheckStatusGranted = PermissionCheckStatus.OK
-const baseCheckStatusDenied = PermissionCheckStatus.NOT_PERMITTED
+const permission = PersonSentenceCalculationPermission.edit_adjustments
+const checkUnderTest = sentenceCalculationEditAdjustmentCheck
+const baseCheckStatusPass = PermissionCheckStatus.OK
+const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
 describe('SentenceCalculationEditAdjustmentCheck', () => {
-  let permissionsLogger: PermissionsLogger
-
-  beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
-  })
-
-  test.each`
-    baseCheckStatus           | roles                           | loggedStatus                              | permitted
-    ${baseCheckStatusDenied}  | ${[]}                           | ${baseCheckStatusDenied}                  | ${false}
-    ${baseCheckStatusDenied}  | ${[Role.AdjustmentsMaintainer]} | ${baseCheckStatusDenied}                  | ${false}
-    ${baseCheckStatusGranted} | ${[]}                           | ${PermissionCheckStatus.ROLE_NOT_PRESENT} | ${false}
-    ${baseCheckStatusGranted} | ${[Role.AdjustmentsMaintainer]} | ${undefined}                              | ${true}
-  `(
-    'baseCheckStatus: $baseCheckStatus, roles: $roles; permitted: $permitted',
-    async ({ baseCheckStatus, roles, loggedStatus, permitted }) => {
-      const user = { ...prisonUserMock, userRoles: roles }
-      const result = sentenceCalculationEditAdjustmentCheck({
-        user,
+  describe(`when the request is dependent on permission: ${permission}`, () => {
+    describe('when permission is granted', () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: { ...prisonUserMock, userRoles: [Role.AdjustmentsMaintainer] },
         prisoner: prisonerMock,
-        baseCheckStatus,
-        requestDependentOn: [PersonSentenceCalculationPermission.edit_adjustments],
-        permissionsLogger,
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: true,
       })
-
-      expect(result).toBe(permitted)
-
-      if (!permitted) {
-        expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
-          user,
-          prisonerMock,
-          PersonSentenceCalculationPermission.edit_adjustments,
-          loggedStatus,
-        )
-      } else {
-        expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-      }
-    },
-  )
-
-  it('does not log permission failure if request not dependent on permission', () => {
-    const result = sentenceCalculationEditAdjustmentCheck({
-      user: prisonUserMock,
-      prisoner: prisonerMock,
-      baseCheckStatus: baseCheckStatusDenied,
-      requestDependentOn: [],
-      permissionsLogger,
     })
 
-    expect(result).toBeFalsy()
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+    describe(`when the base check fails with ${baseCheckStatusFail}`, () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: prisonerMock,
+        baseCheckStatus: baseCheckStatusFail,
+        expectedResult: false,
+        expectedStatusLogged: baseCheckStatusFail,
+      })
+    })
+
+    describe(`when the prisoner doesn't have role ${Role.AdjustmentsMaintainer}`, () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: prisonerMock,
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: false,
+        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+      })
+    })
+  })
+
+  describe(`when the request is NOT dependent on permission`, () => {
+    requestNotDependentOnPermissionTest(checkUnderTest)
   })
 })

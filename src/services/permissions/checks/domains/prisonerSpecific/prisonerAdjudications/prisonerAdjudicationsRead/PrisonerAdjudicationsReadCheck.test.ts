@@ -1,88 +1,57 @@
 import prisonerAdjudicationsReadCheck from './PrisonerAdjudicationsReadCheck'
-import PermissionsLogger from '../../../../../PermissionsLogger'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import CaseLoad from '../../../../../../../types/user/CaseLoad'
 import { PrisonerAdjudicationsPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import {
+  requestDependentOnPermissionTest,
+  requestNotDependentOnPermissionTest,
+} from '../../../../../../../testUtils/PermissionCheckTest'
 
+const checkUnderTest = prisonerAdjudicationsReadCheck
+const permission = PrisonerAdjudicationsPermission.read
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
 describe('PrisonerAdjudicationsReadCheck', () => {
-  let permissionsLogger: PermissionsLogger
-
-  beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
-  })
-
-  test.each`
-    baseCheckStatus        | activeCaseLoadId         | otherCaseLoadId          | roles                   | loggedStatus                             | permitted
-    ${baseCheckStatusFail} | ${prisonerMock.prisonId} | ${undefined}             | ${[]}                   | ${baseCheckStatusFail}                   | ${false}
-    ${baseCheckStatusFail} | ${undefined}             | ${undefined}             | ${[]}                   | ${baseCheckStatusFail}                   | ${false}
-    ${baseCheckStatusPass} | ${undefined}             | ${undefined}             | ${[]}                   | ${PermissionCheckStatus.NOT_IN_CASELOAD} | ${false}
-    ${baseCheckStatusPass} | ${'OTHER'}               | ${undefined}             | ${[]}                   | ${PermissionCheckStatus.NOT_IN_CASELOAD} | ${false}
-    ${baseCheckStatusPass} | ${undefined}             | ${undefined}             | ${[Role.PomUser]}       | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${'OTHER'}               | ${undefined}             | ${[Role.PomUser]}       | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${undefined}             | ${undefined}             | ${[Role.ReceptionUser]} | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${'OTHER'}               | ${undefined}             | ${[Role.ReceptionUser]} | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${prisonerMock.prisonId} | ${undefined}             | ${[]}                   | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${'OTHER'}               | ${prisonerMock.prisonId} | ${[]}                   | ${undefined}                             | ${true}
-  `(
-    'baseCheckStatus: $baseCheckStatus, activeCaseLoadId: $activeCaseLoadId, otherCaseLoadId: $otherCaseLoadId, roles: $roles, permitted: $permitted',
-    async ({ baseCheckStatus, activeCaseLoadId, otherCaseLoadId, roles, loggedStatus, permitted }) => {
-      const user = {
-        ...prisonUserMock,
-        activeCaseLoadId,
-        caseLoads: [
-          ...(activeCaseLoadId ? [activeCaseLoad(activeCaseLoadId)] : []),
-          ...(otherCaseLoadId ? [inactiveCaseLoad(otherCaseLoadId)] : []),
-        ],
-        userRoles: roles,
-      }
-
-      const result = prisonerAdjudicationsReadCheck({
-        user,
+  describe(`when the request is dependent on permission: ${permission}`, () => {
+    describe('when permission is granted', () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
         prisoner: prisonerMock,
-        baseCheckStatus,
-        requestDependentOn: [PrisonerAdjudicationsPermission.read],
-        permissionsLogger,
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: true,
       })
-
-      expect(result).toBe(permitted)
-
-      if (!permitted) {
-        expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
-          user,
-          prisonerMock,
-          PrisonerAdjudicationsPermission.read,
-          loggedStatus,
-        )
-      } else {
-        expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-      }
-    },
-  )
-
-  it('does not log permission failure if request not dependent on permission', () => {
-    const result = prisonerAdjudicationsReadCheck({
-      user: prisonUserMock,
-      prisoner: prisonerMock,
-      baseCheckStatus: baseCheckStatusFail,
-      requestDependentOn: [],
-      permissionsLogger,
     })
 
-    expect(result).toBeFalsy()
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+    describe(`when the base check fails with ${baseCheckStatusFail}`, () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: prisonerMock,
+        baseCheckStatus: baseCheckStatusFail,
+        expectedResult: false,
+        expectedStatusLogged: baseCheckStatusFail,
+      })
+    })
+
+    describe('when the prisoner is outside of the user caseload', () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: false,
+        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+      })
+    })
+  })
+
+  describe(`when the request is NOT dependent on permission`, () => {
+    requestNotDependentOnPermissionTest(checkUnderTest)
   })
 })
-
-function activeCaseLoad(id?: string): CaseLoad {
-  return { caseLoadId: id, currentlyActive: true } as CaseLoad
-}
-
-function inactiveCaseLoad(id?: string): CaseLoad {
-  return { caseLoadId: id, currentlyActive: false } as CaseLoad
-}

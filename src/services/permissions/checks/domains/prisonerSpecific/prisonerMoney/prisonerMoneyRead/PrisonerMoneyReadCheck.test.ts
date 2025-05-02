@@ -1,79 +1,57 @@
-import prisonerMoneyReadCheck from './PrisonerMoneyReadCheck'
-import PermissionsLogger from '../../../../../PermissionsLogger'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import {
+  requestDependentOnPermissionTest,
+  requestNotDependentOnPermissionTest,
+} from '../../../../../../../testUtils/PermissionCheckTest'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import CaseLoad from '../../../../../../../types/user/CaseLoad'
 import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
+import prisonerMoneyReadCheck from './PrisonerMoneyReadCheck'
 
+const checkUnderTest = prisonerMoneyReadCheck
+const permission = PrisonerMoneyPermission.read
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
 describe('PrisonerMoneyReadCheck', () => {
-  let permissionsLogger: PermissionsLogger
-
-  beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
-  })
-
-  test.each`
-    baseCheckStatus        | caseLoads                                                             | loggedStatus                             | permitted
-    ${baseCheckStatusFail} | ${[activeCaseLoad(prisonerMock.prisonId)]}                            | ${baseCheckStatusFail}                   | ${false}
-    ${baseCheckStatusFail} | ${[]}                                                                 | ${baseCheckStatusFail}                   | ${false}
-    ${baseCheckStatusPass} | ${[]}                                                                 | ${PermissionCheckStatus.NOT_IN_CASELOAD} | ${false}
-    ${baseCheckStatusPass} | ${[activeCaseLoad('OTHER')]}                                          | ${PermissionCheckStatus.NOT_IN_CASELOAD} | ${false}
-    ${baseCheckStatusPass} | ${[activeCaseLoad(prisonerMock.prisonId)]}                            | ${undefined}                             | ${true}
-    ${baseCheckStatusPass} | ${[activeCaseLoad('OTHER'), inactiveCaseLoad(prisonerMock.prisonId)]} | ${undefined}                             | ${true}
-  `(
-    'baseCheckStatus: $baseCheckStatus, caseLoads: $caseLoads; permitted: $permitted',
-    async ({ baseCheckStatus, caseLoads, loggedStatus, permitted }) => {
-      const user = {
-        ...prisonUserMock,
-        activeCaseLoadId: caseLoads.find((cl: CaseLoad) => cl.currentlyActive)?.activeCaseLoadId,
-        caseLoads,
-      }
-
-      const result = prisonerMoneyReadCheck({
-        user,
+  describe(`when the request is dependent on permission: ${permission}`, () => {
+    describe('when permission is granted', () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
         prisoner: prisonerMock,
-        baseCheckStatus,
-        requestDependentOn: [PrisonerMoneyPermission.read],
-        permissionsLogger,
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: true,
       })
-
-      expect(result).toBe(permitted)
-
-      if (!permitted) {
-        expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
-          user,
-          prisonerMock,
-          PrisonerMoneyPermission.read,
-          loggedStatus,
-        )
-      } else {
-        expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-      }
-    },
-  )
-
-  it('does not log permission failure if request not dependent on permission', () => {
-    const result = prisonerMoneyReadCheck({
-      user: prisonUserMock,
-      prisoner: prisonerMock,
-      baseCheckStatus: baseCheckStatusFail,
-      requestDependentOn: [],
-      permissionsLogger,
     })
 
-    expect(result).toBeFalsy()
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+    describe(`when the base check fails with ${baseCheckStatusFail}`, () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: prisonerMock,
+        baseCheckStatus: baseCheckStatusFail,
+        expectedResult: false,
+        expectedStatusLogged: baseCheckStatusFail,
+      })
+    })
+
+    describe('when the prisoner is outside of the user caseload', () => {
+      requestDependentOnPermissionTest({
+        permission,
+        checkUnderTest,
+        user: prisonUserMock,
+        prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
+        baseCheckStatus: baseCheckStatusPass,
+        expectedResult: false,
+        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+      })
+    })
+  })
+
+  describe(`when the request is NOT dependent on permission`, () => {
+    requestNotDependentOnPermissionTest(checkUnderTest)
   })
 })
-
-function activeCaseLoad(id?: string): CaseLoad {
-  return { caseLoadId: id, currentlyActive: true } as CaseLoad
-}
-
-function inactiveCaseLoad(id?: string): CaseLoad {
-  return { caseLoadId: id, currentlyActive: false } as CaseLoad
-}
