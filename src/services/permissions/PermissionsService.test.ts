@@ -8,24 +8,26 @@ import { PrisonerBasePermission } from '../../types/permissions/prisoner/Prisone
 import { scenarioTest } from '../../testUtils/TestScenario'
 import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
 import { PersonSentenceCalculationPermission } from '../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
-import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadTestScenarios'
-import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentTestScenarios'
+import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadScenarios'
+import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentScenarios'
 import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
-import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/prisonerMoney/prisonerMoneyRead/PrisonerMoneyReadTestScenarios'
-import { prisonerAdjudicationsReadScenarios } from './checks/domains/prisonerSpecific/prisonerAdjudications/prisonerAdjudicationsRead/PrisonerAdjudicationsReadTestScenarios'
+import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/prisonerMoney/prisonerMoneyRead/PrisonerMoneyReadScenarios'
+import { prisonerAdjudicationsReadScenarios } from './checks/domains/prisonerSpecific/prisonerAdjudications/prisonerAdjudicationsRead/PrisonerAdjudicationsReadScenarios'
 import { PrisonerAdjudicationsPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+import { prisonerVisitsAndVisitorsReadScenarios } from './checks/domains/runningAPrison/prisonerVisitsAndVisitors/prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadScenarios'
+import { PrisonerVisitsAndVisitorsPermission } from '../../types/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
+
+const permissionsLogger = new PermissionsLogger(console)
 
 describe('PermissionsService', () => {
   let prisonApiClient: PrisonApiClient
   let prisonerSearchClient: PrisonerSearchClient
-  let permissionsLogger: PermissionsLogger
 
   let service: PermissionsService
 
   beforeEach(() => {
     prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
     prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
 
     // @ts-expect-error - We are using a private constructor here for testing
     service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
@@ -50,6 +52,12 @@ describe('PermissionsService', () => {
         })
         describe('Prisoner Adjudications', () => {
           scenarioTest(prisonerAdjudicationsReadScenarios, PrisonerAdjudicationsPermission.read)
+        })
+      })
+
+      describe('Running a Prison', () => {
+        describe('Prisoner Visits and Visitors', () => {
+          scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
         })
       })
     })

@@ -28,5 +28,10 @@ adjudications.view = prisoner:prisoner-adjudications:read ✅
 
 ---
 
-visits.view =
+visits.view = prisoner:prisoner-visits-and-visitors:read ✅
+
+---
+
+incentives.view
+
 
