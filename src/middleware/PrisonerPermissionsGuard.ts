@@ -3,7 +3,7 @@ import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermis
 import PermissionsService from '../services/permissions/PermissionsService'
 import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import checkPrisonerAccess from '../types/permissions/prisoner/PrisonerPermissionsUtils'
+import checkPrisonerPermission from '../types/permissions/prisoner/PrisonerPermissionsUtils'
 
 export default function prisonerPermissionsGuard(
   permissionsService: PermissionsService,
@@ -29,7 +29,7 @@ export default function prisonerPermissionsGuard(
     })
 
     const deniedPermissions = requestDependentOn.filter(
-      permission => !checkPrisonerAccess(permission, prisonerPermissions),
+      permission => !checkPrisonerPermission(permission, prisonerPermissions),
     )
 
     if (deniedPermissions.length) return next(new PrisonerPermissionError('Denied permissions', deniedPermissions))

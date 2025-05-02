@@ -10,13 +10,9 @@ import {
   PrisonerPermission,
   PrisonerPermissions,
 } from '../types/permissions/prisoner/PrisonerPermissions'
-import { PrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
-import { prisonerPermissionsMock } from '../testUtils/PrisonerPermissionsMock'
-import { setPersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissionsUtils'
-import { setPrisonerMoneyPermission } from '../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionsUtils'
+import { setPrisonerPermission } from '../testUtils/PrisonerPermissionsMock'
 import PermissionsService from '../services/permissions/PermissionsService'
-import { PrisonerAdjudicationsPermission } from '../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
-import { setPrisonerAdjudicationsPermission } from '../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissionsUtils'
+import { prisonerPermissionPaths } from '../types/permissions/prisoner/PrisonerPermissionPaths'
 
 const examplePermissions = {
   [PrisonerBasePermission.read]: true,
@@ -46,21 +42,14 @@ describe('PrisonerPermissionsGuard', () => {
   })
 
   describe('required permissions checked', () => {
-    test.each`
-      requestDependentOn                                      | grantedPermission
-      ${PrisonerBasePermission.read}                          | ${{ [PrisonerBasePermission.read]: true }}
-      ${PersonSentenceCalculationPermission.read}             | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true)}
-      ${PersonSentenceCalculationPermission.edit_adjustments} | ${setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.edit_adjustments, true)}
-      ${PrisonerMoneyPermission.read}                         | ${setPrisonerMoneyPermission(PrisonerMoneyPermission.read, true)}
-      ${PrisonerAdjudicationsPermission.read}                 | ${setPrisonerAdjudicationsPermission(PrisonerAdjudicationsPermission.read, true)}
-    `(
-      'requestDependentOn: $requestDependentOn successfully checked',
-      async ({ requestDependentOn, grantedPermission }) => {
-        await checkPermissionsGuard(grantedPermission, true)
-        await checkPermissionsGuard(prisonerPermissionsMock, false) // by default these are denied permissions
+    it.each(Object.keys(prisonerPermissionPaths) as PrisonerPermission[])(
+      'requestDependentOn: %s successfully checked',
+      async (permission: PrisonerPermission) => {
+        await checkPermissionsGuard(setPrisonerPermission(permission, true), true)
+        await checkPermissionsGuard(setPrisonerPermission(permission, false), false)
 
         async function checkPermissionsGuard(permissions: PrisonerPermissions, expectSuccess: boolean) {
-          permissionsGuard = prisonerPermissionsGuard(permissionsService, { requestDependentOn: [requestDependentOn] })
+          permissionsGuard = prisonerPermissionsGuard(permissionsService, { requestDependentOn: [permission] })
           permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
 
           await permissionsGuard(req, res, next)
@@ -68,7 +57,7 @@ describe('PrisonerPermissionsGuard', () => {
           if (expectSuccess) {
             expectRequestAllowed(permissions)
           } else {
-            expectRequestDenied([requestDependentOn])
+            expectRequestDenied([permission])
           }
         }
       },
@@ -78,7 +67,7 @@ describe('PrisonerPermissionsGuard', () => {
   describe('multiple required permissions checked', () => {
     it('request succeeds when all permission checks pass', async () => {
       const permissions = {
-        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, true),
+        ...setPrisonerPermission(PersonSentenceCalculationPermission.read, true),
         [PrisonerBasePermission.read]: true,
       } as unknown as PrisonerPermissions
 
@@ -95,7 +84,7 @@ describe('PrisonerPermissionsGuard', () => {
 
     it('request fails when a single permission check fails', async () => {
       const permissions = {
-        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
+        ...setPrisonerPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: true,
       } as unknown as PrisonerPermissions
 
@@ -112,7 +101,7 @@ describe('PrisonerPermissionsGuard', () => {
 
     it('request fails when multiple permission checks fail', async () => {
       const permissions = {
-        ...setPersonSentenceCalculationPermission(PersonSentenceCalculationPermission.read, false),
+        ...setPrisonerPermission(PersonSentenceCalculationPermission.read, false),
         [PrisonerBasePermission.read]: false,
       } as unknown as PrisonerPermissions
 
