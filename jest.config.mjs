@@ -15,4 +15,5 @@ export default {
     },
   },
   coveragePathIgnorePatterns: ['.*\\/test\\/.*'],
+  reporters: [['github-actions', { silent: false }], 'summary'],
 }

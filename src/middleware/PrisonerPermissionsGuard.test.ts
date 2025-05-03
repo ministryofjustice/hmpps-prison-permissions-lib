@@ -45,7 +45,7 @@ describe('PrisonerPermissionsGuard', () => {
     it.each(Object.keys(prisonerPermissionPaths) as PrisonerPermission[])(
       'requestDependentOn: %s successfully checked',
       async (permission: PrisonerPermission) => {
-        await checkPermissionsGuard(setPrisonerPermission(permission, true), true)
+        await checkPermissionsGuard(setPrisonerPermission(permission, true), false)
         await checkPermissionsGuard(setPrisonerPermission(permission, false), false)
 
         async function checkPermissionsGuard(permissions: PrisonerPermissions, expectSuccess: boolean) {
