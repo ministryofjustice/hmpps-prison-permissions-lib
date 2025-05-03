@@ -42,6 +42,13 @@ jobs:
         run: npm run build
       - name: Run unit tests
         run: npm test
+      - name: Publish Test Report
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: './ctrf/*.json'
+          suite-folded-report: true
+          group-by: suite
+          always-group-by: true
 
   lint:
     name: Run linting checks

@@ -15,4 +15,5 @@ export default {
     },
   },
   coveragePathIgnorePatterns: ['.*\\/test\\/.*'],
+  reporters: ['default', ['jest-ctrf-json-reporter', {}]],
 }
