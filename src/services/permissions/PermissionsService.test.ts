@@ -1,8 +1,6 @@
 import PermissionsService from './PermissionsService'
-import PrisonApiClient from '../../data/prisonApi/PrisonApiClient'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from './PermissionsLogger'
-import { HmppsUser, PrisonUser } from '../../types/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
 import { scenarioTest } from '../../testUtils/TestScenario'
@@ -20,21 +18,25 @@ import { prisonerIncentivesReadScenarios } from './checks/domains/prisonerSpecif
 import { PrisonerIncentivesPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import { personPrisonCategoryEditScenarios } from './checks/domains/prisonerSpecific/personPrisonCategory/personPrisonCategoryEdit/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
+import { caseNotesReadScenarios } from './checks/domains/person/caseNotes/caseNotesRead/CaseNotesReadScenarios'
+import { CaseNotesPermission } from '../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { sensitiveCaseNotesReadScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesRead/SensitiveCaseNotesReadScenarios'
+import { sensitiveCaseNotesDeleteScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesDelete/SensitiveCaseNotesDeleteScenarios'
+import { sensitiveCaseNotesEditScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesEdit/SensitiveCaseNotesEditScenarios'
+import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNotesEdit/CaseNotesEditScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
 describe('PermissionsService', () => {
-  let prisonApiClient: PrisonApiClient
   let prisonerSearchClient: PrisonerSearchClient
 
   let service: PermissionsService
 
   beforeEach(() => {
-    prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
     prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
 
     // @ts-expect-error - We are using a private constructor here for testing
-    service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
+    service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
   })
 
   describe('getPrisonerPermissions', () => {
@@ -43,10 +45,13 @@ describe('PermissionsService', () => {
     })
 
     describe('Domains', () => {
-      describe('Sentence / Offence', () => {
-        describe('Person Sentence Calculation', () => {
-          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
-          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
+      describe('Person', () => {
+        describe('Case Notes', () => {
+          scenarioTest(caseNotesReadScenarios, CaseNotesPermission.read)
+          scenarioTest(caseNotesEditScenarios, CaseNotesPermission.edit)
+          scenarioTest(sensitiveCaseNotesReadScenarios, CaseNotesPermission.read_sensitive)
+          scenarioTest(sensitiveCaseNotesDeleteScenarios, CaseNotesPermission.delete_sensitive)
+          scenarioTest(sensitiveCaseNotesEditScenarios, CaseNotesPermission.edit_sensitive)
         })
       })
 
@@ -70,22 +75,13 @@ describe('PermissionsService', () => {
           scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
         })
       })
-    })
-  })
 
-  describe('isUserAKeyWorkerAtPrison', () => {
-    it.each([true, false])(`returns result: '%s' from Prison API`, async response => {
-      const prisonUser = { authSource: 'nomis', staffId: 123 } as PrisonUser
-
-      prisonApiClient.isUserAKeyWorker = jest.fn(() => Promise.resolve(response))
-
-      expect(await service.isUserAKeyWorkerAtPrison('token', prisonUser, 'MDI')).toEqual(response)
-    })
-
-    it.each(['delius', 'external', 'azuread'])('returns false for a non-prison user of type: %s', async userType => {
-      const user = { authSource: userType, staffId: 123 } as HmppsUser
-
-      expect(await service.isUserAKeyWorkerAtPrison('token', user, 'MDI')).toBeFalsy()
+      describe('Sentence / Offence', () => {
+        describe('Person Sentence Calculation', () => {
+          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
+          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
+        })
+      })
     })
   })
 

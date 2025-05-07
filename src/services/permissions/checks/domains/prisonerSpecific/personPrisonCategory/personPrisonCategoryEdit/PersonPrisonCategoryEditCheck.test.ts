@@ -39,7 +39,7 @@ describe('PersonPrisonCategoryEditCheck', () => {
       })
     })
 
-    describe(`when the prisoner doesn't have a required role`, () => {
+    describe(`when the user doesn't have a required role`, () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,

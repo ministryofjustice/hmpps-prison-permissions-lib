@@ -20,8 +20,6 @@ export default function prisonerPermissionsGuard(
     const prisonerData = await getPrisonerData(req, permissionsService, getPrisonerNumberFunction)
     if (!prisonerData) return next(Error('Could not retrieve prisoner data'))
 
-    await populateKeyWorkerData(req, res, prisonerData, permissionsService)
-
     const prisonerPermissions = permissionsService.getPrisonerPermissions({
       user: res.locals.user,
       prisoner: prisonerData,
@@ -58,36 +56,4 @@ async function getPrisonerData(
   if (req.middleware?.prisonerData) return req.middleware?.prisonerData
   const prisonerNumber = getPrisonerNumberFunction(req)
   return prisonerNumber ? permissionsService.getPrisonerDetails(prisonerNumber) : undefined
-}
-
-async function populateKeyWorkerData(
-  req: Request,
-  res: Response,
-  prisoner: Prisoner,
-  permissionsService: PermissionsService,
-): Promise<void> {
-  if (res.locals.user?.authSource !== 'nomis') return
-
-  const userCaseLoads = res.locals.user?.caseLoads?.map(caseLoad => caseLoad.caseLoadId)
-
-  if (!req.session) throw new Error('User session required in order to cache key worker status')
-  const keyWorkerAtPrisons = req.session.keyWorkerAtPrisons ?? {}
-
-  if (
-    prisoner.prisonId &&
-    userCaseLoads?.includes(prisoner.prisonId) &&
-    keyWorkerAtPrisons[prisoner.prisonId] === undefined
-  ) {
-    req.session.keyWorkerAtPrisons = {
-      ...keyWorkerAtPrisons,
-      [prisoner.prisonId]: await permissionsService.isUserAKeyWorkerAtPrison(
-        res.locals.user.token!,
-        res.locals.user,
-        prisoner.prisonId,
-      ),
-    }
-  }
-
-  // This information is then provided to the user object on res.locals
-  res.locals.user.keyWorkerAtPrisons = req.session.keyWorkerAtPrisons || {}
 }

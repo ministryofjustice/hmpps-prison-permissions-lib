@@ -2,6 +2,4 @@ export enum PrisonerAdjudicationsPermission {
   read = 'prisoner:prisoner-adjudications:read',
 }
 
-export interface PrisonerAdjudicationsPermissions {
-  [PrisonerAdjudicationsPermission.read]: boolean
-}
+export type PrisonerAdjudicationsPermissions = Record<PrisonerAdjudicationsPermission, boolean>
