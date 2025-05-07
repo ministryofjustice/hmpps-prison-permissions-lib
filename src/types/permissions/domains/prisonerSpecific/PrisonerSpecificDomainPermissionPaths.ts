@@ -3,6 +3,7 @@ import { PrisonerPermissions } from '../../prisoner/PrisonerPermissions'
 import { Path } from '../../../utils/Path'
 import { prisonerAdjudicationsPermissionPaths } from './prisonerAdjudications/PrisonerAdjudicationsPermissionPaths'
 import { prisonerMoneyPermissionPaths } from './prisonerMoney/PrisonerMoneyPermissionPaths'
+import { prisonerIncentivesPermissionPaths } from './prisonerIncentives/PrisonerIncentivesPermissionPaths'
 
 // eslint-disable-next-line import/prefer-default-export
 export const prisonerSpecificDomainPermissionPaths: Record<
@@ -11,4 +12,5 @@ export const prisonerSpecificDomainPermissionPaths: Record<
 > = {
   ...prisonerMoneyPermissionPaths,
   ...prisonerAdjudicationsPermissionPaths,
+  ...prisonerIncentivesPermissionPaths,
 }

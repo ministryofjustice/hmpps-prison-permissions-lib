@@ -32,6 +32,11 @@ visits.view = prisoner:prisoner-visits-and-visitors:read ✅
 
 ---
 
-incentives.view
+incentives.view = prisoner:prisoner-incentives:read ✅
+
+---
+
+category.edit =
+
 
 

@@ -18,6 +18,9 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       prisonerAdjudications: {
         'prisoner:prisoner-adjudications:read': false,
       },
+      prisonerIncentives: {
+        'prisoner:prisoner-incentives:read': false,
+      },
     },
     runningAPrison: {
       prisonerVisitsAndVisitors: {
