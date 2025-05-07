@@ -10,6 +10,7 @@ import {
   RunningAPrisonDomainPermission,
   RunningAPrisonDomainPermissions,
 } from '../domains/runningAPrison/RunningAPrisonDomainPermissions'
+import { PersonDomainPermission, PersonDomainPermissions } from '../domains/person/PersonDomainPermissions'
 
 export enum PrisonerBasePermission {
   read = 'prisoner:base-record:read',
@@ -25,6 +26,7 @@ export interface PrisonerPermissions {
     sentenceAndOffence: SentenceAndOffenceDomainPermissions
     prisonerSpecific: PrisonerSpecificDomainPermissions
     runningAPrison: RunningAPrisonDomainPermissions
+    person: PersonDomainPermissions
   }
 }
 
@@ -33,3 +35,4 @@ export type PrisonerPermission =
   | SentenceAndOffenceDomainPermission
   | PrisonerSpecificDomainPermission
   | RunningAPrisonDomainPermission
+  | PersonDomainPermission

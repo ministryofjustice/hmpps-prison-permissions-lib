@@ -5,10 +5,13 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
   'prisoner:base-record:read': false,
 
   domainGroups: {
-    sentenceAndOffence: {
-      personSentenceCalculation: {
-        'prisoner:person-sentence-calculation:read': false,
-        'prisoner:person-sentence-calculation:adjustments:edit': false,
+    person: {
+      caseNotes: {
+        'prisoner:case-notes:read': false,
+        'prisoner:case-notes:edit': false,
+        'prisoner:case-notes:sensitive:read': false,
+        'prisoner:case-notes:sensitive:delete': false,
+        'prisoner:case-notes:sensitive:edit': false,
       },
     },
     prisonerSpecific: {
@@ -28,6 +31,12 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
     runningAPrison: {
       prisonerVisitsAndVisitors: {
         'prisoner:prisoner-visits-and-visitors:read': false,
+      },
+    },
+    sentenceAndOffence: {
+      personSentenceCalculation: {
+        'prisoner:person-sentence-calculation:read': false,
+        'prisoner:person-sentence-calculation:adjustments:edit': false,
       },
     },
   },

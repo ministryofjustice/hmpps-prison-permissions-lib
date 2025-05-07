@@ -38,5 +38,30 @@ incentives.view = prisoner:prisoner-incentives:read ✅
 
 category.edit = prisoner:person-prison-category:edit
 
+---
+
+calculateReleaseDates.edit = prisoner:person-sentence-calculation:read ✅ (same as courtCases.view above)
+
+---
+
+Case notes permissions are a bit of a mess, here's the summary:
+
+roleHelpers.ts - canViewCaseNotes
+-> drives which tabs are shown in the profile
+-> not in step with what the permissions guard is checking
+-> hopefully this will get replaced at some point with prisoner:case-notes:read ✅
+
+roleHelpers.ts - canAddCaseNotes
+-> drives whether the 'Add case note' button is visible
+-> not in step with what the permissions guard is checking
+-> hopefully this will get replaced at some point with prisoner:case-notes:edit ✅
+
+caseNotes.edit
+-> drives whether the 'Add case note' action link is shown
+-> not in step with what the permissions guard is checking
+-> hopefully this will get replaced at some point with prisoner:case-notes:edit ✅
+
+getCaseNotesAccessStatusCode = prisoner:case-notes:read ✅
+
 
 

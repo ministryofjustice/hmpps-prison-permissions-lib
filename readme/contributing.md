@@ -12,7 +12,7 @@ to avoid one big unwieldy collection of permissions at the top level of the perm
 Adding a new permission involves the following:
 
 1) Finding the appropriate domain (or creating a new one) in `src/types/permissions/domains/...`
-2) Add the permission to the relevant domain enum and interface,
+2) Add the permission to the relevant domain enum,
    e.g. [PrisonerMoneyPermissions.ts](../src/types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions.ts)
 3) Add the permission path to the relevant path object,
    e.g. [PrisonerMoneyPermissionPaths.ts](../src/types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionPaths.ts)

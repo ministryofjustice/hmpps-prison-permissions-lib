@@ -1,4 +1,10 @@
-import { isInUsersCaseLoad, isRequiredPermission, userHasRole, userHasSomeRolesFrom } from './PermissionUtils'
+import {
+  isInUsersCaseLoad,
+  isRequiredPermission,
+  userHasAllRoles,
+  userHasRole,
+  userHasSomeRolesFrom,
+} from './PermissionUtils'
 import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
 import CaseLoad from '../../../types/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
@@ -21,27 +27,53 @@ describe('PermissionUtils', () => {
   })
 
   describe('userHasSomeRolesFrom', () => {
-    it.each([
-      { roles: [Role.GlobalSearch], userRoles: [Role.GlobalSearch], result: true },
-      { roles: [Role.GlobalSearch], userRoles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], result: true },
-      { roles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], userRoles: [Role.AdjustmentsMaintainer], result: true },
-      { roles: [Role.GlobalSearch], userRoles: [Role.AdjustmentsMaintainer, Role.PomUser], result: false },
-      { roles: [Role.GlobalSearch], userRoles: [], result: false },
-      { roles: [], userRoles: [Role.GlobalSearch], result: false },
-    ])('Should return the correct result when checking user roles', ({ roles, userRoles, result }) => {
-      expect(userHasSomeRolesFrom(roles, userRoles)).toEqual(result)
-    })
+    test.each`
+      roles                                              | userRoles                                          | result
+      ${[]}                                              | ${[Role.GlobalSearch]}                             | ${true}
+      ${[Role.GlobalSearch]}                             | ${[Role.GlobalSearch]}                             | ${true}
+      ${[Role.GlobalSearch]}                             | ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${true}
+      ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${[Role.AdjustmentsMaintainer]}                    | ${true}
+      ${[Role.GlobalSearch]}                             | ${[Role.AdjustmentsMaintainer, Role.PomUser]}      | ${false}
+      ${[Role.GlobalSearch]}                             | ${[]}                                              | ${false}
+    `(
+      'roles to check: $roles | user roles: $userRoles | user has some roles: $result',
+      async ({ roles, userRoles, result }) => {
+        expect(userHasSomeRolesFrom(roles, userRoles)).toEqual(result)
+      },
+    )
+  })
+
+  describe('userHasAllRoles', () => {
+    test.each`
+      roles                                              | userRoles                                          | result
+      ${[]}                                              | ${[Role.GlobalSearch]}                             | ${true}
+      ${[Role.GlobalSearch]}                             | ${[Role.GlobalSearch]}                             | ${true}
+      ${[Role.GlobalSearch]}                             | ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${true}
+      ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${true}
+      ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${[Role.AdjustmentsMaintainer]}                    | ${false}
+      ${[Role.GlobalSearch]}                             | ${[Role.AdjustmentsMaintainer, Role.PomUser]}      | ${false}
+      ${[Role.GlobalSearch]}                             | ${[]}                                              | ${false}
+    `(
+      'roles to check: $roles | user roles: $userRoles | user has all roles: $result',
+      async ({ roles, userRoles, result }) => {
+        expect(userHasAllRoles(roles, userRoles)).toEqual(result)
+      },
+    )
   })
 
   describe('userHasRole', () => {
-    it.each([
-      { role: Role.GlobalSearch, userRoles: [Role.GlobalSearch], result: true },
-      { role: Role.GlobalSearch, userRoles: [Role.GlobalSearch, Role.AdjustmentsMaintainer], result: true },
-      { role: Role.GlobalSearch, userRoles: [Role.AdjustmentsMaintainer, Role.PomUser], result: false },
-      { role: Role.GlobalSearch, userRoles: [], result: false },
-    ])('Should return the correct result when checking user roles', ({ role, userRoles, result }) => {
-      expect(userHasRole(role, userRoles)).toEqual(result)
-    })
+    test.each`
+      role                 | userRoles                                          | result
+      ${Role.GlobalSearch} | ${[Role.GlobalSearch]}                             | ${true}
+      ${Role.GlobalSearch} | ${[Role.GlobalSearch, Role.AdjustmentsMaintainer]} | ${true}
+      ${Role.GlobalSearch} | ${[Role.AdjustmentsMaintainer, Role.PomUser]}      | ${false}
+      ${Role.GlobalSearch} | ${[]}                                              | ${false}
+    `(
+      'roles to check: $roles | user roles: $userRoles | user has role: $result',
+      async ({ role, userRoles, result }) => {
+        expect(userHasRole(role, userRoles)).toEqual(result)
+      },
+    )
   })
 
   describe('isInUsersCaseLoad', () => {

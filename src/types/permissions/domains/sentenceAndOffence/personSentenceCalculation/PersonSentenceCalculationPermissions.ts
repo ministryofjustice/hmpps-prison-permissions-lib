@@ -3,7 +3,4 @@ export enum PersonSentenceCalculationPermission {
   edit_adjustments = 'prisoner:person-sentence-calculation:adjustments:edit',
 }
 
-export interface PersonSentenceCalculationPermissions {
-  [PersonSentenceCalculationPermission.read]: boolean
-  [PersonSentenceCalculationPermission.edit_adjustments]: boolean
-}
+export type PersonSentenceCalculationPermissions = Record<PersonSentenceCalculationPermission, boolean>

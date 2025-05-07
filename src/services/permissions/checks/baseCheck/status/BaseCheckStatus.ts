@@ -3,10 +3,6 @@
  *
  * This function can be used for checking what we consider the "base checks" for accessing a page on the prisoner profile
  * when no other special cases are given.
- *
- * It provides the following options for special circumstances:
- *
- * - allowGlobal (default: true): Does the page allow access to users outside the prisoners current case load
  */
 import { HmppsUser } from '../../../../../types/user/HmppsUser'
 import Prisoner from '../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
