@@ -1,8 +1,6 @@
 import PermissionsService from './PermissionsService'
-import PrisonApiClient from '../../data/prisonApi/PrisonApiClient'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from './PermissionsLogger'
-import { HmppsUser, PrisonUser } from '../../types/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
 import { scenarioTest } from '../../testUtils/TestScenario'
@@ -30,17 +28,15 @@ import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNo
 const permissionsLogger = new PermissionsLogger(console)
 
 describe('PermissionsService', () => {
-  let prisonApiClient: PrisonApiClient
   let prisonerSearchClient: PrisonerSearchClient
 
   let service: PermissionsService
 
   beforeEach(() => {
-    prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
     prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
 
     // @ts-expect-error - We are using a private constructor here for testing
-    service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
+    service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
   })
 
   describe('getPrisonerPermissions', () => {
@@ -86,22 +82,6 @@ describe('PermissionsService', () => {
           scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
         })
       })
-    })
-  })
-
-  describe('isUserAKeyWorkerAtPrison', () => {
-    it.each([true, false])(`returns result: '%s' from Prison API`, async response => {
-      const prisonUser = { authSource: 'nomis', staffId: 123 } as PrisonUser
-
-      prisonApiClient.isUserAKeyWorker = jest.fn(() => Promise.resolve(response))
-
-      expect(await service.isUserAKeyWorkerAtPrison('token', prisonUser, 'MDI')).toEqual(response)
-    })
-
-    it.each(['delius', 'external', 'azuread'])('returns false for a non-prison user of type: %s', async userType => {
-      const user = { authSource: userType, staffId: 123 } as HmppsUser
-
-      expect(await service.isUserAKeyWorkerAtPrison('token', user, 'MDI')).toBeFalsy()
     })
   })
 

@@ -30,7 +30,6 @@ The permissions use a variety of checks, based on:
 
 * The user's DPS roles
 * The user's case load list (and active case load)
-* The user's key worker status at a prison
 * The prisoner's location (which prison they are at, or whether they are transferring or out of prison)
 * The prisoner's restricted patient status
 
@@ -52,12 +51,9 @@ and the retrieval of case load data is available
 in [hmpps-connect-dps-components](https://github.com/ministryofjustice/hmpps-connect-dps-components?tab=readme-ov-file#populating-reslocalsuser-with-the-shared-case-load-data)
 middleware.
 
-The library will make its own calls to Prison API to determine the user's key worker status, caching it in the user
-session and storing it at `res.locals.user.keyWorkerAtPrisons`.
-
-Finally the library will also retrieve data about a prisoner
+The library will retrieve data about a prisoner
 from [hmpps-prisoner-search](https://github.com/ministryofjustice/hmpps-prisoner-search)
-and store it at `req.middleware.prisonerData`.
+and store it at `req.middleware.prisonerData` if it is not already provided there.
 
 ## How do I implement this library?
 
@@ -71,9 +67,6 @@ npm install @ministryofjustice/hmpps-prison-permissions-lib
 
 The permissions service should be created just like any other of your services. It requires the following:
 
-* `prisonApiConfig`: [Prison API](https://github.com/ministryofjustice/prison-api) configuration conforming to
-  the `hmpps-typescript-lib`'
-  s `ApiConfig` [interface](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/rest-client/src/main/types/ApiConfig.ts)
 * `prisonerSearchConfig`: [Prisoner Search](https://github.com/ministryofjustice/hmpps-prisoner-search) configuration
   conforming to the `hmpps-typescript-lib`'
   s `ApiConfig` [interface](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/rest-client/src/main/types/ApiConfig.ts)
@@ -92,7 +85,6 @@ import { PermissionsService } from '@ministryofjustice/hmpps-prison-permissions-
 ...
 
 const prisonPermissionsService = PermissionsService.create({
-  prisonApiConfig: config.apis.prisonApi,
   prisonerSearchConfig: config.apis.prisonerSearchApi,
   authenticationClient: new AuthenticationClient(config.apis.hmppsAuth, logger, tokenStore),
   logger,

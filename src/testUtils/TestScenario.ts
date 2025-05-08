@@ -7,7 +7,6 @@ import CaseLoad from '../types/user/CaseLoad'
 import { prisonUserMock } from './UserMocks'
 import { prisonerMock } from './PrisonerMocks'
 import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
-import PrisonApiClient from '../data/prisonApi/PrisonApiClient'
 import PrisonerSearchClient from '../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from '../services/permissions/PermissionsLogger'
 import checkPrisonerAccess from '../types/permissions/prisoner/PrisonerPermissionsUtils'
@@ -232,19 +231,17 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 }
 
 export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: PrisonerPermission) {
-  let prisonApiClient: PrisonApiClient
   let prisonerSearchClient: PrisonerSearchClient
   let permissionsLogger: PermissionsLogger
 
   let service: PermissionsService
 
   beforeEach(() => {
-    prisonApiClient = { isUserAKeyWorker: jest.fn() } as unknown as PrisonApiClient
     prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
     permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
 
     // @ts-expect-error - We are using a private constructor here for testing
-    service = new (PermissionsService as unknown)(prisonApiClient, prisonerSearchClient, permissionsLogger)
+    service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
   })
 
   describe(`Permission: ${permissionUnderTest}`, () => {

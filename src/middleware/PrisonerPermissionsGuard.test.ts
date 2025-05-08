@@ -1,6 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 import prisonerPermissionsGuard from './PrisonerPermissionsGuard'
-import { PrisonUser } from '../types/user/HmppsUser'
 import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
 import { prisonUserMock } from '../testUtils/UserMocks'
 import { prisonerMock } from '../testUtils/PrisonerMocks'
@@ -152,43 +151,6 @@ describe('PrisonerPermissionsGuard', () => {
     })
   })
 
-  describe(`checks are made to see if user is a key worker at the prisoner's prison`, () => {
-    beforeEach(() => {
-      permissionsService.getPrisonerPermissions = jest.fn(() => examplePermissions)
-      permissionsGuard = prisonerPermissionsGuard(permissionsService, {
-        requestDependentOn: [PrisonerBasePermission.read],
-      })
-    })
-
-    it('uses the existing cache', async () => {
-      req.session.keyWorkerAtPrisons = { MDI: true }
-
-      await permissionsGuard(req, res, next)
-
-      expectRequestAllowed(examplePermissions)
-      expectUserIsAKeyWorker()
-    })
-
-    it('checks if user is a key worker if no existing cache', async () => {
-      permissionsService.isUserAKeyWorkerAtPrison = jest.fn(() => Promise.resolve(true))
-
-      await permissionsGuard(req, res, next)
-
-      expectRequestAllowed(examplePermissions)
-      expectUserIsAKeyWorker()
-    })
-
-    it('checks if user is a key worker and adds to existing cache', async () => {
-      permissionsService.isUserAKeyWorkerAtPrison = jest.fn(() => Promise.resolve(true))
-      req.session.keyWorkerAtPrisons = { LEI: false }
-
-      await permissionsGuard(req, res, next)
-
-      expectRequestAllowed(examplePermissions)
-      expectUserIsAKeyWorker({ LEI: false, MDI: true })
-    })
-  })
-
   describe('no permissions listed as dependent', () => {
     it('throws exception', () => {
       expect(() => prisonerPermissionsGuard(permissionsService, { requestDependentOn: [] })).toThrow(
@@ -206,9 +168,4 @@ function expectRequestAllowed(expected: PrisonerPermissions) {
 
 function expectRequestDenied(failedPermissionChecks: PrisonerPermission[]) {
   expect(next).toHaveBeenCalledWith(new PrisonerPermissionError('Denied permissions', failedPermissionChecks))
-}
-
-function expectUserIsAKeyWorker(expected: Record<string, boolean> = { MDI: true }) {
-  expect(req.session.keyWorkerAtPrisons).toEqual(expected)
-  expect((res.locals.user as PrisonUser).keyWorkerAtPrisons).toEqual(expected)
 }
