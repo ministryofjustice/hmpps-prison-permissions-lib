@@ -54,6 +54,6 @@
   },
   "dependencies": {
     "@ministryofjustice/hmpps-rest-client": "^0.0.1-alpha.5",
-    "applicationinsights": "^2.9.6"
+    "applicationinsights": "^3.7.0"
   }
 }
