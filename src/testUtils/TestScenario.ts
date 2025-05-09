@@ -110,6 +110,10 @@ export class TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withUserRoles(roles)))
   }
 
+  public withUserRole(role: Role): TestScenarios {
+    return this.withUserRoles([role])
+  }
+
   public withoutUserRoles(roles: Role[]): TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withoutUserRoles(roles)))
   }

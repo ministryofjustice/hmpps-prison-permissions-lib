@@ -20,6 +20,12 @@ import { prisonerIncentivesReadScenarios } from './checks/domains/prisonerSpecif
 import { PrisonerIncentivesPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import { personPrisonCategoryEditScenarios } from './checks/domains/prisonerSpecific/personPrisonCategory/personPrisonCategoryEdit/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
+import { caseNotesReadScenarios } from './checks/domains/person/caseNotes/caseNotesRead/CaseNotesReadScenarios'
+import { CaseNotesPermission } from '../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { sensitiveCaseNotesReadScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesRead/SensitiveCaseNotesReadScenarios'
+import { sensitiveCaseNotesDeleteScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesDelete/SensitiveCaseNotesDeleteScenarios'
+import { sensitiveCaseNotesEditScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesEdit/SensitiveCaseNotesEditScenarios'
+import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNotesEdit/CaseNotesEditScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -43,10 +49,13 @@ describe('PermissionsService', () => {
     })
 
     describe('Domains', () => {
-      describe('Sentence / Offence', () => {
-        describe('Person Sentence Calculation', () => {
-          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
-          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
+      describe('Person', () => {
+        describe('Case Notes', () => {
+          scenarioTest(caseNotesReadScenarios, CaseNotesPermission.read)
+          scenarioTest(caseNotesEditScenarios, CaseNotesPermission.edit)
+          scenarioTest(sensitiveCaseNotesReadScenarios, CaseNotesPermission.read_sensitive)
+          scenarioTest(sensitiveCaseNotesDeleteScenarios, CaseNotesPermission.delete_sensitive)
+          scenarioTest(sensitiveCaseNotesEditScenarios, CaseNotesPermission.edit_sensitive)
         })
       })
 
@@ -68,6 +77,13 @@ describe('PermissionsService', () => {
       describe('Running a Prison', () => {
         describe('Prisoner Visits and Visitors', () => {
           scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
+        })
+      })
+
+      describe('Sentence / Offence', () => {
+        describe('Person Sentence Calculation', () => {
+          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
+          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
         })
       })
     })

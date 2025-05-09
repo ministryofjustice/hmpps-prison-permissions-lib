@@ -30,10 +30,18 @@ export function isInUsersCaseLoad(prisonId: string | undefined, user: HmppsUser)
 }
 
 export function userHasSomeRolesFrom(rolesToCheck: Role[], userRoles: Role[]): boolean {
-  const normaliseRoleText = (role: string): string => role.replace(/ROLE_/, '')
-  return rolesToCheck.map(normaliseRoleText).some(role => userRoles.map(normaliseRoleText).includes(role))
+  return (
+    rolesToCheck.length === 0 ||
+    rolesToCheck.map(normaliseRoleText).some(role => userRoles.map(normaliseRoleText).includes(role))
+  )
+}
+
+export function userHasAllRoles(rolesToCheck: Role[], userRoles: Role[]): boolean {
+  return rolesToCheck.map(normaliseRoleText).every(role => userRoles.map(normaliseRoleText).includes(role))
 }
 
 export const userHasRole = (roleToCheck: Role, userRoles: Role[]): boolean => {
-  return userHasSomeRolesFrom([roleToCheck], userRoles)
+  return userHasAllRoles([roleToCheck], userRoles)
 }
+
+const normaliseRoleText = (role: string): string => role.replace(/ROLE_/, '')
