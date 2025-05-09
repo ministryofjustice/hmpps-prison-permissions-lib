@@ -71,5 +71,14 @@ This shouldn't be a permission - this just drives an action link on the overview
 but anyone can do this if they can add a case note for a prisoner. Need to rip out the keyworker check from this
 library.
 
+---
+
+appointment.edit = prisoner:schedule:edit
+
+Prisoner Specific grouping, prisoner schedule domain
+
+looks like it might be possible to hack the url to add an appointment for
+a restricted patient since the access status logic is different from the permission logic - check this
+
 
 
