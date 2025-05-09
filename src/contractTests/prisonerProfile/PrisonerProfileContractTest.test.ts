@@ -19,6 +19,8 @@ import { sensitiveCaseNotesReadScenarios } from './scenarios/domains/person/case
 import { sensitiveCaseNotesDeleteScenarios } from './scenarios/domains/person/caseNotes/SensitiveCaseNotesDeleteScenarios'
 import { sensitiveCaseNotesEditScenarios } from './scenarios/domains/person/caseNotes/SensitiveCaseNotesEditScenarios'
 import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
+import { prisonerScheduleEditScenarios } from '../../services/permissions/checks/domains/prisonerSpecific/prisonerSchedule/prisonerScheduleEdit/PrisonerScheduleEditScenarios'
+import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -52,6 +54,9 @@ describe('Prisoner Profile Contract Tests', () => {
       })
       describe('Prisoner Money', () => {
         scenarioTest(prisonerMoneyReadScenarios, PrisonerMoneyPermission.read)
+      })
+      describe('Prisoner Schedule', () => {
+        scenarioTest(prisonerScheduleEditScenarios, PrisonerSchedulePermission.edit)
       })
     })
 

@@ -73,13 +73,10 @@ library.
 
 ---
 
-appointment.edit = prisoner:schedule:edit
+appointment.edit = prisoner:schedule:edit ✅
 
-Prisoner Specific grouping, prisoner schedule domain
+---
 
-looks like it might be possible to hack the url to add an appointment for
-a restricted patient since the access status logic is different from the permission logic - check this
-
-
+useOfForce.edit
 
 
