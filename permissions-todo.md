@@ -63,5 +63,13 @@ caseNotes.edit
 
 getCaseNotesAccessStatusCode = prisoner:case-notes:read ✅
 
+---
+
+keyworker.edit ❌
+
+This shouldn't be a permission - this just drives an action link on the overview to create a keyworker session case note
+but anyone can do this if they can add a case note for a prisoner. Need to rip out the keyworker check from this
+library.
+
 
 
