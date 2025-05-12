@@ -12,7 +12,7 @@ export default function baseCheckAndUserHasAllRoles(
   const { user, baseCheckStatus } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const check = baseCheckPassed && userHasAllRoles(roles, user.userRoles)
+  const check = baseCheckPassed && userHasAllRoles(roles, user)
 
   if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.ROLE_NOT_PRESENT)
 

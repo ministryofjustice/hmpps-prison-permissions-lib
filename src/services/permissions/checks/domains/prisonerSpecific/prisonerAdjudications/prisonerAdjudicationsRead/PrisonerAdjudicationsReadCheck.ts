@@ -12,8 +12,7 @@ export default function prisonerAdjudicationsReadCheck(request: PermissionsCheck
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
   const check =
     baseCheckPassed &&
-    (isInUsersCaseLoad(prisoner.prisonId, user) ||
-      userHasSomeRolesFrom([Role.PomUser, Role.ReceptionUser], user.userRoles))
+    (isInUsersCaseLoad(prisoner.prisonId, user) || userHasSomeRolesFrom([Role.PomUser, Role.ReceptionUser], user))
 
   if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_IN_CASELOAD)
 

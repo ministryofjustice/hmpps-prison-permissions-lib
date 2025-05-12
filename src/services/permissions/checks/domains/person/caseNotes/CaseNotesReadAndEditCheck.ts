@@ -35,7 +35,7 @@ function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheck
 
   // Case notes are only accessible for transferring prisoners if the user has the Inactive Bookings role:
   if (prisoner.prisonId === 'TRN') {
-    return userHasRole(Role.InactiveBookings, user.userRoles)
+    return userHasRole(Role.InactiveBookings, user)
       ? PermissionCheckStatus.OK
       : PermissionCheckStatus.PRISONER_IS_TRANSFERRING
   }
@@ -44,7 +44,7 @@ function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheck
   if (isInUsersCaseLoad(prisoner.prisonId, user)) return PermissionCheckStatus.OK
 
   // Case notes for prisoners outside the user's caseload are only accessible with both Global Search and POM roles:
-  return userHasAllRoles([Role.GlobalSearch, Role.PomUser], user.userRoles)
+  return userHasAllRoles([Role.GlobalSearch, Role.PomUser], user)
     ? PermissionCheckStatus.OK
     : PermissionCheckStatus.ROLE_NOT_PRESENT
 }

@@ -7,7 +7,7 @@ import {
   userHasRole,
   userHasSomeRolesFrom,
 } from './PermissionUtils'
-import { ExternalUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
+import { ExternalUser, HmppsUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
 import CaseLoad from '../../../types/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
 import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
@@ -40,7 +40,7 @@ describe('PermissionUtils', () => {
     `(
       'roles to check: $roles | user roles: $userRoles | user has some roles: $result',
       async ({ roles, userRoles, result }) => {
-        expect(userHasSomeRolesFrom(roles, userRoles)).toEqual(result)
+        expect(userHasSomeRolesFrom(roles, { userRoles } as HmppsUser)).toEqual(result)
       },
     )
   })
@@ -58,7 +58,7 @@ describe('PermissionUtils', () => {
     `(
       'roles to check: $roles | user roles: $userRoles | user has all roles: $result',
       async ({ roles, userRoles, result }) => {
-        expect(userHasAllRoles(roles, userRoles)).toEqual(result)
+        expect(userHasAllRoles(roles, { userRoles } as HmppsUser)).toEqual(result)
       },
     )
   })
@@ -73,7 +73,7 @@ describe('PermissionUtils', () => {
     `(
       'roles to check: $roles | user roles: $userRoles | user has role: $result',
       async ({ role, userRoles, result }) => {
-        expect(userHasRole(role, userRoles)).toEqual(result)
+        expect(userHasRole(role, { userRoles } as HmppsUser)).toEqual(result)
       },
     )
   })

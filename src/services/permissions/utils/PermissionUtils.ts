@@ -36,19 +36,19 @@ export function isReleasedOrTransferring(prisonId: string | undefined): boolean 
   return ['OUT', 'TRN'].includes(prisonId as string)
 }
 
-export function userHasSomeRolesFrom(rolesToCheck: Role[], userRoles: Role[]): boolean {
+export function userHasSomeRolesFrom(rolesToCheck: Role[], user: HmppsUser): boolean {
   return (
     rolesToCheck.length === 0 ||
-    rolesToCheck.map(normaliseRoleText).some(role => userRoles.map(normaliseRoleText).includes(role))
+    rolesToCheck.map(normaliseRoleText).some(role => user.userRoles.map(normaliseRoleText).includes(role))
   )
 }
 
-export function userHasAllRoles(rolesToCheck: Role[], userRoles: Role[]): boolean {
-  return rolesToCheck.map(normaliseRoleText).every(role => userRoles.map(normaliseRoleText).includes(role))
+export function userHasAllRoles(rolesToCheck: Role[], user: HmppsUser): boolean {
+  return rolesToCheck.map(normaliseRoleText).every(role => user.userRoles.map(normaliseRoleText).includes(role))
 }
 
-export const userHasRole = (roleToCheck: Role, userRoles: Role[]): boolean => {
-  return userHasAllRoles([roleToCheck], userRoles)
+export const userHasRole = (roleToCheck: Role, user: HmppsUser): boolean => {
+  return userHasAllRoles([roleToCheck], user)
 }
 
 const normaliseRoleText = (role: string): string => role.replace(/ROLE_/, '')

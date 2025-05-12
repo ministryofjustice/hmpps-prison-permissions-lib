@@ -10,9 +10,8 @@ import { PermissionCheckStatus } from '../../../../../types/permissions/Permissi
  * - The user is a POM user and has the supporting prison ID in their caseloads
  */
 export default function restrictedPatientStatus(user: HmppsUser, prisoner: Prisoner): PermissionCheckStatus {
-  const { userRoles } = user
-  const pomUser = userHasRole(Role.PomUser, userRoles)
-  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, userRoles)
+  const pomUser = userHasRole(Role.PomUser, user)
+  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, user)
 
   const userHasPrisonersSupportingPrisonInTheirCaseLoad = isInUsersCaseLoad(prisoner.supportingPrisonId, user)
   const userIsPomUserWithSupportingPrisonInTheirCaseLoad = pomUser && userHasPrisonersSupportingPrisonInTheirCaseLoad
