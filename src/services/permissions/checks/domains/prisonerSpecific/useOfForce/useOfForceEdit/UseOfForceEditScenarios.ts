@@ -10,13 +10,13 @@ import { PermissionCheckStatus } from '../../../../../../../types/permissions/Pe
 import { Role } from '../../../../../../../types/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD))
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .expectsStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
 
 const grantedScenarios = grantedCaseLoadCheckScenarios

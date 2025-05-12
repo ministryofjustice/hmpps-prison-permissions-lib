@@ -3,9 +3,9 @@ import { PermissionCheckStatus } from '../../../../../../../types/permissions/Pe
 import { isActiveCaseLoad, logDeniedPermissionCheck } from '../../../../../utils/PermissionUtils'
 import { PrisonerSchedulePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 
-const permission = PrisonerSchedulePermission.edit
+const permission = PrisonerSchedulePermission.edit_appointment
 
-export default function prisonerScheduleEditCheck(request: PermissionsCheckRequest) {
+export default function prisonerAppointmentEditCheck(request: PermissionsCheckRequest) {
   const { user, prisoner, baseCheckStatus } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK

@@ -5,12 +5,12 @@ import {
 } from '../../../../../../../testUtils/PermissionCheckTest'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import prisonerScheduleEditCheck from './PrisonerScheduleEditCheck'
+import prisonerAppointmentEditCheck from './PrisonerAppointmentEditCheck'
 import { PrisonerSchedulePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 import CaseLoad from '../../../../../../../types/user/CaseLoad'
 
-const checkUnderTest = prisonerScheduleEditCheck
-const permission = PrisonerSchedulePermission.edit
+const checkUnderTest = prisonerAppointmentEditCheck
+const permission = PrisonerSchedulePermission.edit_appointment
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 

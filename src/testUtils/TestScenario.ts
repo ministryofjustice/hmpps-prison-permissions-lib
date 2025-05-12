@@ -259,6 +259,17 @@ export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: Pris
         expect(checkPrisonerAccess(permissionUnderTest, permissions)).toEqual(
           expectedStatus === PermissionCheckStatus.OK,
         )
+
+        if (expectedStatus === PermissionCheckStatus.OK) {
+          expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+        } else {
+          expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+            user,
+            prisoner,
+            permissionUnderTest,
+            expectedStatus,
+          )
+        }
       },
     )
   })
