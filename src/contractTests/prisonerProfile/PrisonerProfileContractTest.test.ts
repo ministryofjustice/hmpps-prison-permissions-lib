@@ -24,6 +24,9 @@ import { useOfForceEditScenarios } from './scenarios/domains/prisonerSpecific/us
 import { UseOfForcePermission } from '../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 import { prisonerAppointmentEditScenarios } from './scenarios/domains/prisonerSpecific/prisonerSchedule/PrisonerAppointmentEditScenarios'
 import { prisonerActivityEditScenarios } from './scenarios/domains/prisonerSpecific/prisonerSchedule/PrisonerActivityEditScenarios'
+import { pathfinderReadScenarios } from '../../services/permissions/checks/domains/security/pathfinder/pathfinderRead/PathfinderReadScenarios'
+import { PathfinderPermission } from '../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
+import { pathfinderEditScenarios } from '../../services/permissions/checks/domains/security/pathfinder/pathfinderEdit/PathfinderEditScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -70,6 +73,13 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Running A Prison', () => {
       describe('Prisoner Visits and Visitors', () => {
         scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
+      })
+    })
+
+    describe('Security', () => {
+      describe('Pathfinder', () => {
+        scenarioTest(pathfinderReadScenarios, PathfinderPermission.read)
+        scenarioTest(pathfinderEditScenarios, PathfinderPermission.edit)
       })
     })
 

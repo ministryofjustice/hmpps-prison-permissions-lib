@@ -17,6 +17,7 @@ import baseCheckStatus from './checks/baseCheck/status/BaseCheckStatus'
 import prisonerSpecificCheck from './checks/domains/prisonerSpecific/PrisonerSpecificCheck'
 import runningAPrisonCheck from './checks/domains/runningAPrison/RunningAPrisonCheck'
 import personCheck from './checks/domains/person/PersonCheck'
+import securityCheck from './checks/domains/security/SecurityCheck'
 
 export default class PermissionsService {
   private readonly prisonerSearchClient: PrisonerSearchClient
@@ -66,10 +67,11 @@ export default class PermissionsService {
       [PrisonerBasePermission.read]: baseCheck(request),
 
       domainGroups: {
-        sentenceAndOffence: sentenceAndOffenceCheck(request),
+        person: personCheck(request),
         prisonerSpecific: prisonerSpecificCheck(request),
         runningAPrison: runningAPrisonCheck(request),
-        person: personCheck(request),
+        security: securityCheck(request),
+        sentenceAndOffence: sentenceAndOffenceCheck(request),
       },
     }
   }
