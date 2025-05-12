@@ -35,6 +35,11 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:use-of-force:edit': false,
       },
     },
+    probation: {
+      probationDocuments: {
+        'prisoner:probation-documents:read': false,
+      },
+    },
     runningAPrison: {
       prisonerVisitsAndVisitors: {
         'prisoner:prisoner-visits-and-visitors:read': false,

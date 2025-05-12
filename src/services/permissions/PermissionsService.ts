@@ -18,6 +18,7 @@ import prisonerSpecificCheck from './checks/domains/prisonerSpecific/PrisonerSpe
 import runningAPrisonCheck from './checks/domains/runningAPrison/RunningAPrisonCheck'
 import personCheck from './checks/domains/person/PersonCheck'
 import securityCheck from './checks/domains/security/SecurityCheck'
+import probationCheck from './checks/domains/probation/ProbationCheck'
 
 export default class PermissionsService {
   private readonly prisonerSearchClient: PrisonerSearchClient
@@ -69,6 +70,7 @@ export default class PermissionsService {
       domainGroups: {
         person: personCheck(request),
         prisonerSpecific: prisonerSpecificCheck(request),
+        probation: probationCheck(request),
         runningAPrison: runningAPrisonCheck(request),
         security: securityCheck(request),
         sentenceAndOffence: sentenceAndOffenceCheck(request),

@@ -5,13 +5,15 @@ import { sentenceAndOffenceDomainPermissionPaths } from '../domains/sentenceAndO
 import { runningAPrisonDomainPermissionPaths } from '../domains/runningAPrison/RunningAPrisonDomainPermissionPaths'
 import { personDomainPermissionPaths } from '../domains/person/PersonDomainPermissionPaths'
 import { securityDomainPermissionPaths } from '../domains/security/SecurityDomainPermissionPaths'
+import { probationDomainPermissionPaths } from '../domains/probation/ProbationDomainPermissionPaths'
 
 // eslint-disable-next-line import/prefer-default-export
 export const prisonerPermissionPaths: Record<PrisonerPermission, Path<PrisonerPermissions>> = {
   [PrisonerBasePermission.read]: PrisonerBasePermission.read,
-  ...prisonerSpecificDomainPermissionPaths,
-  ...sentenceAndOffenceDomainPermissionPaths,
-  ...runningAPrisonDomainPermissionPaths,
   ...personDomainPermissionPaths,
+  ...prisonerSpecificDomainPermissionPaths,
+  ...probationDomainPermissionPaths,
+  ...runningAPrisonDomainPermissionPaths,
   ...securityDomainPermissionPaths,
+  ...sentenceAndOffenceDomainPermissionPaths,
 }
