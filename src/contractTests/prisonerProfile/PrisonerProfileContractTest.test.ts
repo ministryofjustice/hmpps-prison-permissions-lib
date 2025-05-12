@@ -21,6 +21,8 @@ import { sensitiveCaseNotesEditScenarios } from './scenarios/domains/person/case
 import { PrisonerMoneyPermission } from '../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { prisonerScheduleEditScenarios } from '../../services/permissions/checks/domains/prisonerSpecific/prisonerSchedule/prisonerScheduleEdit/PrisonerScheduleEditScenarios'
 import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import { useOfForceEditScenarios } from './scenarios/domains/prisonerSpecific/useOfForce/UseOfForceEditScenarios'
+import { UseOfForcePermission } from '../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -57,6 +59,9 @@ describe('Prisoner Profile Contract Tests', () => {
       })
       describe('Prisoner Schedule', () => {
         scenarioTest(prisonerScheduleEditScenarios, PrisonerSchedulePermission.edit)
+      })
+      describe('Use of Force', () => {
+        scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
       })
     })
 

@@ -32,6 +32,10 @@ export function isInUsersCaseLoad(prisonId: string | undefined, user: HmppsUser)
   return user.authSource === 'nomis' && user.caseLoads?.some(caseLoad => caseLoad.caseLoadId === prisonId)
 }
 
+export function isReleasedOrTransferring(prisonId: string | undefined): boolean {
+  return ['OUT', 'TRN'].includes(prisonId as string)
+}
+
 export function userHasSomeRolesFrom(rolesToCheck: Role[], userRoles: Role[]): boolean {
   return (
     rolesToCheck.length === 0 ||
