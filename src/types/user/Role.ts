@@ -23,5 +23,9 @@ export enum Role {
   PrisonUser = 'ROLE_PRISON',
   ReceptionUser = 'ROLE_PRISON_RECEPTION',
   ReleaseDatesCalculator = 'ROLE_RELEASE_DATES_CALCULATOR',
+  SocCommunity = 'ROLE_SOC_COMMUNITY',
+  SocCustody = 'ROLE_SOC_CUSTODY',
+  SocDataAnalyst = 'ROLE_SOC_DATA_ANALYST',
+  SocDataManager = 'ROLE_SOC_DATA_MANAGER',
   ViewSensitiveCaseNotes = 'ROLE_VIEW_SENSITIVE_CASE_NOTES',
 }
