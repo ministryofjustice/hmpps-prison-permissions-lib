@@ -77,6 +77,10 @@ appointment.edit = prisoner:schedule:edit ✅
 
 ---
 
-useOfForce.edit
+useOfForce.edit = prisoner:use-of-force:edit ✅
+
+---
+
+activity.edit
 
 

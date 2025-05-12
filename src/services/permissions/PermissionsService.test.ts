@@ -26,6 +26,8 @@ import { sensitiveCaseNotesEditScenarios } from './checks/domains/person/caseNot
 import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNotesEdit/CaseNotesEditScenarios'
 import { prisonerScheduleEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerScheduleEdit/PrisonerScheduleEditScenarios'
 import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import { useOfForceEditScenarios } from './checks/domains/prisonerSpecific/useOfForce/useOfForceEdit/UseOfForceEditScenarios'
+import { UseOfForcePermission } from '../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -72,6 +74,9 @@ describe('PermissionsService', () => {
         })
         describe('Prisoner Schedule', () => {
           scenarioTest(prisonerScheduleEditScenarios, PrisonerSchedulePermission.edit)
+        })
+        describe('Use of Force', () => {
+          scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
         })
       })
 

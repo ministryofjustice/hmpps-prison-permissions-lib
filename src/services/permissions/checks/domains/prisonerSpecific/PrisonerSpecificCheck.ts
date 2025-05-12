@@ -5,6 +5,7 @@ import prisonerAdjudicationsCheck from './prisonerAdjudications/PrisonerAdjudica
 import prisonerIncentivesCheck from './prisonerIncentives/PrisonerIncentivesCheck'
 import personPrisonCategoryCheck from './personPrisonCategory/PersonPrisonCategoryCheck'
 import prisonerScheduleCheck from './prisonerSchedule/PrisonerScheduleCheck'
+import useOfForceCheck from './useOfForce/UseOfForceCheck'
 
 export default function prisonerSpecificCheck(request: PermissionsCheckRequest): PrisonerSpecificDomainPermissions {
   return {
@@ -13,5 +14,6 @@ export default function prisonerSpecificCheck(request: PermissionsCheckRequest):
     prisonerIncentives: prisonerIncentivesCheck(request),
     personPrisonCategory: personPrisonCategoryCheck(request),
     prisonerSchedule: prisonerScheduleCheck(request),
+    useOfForce: useOfForceCheck(request),
   }
 }

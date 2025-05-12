@@ -1,6 +1,7 @@
 import {
   isActiveCaseLoad,
   isInUsersCaseLoad,
+  isReleasedOrTransferring,
   isRequiredPermission,
   userHasAllRoles,
   userHasRole,
@@ -124,6 +125,17 @@ describe('PermissionUtils', () => {
 
       expect(isInUsersCaseLoad('123', probationUser)).toEqual(false)
       expect(isInUsersCaseLoad('123', externalUser)).toEqual(false)
+    })
+  })
+
+  describe('isReleasedOrTransferring', () => {
+    it.each([
+      ['OUT', true],
+      ['TRN', true],
+      ['MDI', false],
+      ['LEI', false],
+    ])('', (prisonId: string, result: boolean) => {
+      expect(isReleasedOrTransferring(prisonId)).toEqual(result)
     })
   })
 })

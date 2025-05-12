@@ -30,6 +30,9 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       prisonerSchedule: {
         'prisoner:schedule:edit': false,
       },
+      useOfForce: {
+        'prisoner:use-of-force:edit': false,
+      },
     },
     runningAPrison: {
       prisonerVisitsAndVisitors: {

@@ -12,6 +12,7 @@ import {
   PersonPrisonCategoryPermissions,
 } from './personPrisonCategory/PersonPrisonCategoryPermissions'
 import { PrisonerSchedulePermission, PrisonerSchedulePermissions } from './prisonerSchedule/PrisonerSchedulePermissions'
+import { UseOfForcePermission, UseOfForcePermissions } from './useOfForce/UseOfForcePermissions'
 
 export interface PrisonerSpecificDomainPermissions {
   prisonerMoney: PrisonerMoneyPermissions
@@ -19,6 +20,7 @@ export interface PrisonerSpecificDomainPermissions {
   prisonerIncentives: PrisonerIncentivesPermissions
   personPrisonCategory: PersonPrisonCategoryPermissions
   prisonerSchedule: PrisonerSchedulePermissions
+  useOfForce: UseOfForcePermissions
 }
 
 export type PrisonerSpecificDomainPermission =
@@ -27,3 +29,4 @@ export type PrisonerSpecificDomainPermission =
   | PrisonerIncentivesPermission
   | PersonPrisonCategoryPermission
   | PrisonerSchedulePermission
+  | UseOfForcePermission
