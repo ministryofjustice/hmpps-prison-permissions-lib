@@ -8,8 +8,7 @@ import { PermissionCheckStatus } from '../../../../../types/permissions/Permissi
  * - The user has the "Inactive Bookings" role
  */
 export default function releasedPrisonerStatus(user: HmppsUser): PermissionCheckStatus {
-  const { userRoles } = user
-  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, userRoles)
+  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, user)
 
   if (inactiveBookingsUser) return PermissionCheckStatus.OK
 

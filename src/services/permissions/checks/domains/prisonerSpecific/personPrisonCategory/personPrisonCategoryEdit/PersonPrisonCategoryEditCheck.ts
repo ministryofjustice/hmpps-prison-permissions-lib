@@ -14,7 +14,7 @@ export default function personPrisonCategoryEditCheck(request: PermissionsCheckR
     baseCheckPassed &&
     userHasSomeRolesFrom(
       [Role.CreateCategorisation, Role.CreateRecategorisation, Role.ApproveCategorisation, Role.CategorisationSecurity],
-      user.userRoles,
+      user,
     )
 
   if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.ROLE_NOT_PRESENT)

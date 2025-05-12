@@ -15,7 +15,7 @@ import transferringPrisonerStatus from './TransferringPrisonerStatus'
 
 export default function baseCheckStatus(user: HmppsUser, prisoner: Prisoner): PermissionCheckStatus {
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
-  const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], user.userRoles)
+  const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], user)
 
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
   if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)

@@ -10,8 +10,7 @@ export default function prisonerIncentivesReadCheck(request: PermissionsCheckReq
   const { user, prisoner, baseCheckStatus } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const check =
-    baseCheckPassed && (isInUsersCaseLoad(prisoner.prisonId, user) || userHasRole(Role.GlobalSearch, user.userRoles))
+  const check = baseCheckPassed && (isInUsersCaseLoad(prisoner.prisonId, user) || userHasRole(Role.GlobalSearch, user))
 
   if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_IN_CASELOAD)
 

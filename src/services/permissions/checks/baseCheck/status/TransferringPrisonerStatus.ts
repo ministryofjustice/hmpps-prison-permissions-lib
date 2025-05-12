@@ -9,9 +9,8 @@ import { PermissionCheckStatus } from '../../../../../types/permissions/Permissi
  * - The user has the "Inactive Bookings" role
  */
 export default function transferringPrisonerStatus(user: HmppsUser): PermissionCheckStatus {
-  const { userRoles } = user
-  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, userRoles)
-  const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], userRoles)
+  const inactiveBookingsUser = userHasRole(Role.InactiveBookings, user)
+  const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], user)
 
   if (globalSearchUser) return PermissionCheckStatus.OK
   if (inactiveBookingsUser) return PermissionCheckStatus.OK
