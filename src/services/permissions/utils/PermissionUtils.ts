@@ -25,6 +25,9 @@ export function logDeniedPermissionCheck(
   }
 }
 
+export const isActiveCaseLoad = (prisonId: string | undefined, user: HmppsUser) =>
+  user.authSource === 'nomis' && user.activeCaseLoadId === prisonId
+
 export function isInUsersCaseLoad(prisonId: string | undefined, user: HmppsUser): boolean {
   return user.authSource === 'nomis' && user.caseLoads?.some(caseLoad => caseLoad.caseLoadId === prisonId)
 }

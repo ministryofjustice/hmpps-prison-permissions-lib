@@ -1,4 +1,5 @@
 import {
+  isActiveCaseLoad,
   isInUsersCaseLoad,
   isRequiredPermission,
   userHasAllRoles,
@@ -74,6 +75,26 @@ describe('PermissionUtils', () => {
         expect(userHasRole(role, userRoles)).toEqual(result)
       },
     )
+  })
+
+  describe('isActiveCaseLoad', () => {
+    it('Should return true when the prisonId matches the active case load', () => {
+      const user = { authSource: 'nomis', activeCaseLoadId: 'ABC' } as PrisonUser
+      expect(isActiveCaseLoad('ABC', user)).toEqual(true)
+    })
+
+    it('Should return false when the prisonId does not match the active case load', () => {
+      const user = { authSource: 'nomis', activeCaseLoadId: 'ABC' } as PrisonUser
+      expect(isActiveCaseLoad('DEF', user)).toEqual(false)
+    })
+
+    it('Should return false for non prison users', () => {
+      const probationUser = { authSource: 'delius' } as ProbationUser
+      const externalUser = { authSource: 'external' } as ExternalUser
+
+      expect(isActiveCaseLoad('123', probationUser)).toEqual(false)
+      expect(isActiveCaseLoad('123', externalUser)).toEqual(false)
+    })
   })
 
   describe('isInUsersCaseLoad', () => {
