@@ -29,6 +29,9 @@ import { UseOfForcePermission } from '../../types/permissions/domains/prisonerSp
 import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 import { prisonerActivityEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerActivityEdit/PrisonerActivityEditScenarios'
 import { prisonerAppointmentEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerAppointmentEdit/PrisonerAppointmentEditScenarios'
+import { pathfinderReadScenarios } from './checks/domains/security/pathfinder/pathfinderRead/PathfinderReadScenarios'
+import { PathfinderPermission } from '../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
+import { pathfinderEditScenarios } from './checks/domains/security/pathfinder/pathfinderEdit/PathfinderEditScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -85,6 +88,13 @@ describe('PermissionsService', () => {
       describe('Running a Prison', () => {
         describe('Prisoner Visits and Visitors', () => {
           scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
+        })
+      })
+
+      describe('Security', () => {
+        describe('Pathfinder', () => {
+          scenarioTest(pathfinderReadScenarios, PathfinderPermission.read)
+          scenarioTest(pathfinderEditScenarios, PathfinderPermission.edit)
         })
       })
 

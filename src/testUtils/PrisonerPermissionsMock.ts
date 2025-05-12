@@ -40,6 +40,12 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:prisoner-visits-and-visitors:read': false,
       },
     },
+    security: {
+      pathfinder: {
+        'prisoner:pathfinder:read': false,
+        'prisoner:pathfinder:edit': false,
+      },
+    },
     sentenceAndOffence: {
       personSentenceCalculation: {
         'prisoner:person-sentence-calculation:read': false,

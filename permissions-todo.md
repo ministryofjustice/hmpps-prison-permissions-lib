@@ -81,6 +81,14 @@ useOfForce.edit = prisoner:use-of-force:edit ✅
 
 ---
 
-activity.edit = prisoner:activity:edit
+activity.edit = prisoner:activity:edit ✅
 
+---
 
+pathfinder.view = prisoner:pathfinder:read ✅
+pathfinder.edit = prisoner:pathfinder:edit ✅
+
+---
+
+soc.view
+soc.edit
