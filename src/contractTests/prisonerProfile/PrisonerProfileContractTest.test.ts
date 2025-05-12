@@ -27,6 +27,9 @@ import { prisonerActivityEditScenarios } from './scenarios/domains/prisonerSpeci
 import { pathfinderReadScenarios } from '../../services/permissions/checks/domains/security/pathfinder/pathfinderRead/PathfinderReadScenarios'
 import { PathfinderPermission } from '../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
 import { pathfinderEditScenarios } from '../../services/permissions/checks/domains/security/pathfinder/pathfinderEdit/PathfinderEditScenarios'
+import { socReadScenarios } from '../../services/permissions/checks/domains/security/soc/socRead/SOCReadScenarios'
+import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCPermissions'
+import { socEditScenarios } from '../../services/permissions/checks/domains/security/soc/socEdit/SocEditScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -80,6 +83,10 @@ describe('Prisoner Profile Contract Tests', () => {
       describe('Pathfinder', () => {
         scenarioTest(pathfinderReadScenarios, PathfinderPermission.read)
         scenarioTest(pathfinderEditScenarios, PathfinderPermission.edit)
+      })
+      describe('SOC', () => {
+        scenarioTest(socReadScenarios, SOCPermission.read)
+        scenarioTest(socEditScenarios, SOCPermission.edit)
       })
     })
 

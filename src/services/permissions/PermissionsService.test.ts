@@ -32,6 +32,9 @@ import { prisonerAppointmentEditScenarios } from './checks/domains/prisonerSpeci
 import { pathfinderReadScenarios } from './checks/domains/security/pathfinder/pathfinderRead/PathfinderReadScenarios'
 import { PathfinderPermission } from '../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
 import { pathfinderEditScenarios } from './checks/domains/security/pathfinder/pathfinderEdit/PathfinderEditScenarios'
+import { socReadScenarios } from './checks/domains/security/soc/socRead/SOCReadScenarios'
+import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCPermissions'
+import { socEditScenarios } from './checks/domains/security/soc/socEdit/SocEditScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -95,6 +98,10 @@ describe('PermissionsService', () => {
         describe('Pathfinder', () => {
           scenarioTest(pathfinderReadScenarios, PathfinderPermission.read)
           scenarioTest(pathfinderEditScenarios, PathfinderPermission.edit)
+        })
+        describe('SOC', () => {
+          scenarioTest(socReadScenarios, SOCPermission.read)
+          scenarioTest(socEditScenarios, SOCPermission.edit)
         })
       })
 

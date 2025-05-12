@@ -45,6 +45,10 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:pathfinder:read': false,
         'prisoner:pathfinder:edit': false,
       },
+      soc: {
+        'prisoner:soc:read': false,
+        'prisoner:soc:edit': false,
+      },
     },
     sentenceAndOffence: {
       personSentenceCalculation: {

@@ -90,5 +90,9 @@ pathfinder.edit = prisoner:pathfinder:edit ✅
 
 ---
 
-soc.view
-soc.edit
+soc.view = prisoner:soc:read ✅
+soc.edit = prisoner:soc:edit ✅
+
+---
+
+offenderCategorisation.edit
