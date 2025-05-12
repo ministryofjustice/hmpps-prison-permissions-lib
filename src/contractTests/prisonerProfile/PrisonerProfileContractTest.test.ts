@@ -32,6 +32,8 @@ import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCP
 import { socEditScenarios } from '../../services/permissions/checks/domains/security/soc/socEdit/SocEditScenarios'
 import { probationDocumentsReadScenarios } from '../../services/permissions/checks/domains/probation/probationDocuments/probationDocumentsRead/ProbationDocumentsReadScenarios'
 import { ProbationDocumentsPermission } from '../../types/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
+import { csipReadScenarios } from '../../services/permissions/checks/domains/interventions/personInterventions/csipRead/CSIPReadScenarios'
+import { PersonInterventionsPermission } from '../../types/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -43,6 +45,12 @@ describe('Prisoner Profile Contract Tests', () => {
   })
 
   describe('Domains', () => {
+    describe('Interventions', () => {
+      describe('Person Interventions', () => {
+        scenarioTest(csipReadScenarios, PersonInterventionsPermission.read_csip)
+      })
+    })
+
     describe('Person', () => {
       describe('Case Notes', () => {
         scenarioTest(caseNotesReadAndEditScenarios, CaseNotesPermission.read)

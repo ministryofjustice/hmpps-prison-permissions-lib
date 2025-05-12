@@ -5,6 +5,11 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
   'prisoner:base-record:read': false,
 
   domainGroups: {
+    interventions: {
+      personInterventions: {
+        'prisoner:csip:read': false,
+      },
+    },
     person: {
       caseNotes: {
         'prisoner:case-notes:read': false,
