@@ -24,10 +24,11 @@ import { sensitiveCaseNotesReadScenarios } from './checks/domains/person/caseNot
 import { sensitiveCaseNotesDeleteScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesDelete/SensitiveCaseNotesDeleteScenarios'
 import { sensitiveCaseNotesEditScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesEdit/SensitiveCaseNotesEditScenarios'
 import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNotesEdit/CaseNotesEditScenarios'
-import { prisonerScheduleEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerScheduleEdit/PrisonerScheduleEditScenarios'
-import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 import { useOfForceEditScenarios } from './checks/domains/prisonerSpecific/useOfForce/useOfForceEdit/UseOfForceEditScenarios'
 import { UseOfForcePermission } from '../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
+import { PrisonerSchedulePermission } from '../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import { prisonerActivityEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerActivityEdit/PrisonerActivityEditScenarios'
+import { prisonerAppointmentEditScenarios } from './checks/domains/prisonerSpecific/prisonerSchedule/prisonerAppointmentEdit/PrisonerAppointmentEditScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -73,7 +74,8 @@ describe('PermissionsService', () => {
           scenarioTest(personPrisonCategoryEditScenarios, PersonPrisonCategoryPermission.edit)
         })
         describe('Prisoner Schedule', () => {
-          scenarioTest(prisonerScheduleEditScenarios, PrisonerSchedulePermission.edit)
+          scenarioTest(prisonerAppointmentEditScenarios, PrisonerSchedulePermission.edit_appointment)
+          scenarioTest(prisonerActivityEditScenarios, PrisonerSchedulePermission.edit_activity)
         })
         describe('Use of Force', () => {
           scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)

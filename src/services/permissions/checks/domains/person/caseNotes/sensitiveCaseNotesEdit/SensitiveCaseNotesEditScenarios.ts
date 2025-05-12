@@ -5,15 +5,23 @@ import {
   deniedReleasedPrisonerCheckScenarios,
   deniedTransferringPrisonerCheckScenarios,
   grantedBaseCheckScenarios,
+  grantedCaseLoadCheckScenarios,
+  grantedGlobalSearchCheckScenarios,
+  grantedReleasedPrisonerCheckScenarios,
+  grantedTransferringPrisonerCheckScenarios,
 } from '../../../../baseCheck/BaseCheckTestScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
 
-const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
-  .withoutUserRoles([Role.PomUser, Role.AddSensitiveCaseNotes])
-  .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
-  .and(deniedReleasedPrisonerCheckScenarios.withUserRoles([Role.PomUser, Role.AddSensitiveCaseNotes]))
-  .and(deniedTransferringPrisonerCheckScenarios.withUserRoles([Role.PomUser, Role.AddSensitiveCaseNotes]))
-  .and(deniedCaseLoadCheckScenarios.withUserRoles([Role.PomUser, Role.AddSensitiveCaseNotes]))
+const allPermissiveRoles = [Role.PomUser, Role.AddSensitiveCaseNotes]
+
+const deniedScenarios: TestScenarios = new TestScenarios([])
+  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+  .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+  .and(deniedReleasedPrisonerCheckScenarios.withUserRoles(allPermissiveRoles))
+  .and(deniedTransferringPrisonerCheckScenarios.withUserRoles(allPermissiveRoles))
+  .and(deniedCaseLoadCheckScenarios.withUserRoles(allPermissiveRoles))
 
 const grantedScenarios = new TestScenarios([])
   .and(grantedBaseCheckScenarios.withUserRole(Role.PomUser).withExpectedStatus(PermissionCheckStatus.OK))

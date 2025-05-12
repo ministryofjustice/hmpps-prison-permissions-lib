@@ -21,4 +21,4 @@ const grantedScenarios = new TestScenarios([
 ])
 
 // eslint-disable-next-line import/prefer-default-export
-export const prisonerScheduleEditScenarios = grantedScenarios.and(deniedScenarios)
+export const prisonerAppointmentEditScenarios = grantedScenarios.and(deniedScenarios)

@@ -1,5 +1,6 @@
 export enum PrisonerSchedulePermission {
-  edit = 'prisoner:schedule:edit',
+  edit_appointment = 'prisoner:appointment:edit',
+  edit_activity = 'prisoner:activity:edit',
 }
 
 export type PrisonerSchedulePermissions = Record<PrisonerSchedulePermission, boolean>

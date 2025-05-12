@@ -73,7 +73,7 @@ library.
 
 ---
 
-appointment.edit = prisoner:schedule:edit ✅
+appointment.edit = prisoner:appointment:edit ✅
 
 ---
 
@@ -81,6 +81,6 @@ useOfForce.edit = prisoner:use-of-force:edit ✅
 
 ---
 
-activity.edit
+activity.edit = prisoner:activity:edit
 
 
