@@ -37,6 +37,8 @@ import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCP
 import { socEditScenarios } from './checks/domains/security/soc/socEdit/SocEditScenarios'
 import { probationDocumentsReadScenarios } from './checks/domains/probation/probationDocuments/probationDocumentsRead/ProbationDocumentsReadScenarios'
 import { ProbationDocumentsPermission } from '../../types/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
+import { csipReadScenarios } from './checks/domains/interventions/personInterventions/csipRead/CSIPReadScenarios'
+import { PersonInterventionsPermission } from '../../types/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -58,6 +60,12 @@ describe('PermissionsService', () => {
     })
 
     describe('Domains', () => {
+      describe('Interventions', () => {
+        describe('Person Interventions', () => {
+          scenarioTest(csipReadScenarios, PersonInterventionsPermission.read_csip)
+        })
+      })
+
       describe('Person', () => {
         describe('Case Notes', () => {
           scenarioTest(caseNotesReadScenarios, CaseNotesPermission.read)

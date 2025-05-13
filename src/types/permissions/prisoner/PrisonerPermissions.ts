@@ -14,6 +14,10 @@ import { PersonDomainPermission, PersonDomainPermissions } from '../domains/pers
 import { SecurityDomainPermission, SecurityDomainPermissions } from '../domains/security/SecurityDomainPermissions'
 import { ProbationDomainPermissions } from '../domains/probation/ProbationDomainPermissions'
 import { ProbationDocumentsPermission } from '../domains/probation/probationDocuments/ProbationDocumentsPermissions'
+import {
+  InterventionsDomainPermission,
+  InterventionsDomainPermissions,
+} from '../domains/interventions/InterventionsDomainPermissions'
 
 export enum PrisonerBasePermission {
   read = 'prisoner:base-record:read',
@@ -26,6 +30,7 @@ export interface PrisonerPermissions {
   [PrisonerBasePermission.read]: boolean
 
   domainGroups: {
+    interventions: InterventionsDomainPermissions
     person: PersonDomainPermissions
     prisonerSpecific: PrisonerSpecificDomainPermissions
     probation: ProbationDomainPermissions
@@ -37,6 +42,7 @@ export interface PrisonerPermissions {
 
 export type PrisonerPermission =
   | PrisonerBasePermission
+  | InterventionsDomainPermission
   | PersonDomainPermission
   | PrisonerSpecificDomainPermission
   | ProbationDocumentsPermission

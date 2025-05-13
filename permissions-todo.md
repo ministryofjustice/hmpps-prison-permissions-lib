@@ -99,4 +99,4 @@ probationDocuments.view = prisoner:probation-documents:read ✅
 
 ---
 
-csip.view
+csip.view = prisoner:csip:read ✅
