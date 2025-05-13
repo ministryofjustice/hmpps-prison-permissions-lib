@@ -35,6 +35,8 @@ import { pathfinderEditScenarios } from './checks/domains/security/pathfinder/pa
 import { socReadScenarios } from './checks/domains/security/soc/socRead/SOCReadScenarios'
 import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCPermissions'
 import { socEditScenarios } from './checks/domains/security/soc/socEdit/SocEditScenarios'
+import { probationDocumentsReadScenarios } from './checks/domains/probation/probationDocuments/probationDocumentsRead/ProbationDocumentsReadScenarios'
+import { ProbationDocumentsPermission } from '../../types/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -85,6 +87,12 @@ describe('PermissionsService', () => {
         })
         describe('Use of Force', () => {
           scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
+        })
+      })
+
+      describe('Probation', () => {
+        describe('Probation Documents', () => {
+          scenarioTest(probationDocumentsReadScenarios, ProbationDocumentsPermission.read)
         })
       })
 

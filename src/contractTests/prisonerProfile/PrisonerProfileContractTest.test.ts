@@ -30,6 +30,8 @@ import { pathfinderEditScenarios } from '../../services/permissions/checks/domai
 import { socReadScenarios } from '../../services/permissions/checks/domains/security/soc/socRead/SOCReadScenarios'
 import { SOCPermission } from '../../types/permissions/domains/security/soc/SOCPermissions'
 import { socEditScenarios } from '../../services/permissions/checks/domains/security/soc/socEdit/SocEditScenarios'
+import { probationDocumentsReadScenarios } from '../../services/permissions/checks/domains/probation/probationDocuments/probationDocumentsRead/ProbationDocumentsReadScenarios'
+import { ProbationDocumentsPermission } from '../../types/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -70,6 +72,12 @@ describe('Prisoner Profile Contract Tests', () => {
       })
       describe('Use of Force', () => {
         scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
+      })
+    })
+
+    describe('Probation', () => {
+      describe('Probation Documents', () => {
+        scenarioTest(probationDocumentsReadScenarios, ProbationDocumentsPermission.read)
       })
     })
 

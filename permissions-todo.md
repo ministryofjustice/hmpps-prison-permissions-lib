@@ -95,4 +95,8 @@ soc.edit = prisoner:soc:edit ✅
 
 ---
 
-offenderCategorisation.edit
+probationDocuments.view = prisoner:probation-documents:read ✅
+
+---
+
+csip.view

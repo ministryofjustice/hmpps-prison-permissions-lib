@@ -27,5 +27,6 @@ export enum Role {
   SocCustody = 'ROLE_SOC_CUSTODY',
   SocDataAnalyst = 'ROLE_SOC_DATA_ANALYST',
   SocDataManager = 'ROLE_SOC_DATA_MANAGER',
+  ViewProbationDocuments = 'ROLE_VIEW_PROBATION_DOCUMENTS',
   ViewSensitiveCaseNotes = 'ROLE_VIEW_SENSITIVE_CASE_NOTES',
 }
