@@ -1,5 +1,5 @@
-import { PersonSentenceCalculationPermission } from '../../../../../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import { PersonSentenceCalculationPermission } from '../../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import baseCheckAndUserHasRole from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndUserHasRole'
 

@@ -1,5 +1,5 @@
-import { PrisonUser } from '../types/user/HmppsUser'
-import CaseLoad from '../types/user/CaseLoad'
+import { PrisonUser } from '../types/internal/user/HmppsUser'
+import CaseLoad from '../types/internal/user/CaseLoad'
 
 // eslint-disable-next-line import/prefer-default-export
 export const prisonUserMock: PrisonUser = {

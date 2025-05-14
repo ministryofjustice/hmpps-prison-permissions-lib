@@ -1,12 +1,12 @@
 import csipReadCheck from './CSIPReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PersonInterventionsPermission } from '../../../../../../../types/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
+import { PersonInterventionsPermission } from '../../../../../../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 
 const checkUnderTest = csipReadCheck
 const permission = PersonInterventionsPermission.read_csip

@@ -1,5 +1,5 @@
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { SecurityDomainPermissions } from '../../../../../types/permissions/domains/security/SecurityDomainPermissions'
+import { SecurityDomainPermissions } from '../../../../../types/public/permissions/domains/security/SecurityDomainPermissions'
 import pathfinderCheck from './pathfinder/PathfinderCheck'
 import socCheck from './soc/SOCCheck'
 

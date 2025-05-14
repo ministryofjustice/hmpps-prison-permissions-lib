@@ -1,10 +1,10 @@
 import Logger from 'bunyan'
 import { TelemetryClient } from 'applicationinsights'
 import PermissionsLogger from './PermissionsLogger'
-import { PrisonUser } from '../../types/user/HmppsUser'
+import { PrisonUser } from '../../types/internal/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PrisonerBasePermission } from '../../types/permissions/prisoner/PrisonerPermissions'
-import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
+import { PrisonerBasePermission } from '../../types/public/permissions/prisoner/PrisonerPermissions'
+import { PermissionCheckStatus } from '../../types/internal/permissions/PermissionCheckStatus'
 
 jest.mock('./checks/baseCheck/status/BaseCheckStatus', () => jest.fn())
 

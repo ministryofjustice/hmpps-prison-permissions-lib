@@ -1,8 +1,8 @@
-import { HmppsUser } from '../../../../../types/user/HmppsUser'
+import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { isInUsersCaseLoad, userHasRole } from '../../../utils/PermissionUtils'
-import { Role } from '../../../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 
 /*
  * Restricted patients can be accessed in the following circumstances:

@@ -1,8 +1,8 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../../../utils/PermissionUtils'
-import { Role } from '../../../../../../../types/user/Role'
-import { PersonPrisonCategoryPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { PersonPrisonCategoryPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
 
 const permission = PersonPrisonCategoryPermission.edit
 

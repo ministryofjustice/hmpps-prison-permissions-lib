@@ -1,9 +1,9 @@
-import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
 import PermissionsLogger from '../../PermissionsLogger'
 import { prisonUserMock } from '../../../../testUtils/UserMocks'
 import baseCheck from './BaseCheck'
 import { prisonerMock } from '../../../../testUtils/PrisonerMocks'
-import { PrisonerBasePermission } from '../../../../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerBasePermission } from '../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
 const baseCheckStatusGranted = PermissionCheckStatus.OK
 const baseCheckStatusDenied = PermissionCheckStatus.NOT_PERMITTED

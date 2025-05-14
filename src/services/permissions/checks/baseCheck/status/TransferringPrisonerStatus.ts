@@ -1,7 +1,7 @@
-import { HmppsUser } from '../../../../../types/user/HmppsUser'
+import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import { userHasRole, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
-import { Role } from '../../../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 
 /*
  * Transferring prisoners can be accessed in the following circumstances:

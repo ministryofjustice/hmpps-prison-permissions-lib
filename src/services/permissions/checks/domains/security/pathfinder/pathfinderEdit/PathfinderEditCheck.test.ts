@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -6,8 +6,8 @@ import {
 import pathfinderEditCheck from './PathfinderEditCheck'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import { PathfinderPermission } from '../../../../../../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import { PathfinderPermission } from '../../../../../../../types/public/permissions/domains/security/pathfinder/PathfinderPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PathfinderPermission.edit
 const checkUnderTest = pathfinderEditCheck

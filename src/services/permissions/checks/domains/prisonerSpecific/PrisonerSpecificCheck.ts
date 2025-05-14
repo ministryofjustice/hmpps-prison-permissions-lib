@@ -1,5 +1,5 @@
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { PrisonerSpecificDomainPermissions } from '../../../../../types/permissions/domains/prisonerSpecific/PrisonerSpecificDomainPermissions'
+import { PrisonerSpecificDomainPermissions } from '../../../../../types/public/permissions/domains/prisonerSpecific/PrisonerSpecificDomainPermissions'
 import prisonerMoneyCheck from './prisonerMoney/PrisonerMoneyCheck'
 import prisonerAdjudicationsCheck from './prisonerAdjudications/PrisonerAdjudicationsCheck'
 import prisonerIncentivesCheck from './prisonerIncentives/PrisonerIncentivesCheck'

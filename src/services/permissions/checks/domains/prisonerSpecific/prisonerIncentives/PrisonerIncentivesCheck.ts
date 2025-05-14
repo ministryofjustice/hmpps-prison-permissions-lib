@@ -3,7 +3,7 @@ import prisonerIncentivesReadCheck from './prisonerIncentivesRead/PrisonerIncent
 import {
   PrisonerIncentivesPermission,
   PrisonerIncentivesPermissions,
-} from '../../../../../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
+} from '../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 
 export default function prisonerIncentivesCheck(request: PermissionsCheckRequest): PrisonerIncentivesPermissions {
   return {

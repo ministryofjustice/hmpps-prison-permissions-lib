@@ -1,5 +1,5 @@
-import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
-import { PrisonerBasePermission } from '../../../../types/permissions/prisoner/PrisonerPermissions'
+import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
+import { PrisonerBasePermission } from '../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { isRequiredPermission } from '../../utils/PermissionUtils'
 import PermissionsCheckRequest from '../PermissionsCheckRequest'
 

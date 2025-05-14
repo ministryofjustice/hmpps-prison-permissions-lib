@@ -1,5 +1,5 @@
-import { PrisonerPermission, PrisonerPermissions } from '../types/permissions/prisoner/PrisonerPermissions'
-import { prisonerPermissionPaths } from '../types/permissions/prisoner/PrisonerPermissionPaths'
+import { PrisonerPermission, PrisonerPermissions } from '../types/public/permissions/prisoner/PrisonerPermissions'
+import { prisonerPermissionPaths } from '../types/public/permissions/prisoner/PrisonerPermissionPaths'
 
 export const prisonerPermissionsMock: PrisonerPermissions = {
   'prisoner:base-record:read': false,

@@ -1,13 +1,13 @@
 import probationDocumentsReadCheck from './ProbationDocumentsReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { Role } from '../../../../../../../types/user/Role'
-import { ProbationDocumentsPermission } from '../../../../../../../types/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { ProbationDocumentsPermission } from '../../../../../../../types/public/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
 
 const checkUnderTest = probationDocumentsReadCheck
 const permission = ProbationDocumentsPermission.read

@@ -1,11 +1,11 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import { PrisonerMoneyPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
+import { PrisonerMoneyPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import prisonerMoneyReadCheck from './PrisonerMoneyReadCheck'
 
 const checkUnderTest = prisonerMoneyReadCheck

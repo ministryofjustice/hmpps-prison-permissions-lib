@@ -3,7 +3,7 @@ import personPrisonCategoryEditCheck from './personPrisonCategoryEdit/PersonPris
 import {
   PersonPrisonCategoryPermission,
   PersonPrisonCategoryPermissions,
-} from '../../../../../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
+} from '../../../../../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
 
 export default function personPrisonCategoryCheck(request: PermissionsCheckRequest): PersonPrisonCategoryPermissions {
   return {

@@ -1,7 +1,7 @@
-import { HmppsUser } from '../../../types/user/HmppsUser'
-import { PrisonerPermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
-import { Role } from '../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../types/permissions/PermissionCheckStatus'
+import { HmppsUser } from '../../../types/internal/user/HmppsUser'
+import { PrisonerPermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
+import { Role } from '../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
 import PermissionsCheckRequest from '../checks/PermissionsCheckRequest'
 
 export function isRequiredPermission(

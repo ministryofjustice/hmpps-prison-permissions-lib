@@ -1,13 +1,13 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   isInUsersCaseLoad,
   isReleasedOrTransferring,
   logDeniedPermissionCheck,
   userHasRole,
 } from '../../../../../utils/PermissionUtils'
-import { Role } from '../../../../../../../types/user/Role'
-import { UseOfForcePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { UseOfForcePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 
 const permission = UseOfForcePermission.edit
 

@@ -1,4 +1,4 @@
-import { Role } from '../../../../../../../types/user/Role'
+import { Role } from '../../../../../../../types/internal/user/Role'
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 import {
   deniedCaseLoadCheckScenarios,
@@ -10,7 +10,7 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../../baseCheck/BaseCheckTestScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const allPermissiveRoles = [Role.PomUser, Role.AddSensitiveCaseNotes]
 

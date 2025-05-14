@@ -1,7 +1,7 @@
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../baseCheck/BaseCheckScenarios'
-import CaseLoad from '../../../../../../types/user/CaseLoad'
-import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
+import CaseLoad from '../../../../../../types/internal/user/CaseLoad'
+import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios.and(
   grantedBaseCheckScenarios

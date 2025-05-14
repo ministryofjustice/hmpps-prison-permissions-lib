@@ -1,14 +1,8 @@
-import { HmppsUser } from '../../types/user/HmppsUser'
+import { HmppsUser } from '../../types/internal/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PrisonerPermissions } from '../../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermissions } from '../../types/public/permissions/prisoner/PrisonerPermissions'
 
-export declare module 'express-session' {
-  // Declare that the session will potentially contain these additional fields
-  interface SessionData {
-    keyWorkerAtPrisons?: Record<string, boolean>
-  }
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export declare global {
   namespace Express {
     interface Request {

@@ -11,11 +11,11 @@ to avoid one big unwieldy collection of permissions at the top level of the perm
 
 Adding a new permission involves the following:
 
-1) Finding the appropriate domain (or creating a new one) in `src/types/permissions/domains/...`
+1) Finding the appropriate domain (or creating a new one) in `src/types/public/permissions/domains/...`
 2) Add the permission to the relevant domain enum,
-   e.g. [PrisonerMoneyPermissions.ts](../src/types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions.ts)
+   e.g. [PrisonerMoneyPermissions.ts](../src/types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions.ts)
 3) Add the permission path to the relevant path object,
-   e.g. [PrisonerMoneyPermissionPaths.ts](../src/types/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionPaths.ts)
+   e.g. [PrisonerMoneyPermissionPaths.ts](../src/types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionPaths.ts)
 4) Add a folder under `src/services/permissions/domains/...` for the new permission check. This should include the
    check, a unit test and a scenarios file. The scenarios can be built up with the builders and help to verify
    the end-to-end permission check works ok.

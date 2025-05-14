@@ -1,9 +1,9 @@
 import { TelemetryClient } from 'applicationinsights'
 import type Logger from 'bunyan'
-import { PermissionCheckStatus } from '../../types/permissions/PermissionCheckStatus'
-import { HmppsUser } from '../../types/user/HmppsUser'
+import { PermissionCheckStatus } from '../../types/internal/permissions/PermissionCheckStatus'
+import { HmppsUser } from '../../types/internal/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PrisonerPermission } from '../../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../../types/public/permissions/prisoner/PrisonerPermissions'
 
 export default class PermissionsLogger {
   constructor(

@@ -1,7 +1,7 @@
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckTestScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
-import { Role } from '../../../../../../../types/user/Role'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
   .withoutUserRoles([

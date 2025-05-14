@@ -1,6 +1,6 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { CaseNotesPermission } from '../../../../../../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import { CaseNotesPermission } from '../../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
 import baseCheckAndUserHasRole from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndUserHasRole'
 
 const permission = CaseNotesPermission.delete_sensitive

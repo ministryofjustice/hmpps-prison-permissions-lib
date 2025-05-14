@@ -1,4 +1,4 @@
-import { Role } from '../../../../../types/user/Role'
+import { Role } from '../../../../../types/internal/user/Role'
 import baseCheckAndUserHasAllRolesScenarios from './BaseCheckAndUserHasAllRolesScenarios'
 
 export default function baseCheckAndUserHasRoleScenarios(role: Role) {

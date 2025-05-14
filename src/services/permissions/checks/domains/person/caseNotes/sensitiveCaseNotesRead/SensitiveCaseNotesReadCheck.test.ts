@@ -1,13 +1,13 @@
 import sensitiveCaseNotesReadCheck from './SensitiveCaseNotesReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { Role } from '../../../../../../../types/user/Role'
-import { CaseNotesPermission } from '../../../../../../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { CaseNotesPermission } from '../../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 
 const checkUnderTest = sensitiveCaseNotesReadCheck
 const permission = CaseNotesPermission.read_sensitive

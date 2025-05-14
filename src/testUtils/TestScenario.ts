@@ -1,16 +1,16 @@
 // eslint-disable-next-line max-classes-per-file
-import { HmppsUser, PrisonUser } from '../types/user/HmppsUser'
+import { HmppsUser, PrisonUser } from '../types/internal/user/HmppsUser'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PermissionCheckStatus } from '../types/permissions/PermissionCheckStatus'
-import { Role } from '../types/user/Role'
-import CaseLoad from '../types/user/CaseLoad'
+import { Role } from '../types/internal/user/Role'
+import CaseLoad from '../types/internal/user/CaseLoad'
 import { prisonUserMock } from './UserMocks'
 import { prisonerMock } from './PrisonerMocks'
-import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../types/public/permissions/prisoner/PrisonerPermissions'
 import PrisonerSearchClient from '../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from '../services/permissions/PermissionsLogger'
-import checkPrisonerAccess from '../types/permissions/prisoner/PrisonerPermissionsUtils'
 import PermissionsService from '../services/permissions/PermissionsService'
+import { isGranted } from '../types/public/permissions/prisoner/PrisonerPermissionsUtils'
+import { PermissionCheckStatus } from '../types/internal/permissions/PermissionCheckStatus'
 
 export function userWithActiveCaseLoad(caseLoad: string) {
   return new TestScenarioBuilder(caseLoad) as RolesOrCaseLoadBuilder
@@ -256,9 +256,7 @@ export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: Pris
           requestDependentOn: [permissionUnderTest],
         })
 
-        expect(checkPrisonerAccess(permissionUnderTest, permissions)).toEqual(
-          expectedStatus === PermissionCheckStatus.OK,
-        )
+        expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
 
         if (expectedStatus === PermissionCheckStatus.OK) {
           expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()

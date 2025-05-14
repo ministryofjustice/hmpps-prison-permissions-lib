@@ -5,14 +5,14 @@ import {
   deniedTransferringPrisonerCheckScenarios,
   grantedBaseCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { Role } from '../../../../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../../types/internal/user/Role'
 import {
   grantedCaseLoadCheckScenarios,
   grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../../../../services/permissions/checks/baseCheck/BaseCheckTestScenarios'
+import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const allPermissiveRoles = [Role.PomUser, Role.ViewSensitiveCaseNotes, Role.AddSensitiveCaseNotes]
 
