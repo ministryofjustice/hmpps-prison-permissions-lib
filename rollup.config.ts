@@ -7,7 +7,7 @@ import pkg from './package.json'
 
 export default [
   {
-    input: ['src/index.ts', 'src/types/**/*.ts'],
+    input: ['src/index.ts', 'src/types/**/*.ts', '!**/*test*'],
     output: [
       { file: pkg.main, format: 'cjs', sourcemap: true },
       { file: pkg.module, format: 'esm', sourcemap: true },
