@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -6,8 +6,8 @@ import {
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import prisonerAppointmentEditCheck from './PrisonerAppointmentEditCheck'
-import { PrisonerSchedulePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
-import CaseLoad from '../../../../../../../types/user/CaseLoad'
+import { PrisonerSchedulePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import CaseLoad from '../../../../../../../types/internal/user/CaseLoad'
 
 const checkUnderTest = prisonerAppointmentEditCheck
 const permission = PrisonerSchedulePermission.edit_appointment

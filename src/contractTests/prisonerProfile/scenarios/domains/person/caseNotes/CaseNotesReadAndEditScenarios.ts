@@ -6,8 +6,8 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { Role } from '../../../../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   .and(

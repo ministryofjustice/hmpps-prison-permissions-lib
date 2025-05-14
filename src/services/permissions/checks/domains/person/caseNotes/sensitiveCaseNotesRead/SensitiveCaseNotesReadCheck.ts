@@ -1,7 +1,7 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { CaseNotesPermission } from '../../../../../../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { CaseNotesPermission } from '../../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 import baseCheckAndUserHasSomeRolesFrom from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndUserHasSomeRolesFrom'
-import { Role } from '../../../../../../../types/user/Role'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = CaseNotesPermission.read_sensitive
 

@@ -1,7 +1,7 @@
-import { HmppsUser } from '../../../types/user/HmppsUser'
+import { HmppsUser } from '../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PermissionCheckStatus } from '../../../types/permissions/PermissionCheckStatus'
-import { PrisonerPermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
+import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
+import { PrisonerPermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsLogger from '../PermissionsLogger'
 
 export default interface PermissionsCheckRequest {

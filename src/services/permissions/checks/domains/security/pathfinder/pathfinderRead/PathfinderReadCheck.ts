@@ -1,7 +1,7 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import baseCheckAndUserHasSomeRolesFrom from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndUserHasSomeRolesFrom'
-import { Role } from '../../../../../../../types/user/Role'
-import { PathfinderPermission } from '../../../../../../../types/permissions/domains/security/pathfinder/PathfinderPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { PathfinderPermission } from '../../../../../../../types/public/permissions/domains/security/pathfinder/PathfinderPermissions'
 
 export default function pathfinderReadCheck(request: PermissionsCheckRequest) {
   return baseCheckAndUserHasSomeRolesFrom(

@@ -3,7 +3,7 @@ import prisonerAppointmentEditCheck from './prisonerAppointmentEdit/PrisonerAppo
 import {
   PrisonerSchedulePermission,
   PrisonerSchedulePermissions,
-} from '../../../../../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+} from '../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 import prisonerActivityEditCheck from './prisonerActivityEdit/PrisonerActivityEditCheck'
 
 export default function prisonerScheduleCheck(request: PermissionsCheckRequest): PrisonerSchedulePermissions {

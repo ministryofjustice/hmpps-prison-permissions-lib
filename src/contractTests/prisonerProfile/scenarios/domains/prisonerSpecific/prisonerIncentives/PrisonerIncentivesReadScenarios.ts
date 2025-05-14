@@ -7,8 +7,8 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
-import { Role } from '../../../../../../types/user/Role'
+import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   // These granted base check scenarios should be denied without extra role present:

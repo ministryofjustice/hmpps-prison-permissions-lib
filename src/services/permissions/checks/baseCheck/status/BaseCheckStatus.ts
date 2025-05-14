@@ -4,11 +4,11 @@
  * This function can be used for checking what we consider the "base checks" for accessing a page on the prisoner profile
  * when no other special cases are given.
  */
-import { HmppsUser } from '../../../../../types/user/HmppsUser'
+import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { isInUsersCaseLoad, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
-import { Role } from '../../../../../types/user/Role'
-import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import restrictedPatientStatus from './RestrictedPatientStatus'
 import releasedPrisonerStatus from './ReleasedPrisonerStatus'
 import transferringPrisonerStatus from './TransferringPrisonerStatus'

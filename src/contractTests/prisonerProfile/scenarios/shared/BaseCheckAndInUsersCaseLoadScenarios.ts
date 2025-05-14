@@ -6,7 +6,7 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   // These granted base check scenarios should be denied because the user must have the prisoner in case load:

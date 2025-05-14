@@ -1,5 +1,5 @@
-import { CaseNotesPermission } from '../../../../../../types/permissions/domains/person/caseNotes/CaseNotesPermissions'
-import { PermissionCheckStatus } from '../../../../../../types/permissions/PermissionCheckStatus'
+import { CaseNotesPermission } from '../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
 import {
   isInUsersCaseLoad,
@@ -9,7 +9,7 @@ import {
 } from '../../../../utils/PermissionUtils'
 import restrictedPatientStatus from '../../../baseCheck/status/RestrictedPatientStatus'
 import releasedPrisonerStatus from '../../../baseCheck/status/ReleasedPrisonerStatus'
-import { Role } from '../../../../../../types/user/Role'
+import { Role } from '../../../../../../types/internal/user/Role'
 
 export default function caseNotesReadAndEditCheck(permission: CaseNotesPermission, request: PermissionsCheckRequest) {
   const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK

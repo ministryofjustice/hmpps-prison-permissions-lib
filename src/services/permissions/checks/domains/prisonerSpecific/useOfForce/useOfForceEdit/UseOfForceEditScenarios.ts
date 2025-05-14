@@ -6,8 +6,8 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
 } from '../../../../baseCheck/BaseCheckTestScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
-import { Role } from '../../../../../../../types/user/Role'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD))

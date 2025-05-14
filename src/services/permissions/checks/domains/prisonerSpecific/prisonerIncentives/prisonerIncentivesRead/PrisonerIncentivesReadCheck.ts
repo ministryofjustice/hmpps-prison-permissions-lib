@@ -1,8 +1,8 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
-import { Role } from '../../../../../../../types/user/Role'
-import { PrisonerIncentivesPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { PrisonerIncentivesPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 
 const permission = PrisonerIncentivesPermission.read
 

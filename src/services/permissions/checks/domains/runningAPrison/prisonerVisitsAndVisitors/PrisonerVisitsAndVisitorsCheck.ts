@@ -3,7 +3,7 @@ import prisonerVisitsAndVisitorsReadCheck from './prisonerVisitsAndVisitorsRead/
 import {
   PrisonerVisitsAndVisitorsPermission,
   PrisonerVisitsAndVisitorsPermissions,
-} from '../../../../../../types/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
+} from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
 
 export default function prisonerVisitsAndVisitorsCheck(
   request: PermissionsCheckRequest,

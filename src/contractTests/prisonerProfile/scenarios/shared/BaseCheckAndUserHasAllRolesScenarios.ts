@@ -1,7 +1,7 @@
-import { Role } from '../../../../types/user/Role'
+import { Role } from '../../../../types/internal/user/Role'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../baseCheck/BaseCheckScenarios'
 import { TestScenarios } from '../../../../testUtils/TestScenario'
-import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
 
 export default function baseCheckAndUserHasAllRolesScenarios(roles: Role[]) {
   const deniedScenarios: TestScenarios = grantedBaseCheckScenarios

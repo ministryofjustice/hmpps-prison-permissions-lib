@@ -3,7 +3,7 @@ import prisonerAdjudicationsReadCheck from './prisonerAdjudicationsRead/Prisoner
 import {
   PrisonerAdjudicationsPermission,
   PrisonerAdjudicationsPermissions,
-} from '../../../../../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+} from '../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 
 export default function prisonerAdjudicationsCheck(request: PermissionsCheckRequest): PrisonerAdjudicationsPermissions {
   return {

@@ -1,12 +1,12 @@
 import prisonerIncentivesReadCheck from './PrisonerIncentivesReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PrisonerIncentivesPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
+import { PrisonerIncentivesPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 
 const checkUnderTest = prisonerIncentivesReadCheck
 const permission = PrisonerIncentivesPermission.read

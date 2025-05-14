@@ -1,8 +1,8 @@
-import { PrisonerPermission } from '../../../../../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import { logDeniedPermissionCheck, userHasAllRoles } from '../../../utils/PermissionUtils'
-import { Role } from '../../../../../types/user/Role'
+import { Role } from '../../../../../types/internal/user/Role'
 
 export default function baseCheckAndUserHasAllRoles(
   roles: Role[],

@@ -1,5 +1,5 @@
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   deniedBaseCheckScenarios,
   grantedCaseLoadCheckScenarios,
@@ -8,7 +8,7 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../../baseCheck/BaseCheckTestScenarios'
-import { Role } from '../../../../../../../types/user/Role'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   // These granted base check scenarios should be denied without extra role present:

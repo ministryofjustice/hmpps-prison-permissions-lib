@@ -1,9 +1,9 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PrisonerVisitsAndVisitorsPermission } from '../../../../../../../types/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
+import { PrisonerVisitsAndVisitorsPermission } from '../../../../../../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
 import prisonerVisitsAndVisitorsReadCheck from './PrisonerVisitsAndVisitorsReadCheck'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'

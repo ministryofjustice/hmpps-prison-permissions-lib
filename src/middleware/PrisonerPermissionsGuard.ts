@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express'
-import { PrisonerPermission } from '../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsService from '../services/permissions/PermissionsService'
-import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
+import PrisonerPermissionError from '../types/public/errors/PrisonerPermissionError'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import checkPrisonerPermission from '../types/permissions/prisoner/PrisonerPermissionsUtils'
+import { isGranted } from '../types/public/permissions/prisoner/PrisonerPermissionsUtils'
 
 export default function prisonerPermissionsGuard(
   permissionsService: PermissionsService,
@@ -26,9 +26,7 @@ export default function prisonerPermissionsGuard(
       requestDependentOn,
     })
 
-    const deniedPermissions = requestDependentOn.filter(
-      permission => !checkPrisonerPermission(permission, prisonerPermissions),
-    )
+    const deniedPermissions = requestDependentOn.filter(permission => !isGranted(permission, prisonerPermissions))
 
     if (deniedPermissions.length) return next(new PrisonerPermissionError('Denied permissions', deniedPermissions))
 

@@ -1,6 +1,6 @@
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../testUtils/TestScenario'
-import { PermissionCheckStatus } from '../../../../types/permissions/PermissionCheckStatus'
-import { Role } from '../../../../types/user/Role'
+import { Role } from '../../../../types/internal/user/Role'
+import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
 
 export const deniedRestrictedPatientCheckScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')

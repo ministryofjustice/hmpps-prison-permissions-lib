@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -6,8 +6,8 @@ import {
 import socReadCheck from './SOCReadCheck'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import { Role } from '../../../../../../../types/user/Role'
-import { SOCPermission } from '../../../../../../../types/permissions/domains/security/soc/SOCPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { SOCPermission } from '../../../../../../../types/public/permissions/domains/security/soc/SOCPermissions'
 
 const permission = SOCPermission.read
 const checkUnderTest = socReadCheck

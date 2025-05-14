@@ -1,8 +1,8 @@
 import prisonerAdjudicationsReadCheck from './PrisonerAdjudicationsReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import { PrisonerAdjudicationsPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+import { PrisonerAdjudicationsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,

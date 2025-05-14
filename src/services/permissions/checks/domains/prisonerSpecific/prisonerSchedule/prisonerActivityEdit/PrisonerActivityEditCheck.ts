@@ -1,8 +1,8 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { isActiveCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
-import { PrisonerSchedulePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import { PrisonerSchedulePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PrisonerSchedulePermission.edit_activity
 

@@ -1,13 +1,13 @@
 import personPrisonCategoryEditCheck from './PersonPrisonCategoryEditCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PersonPrisonCategoryPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
-import { Role } from '../../../../../../../types/user/Role'
+import { PersonPrisonCategoryPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const checkUnderTest = personPrisonCategoryEditCheck
 const permission = PersonPrisonCategoryPermission.edit

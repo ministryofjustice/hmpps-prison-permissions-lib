@@ -1,8 +1,8 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../../../utils/PermissionUtils'
-import { Role } from '../../../../../../../types/user/Role'
-import { PrisonerAdjudicationsPermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { PrisonerAdjudicationsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 
 const permission = PrisonerAdjudicationsPermission.read
 

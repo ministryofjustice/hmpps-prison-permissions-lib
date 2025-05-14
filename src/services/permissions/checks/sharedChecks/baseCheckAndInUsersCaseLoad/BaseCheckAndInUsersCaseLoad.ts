@@ -1,6 +1,6 @@
-import { PrisonerPermission } from '../../../../../types/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import { isInUsersCaseLoad, logDeniedPermissionCheck } from '../../../utils/PermissionUtils'
 
 export default function baseCheckAndInUsersCaseLoad(permission: PrisonerPermission, request: PermissionsCheckRequest) {

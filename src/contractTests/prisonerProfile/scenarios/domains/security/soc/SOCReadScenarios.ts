@@ -1,4 +1,4 @@
-import { Role } from '../../../../../../types/user/Role'
+import { Role } from '../../../../../../types/internal/user/Role'
 import baseCheckAndUserHasSomeRolesFromScenarios from '../../../shared/BaseCheckAndUserHasSomeRolesFromScenarios'
 
 // eslint-disable-next-line import/prefer-default-export

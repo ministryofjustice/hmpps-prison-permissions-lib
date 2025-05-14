@@ -7,11 +7,11 @@ import {
   userHasRole,
   userHasSomeRolesFrom,
 } from './PermissionUtils'
-import { ExternalUser, HmppsUser, PrisonUser, ProbationUser } from '../../../types/user/HmppsUser'
-import CaseLoad from '../../../types/user/CaseLoad'
-import { PrisonerBasePermission } from '../../../types/permissions/prisoner/PrisonerPermissions'
-import { PersonSentenceCalculationPermission } from '../../../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
-import { Role } from '../../../types/user/Role'
+import { ExternalUser, HmppsUser, PrisonUser, ProbationUser } from '../../../types/internal/user/HmppsUser'
+import CaseLoad from '../../../types/internal/user/CaseLoad'
+import { PrisonerBasePermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
+import { PersonSentenceCalculationPermission } from '../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
+import { Role } from '../../../types/internal/user/Role'
 
 describe('PermissionUtils', () => {
   describe('isRequiredPermission', () => {

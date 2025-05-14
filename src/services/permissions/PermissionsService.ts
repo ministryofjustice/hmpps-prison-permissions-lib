@@ -2,13 +2,8 @@ import type bunyan from 'bunyan'
 import { ApiConfig, AuthenticationClient } from '@ministryofjustice/hmpps-rest-client'
 import { TelemetryClient } from 'applicationinsights'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { HmppsUser } from '../../types/user/HmppsUser'
+import { HmppsUser } from '../../types/internal/user/HmppsUser'
 import PermissionsLogger from './PermissionsLogger'
-import {
-  PrisonerBasePermission,
-  PrisonerPermission,
-  PrisonerPermissions,
-} from '../../types/permissions/prisoner/PrisonerPermissions'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import sentenceAndOffenceCheck from './checks/domains/sentenceAndOffence/SentenceAndOffenceCheck'
 import baseCheck from './checks/baseCheck/BaseCheck'
@@ -20,6 +15,11 @@ import personCheck from './checks/domains/person/PersonCheck'
 import securityCheck from './checks/domains/security/SecurityCheck'
 import probationCheck from './checks/domains/probation/ProbationCheck'
 import interventionsCheck from './checks/domains/interventions/InterventionsCheck'
+import {
+  PrisonerBasePermission,
+  PrisonerPermission,
+  PrisonerPermissions,
+} from '../../types/public/permissions/prisoner/PrisonerPermissions'
 
 export default class PermissionsService {
   private readonly prisonerSearchClient: PrisonerSearchClient

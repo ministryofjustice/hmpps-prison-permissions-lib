@@ -1,17 +1,17 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 import prisonerPermissionsGuard from './PrisonerPermissionsGuard'
-import PrisonerPermissionError from '../types/errors/PrisonerPermissionError'
+import PrisonerPermissionError from '../types/public/errors/PrisonerPermissionError'
 import { prisonUserMock } from '../testUtils/UserMocks'
 import { prisonerMock } from '../testUtils/PrisonerMocks'
-import { PersonSentenceCalculationPermission } from '../types/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
+import { PersonSentenceCalculationPermission } from '../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import {
   PrisonerBasePermission,
   PrisonerPermission,
   PrisonerPermissions,
-} from '../types/permissions/prisoner/PrisonerPermissions'
+} from '../types/public/permissions/prisoner/PrisonerPermissions'
 import { setPrisonerPermission } from '../testUtils/PrisonerPermissionsMock'
 import PermissionsService from '../services/permissions/PermissionsService'
-import { prisonerPermissionPaths } from '../types/permissions/prisoner/PrisonerPermissionPaths'
+import { prisonerPermissionPaths } from '../types/public/permissions/prisoner/PrisonerPermissionPaths'
 
 const examplePermissions = {
   [PrisonerBasePermission.read]: true,

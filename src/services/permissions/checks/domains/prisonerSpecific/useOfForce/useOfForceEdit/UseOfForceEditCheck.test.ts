@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/permissions/PermissionCheckStatus'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -6,7 +6,7 @@ import {
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import useOfForceEditCheck from './UseOfForceEditCheck'
-import { UseOfForcePermission } from '../../../../../../../types/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
+import { UseOfForcePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 
 const checkUnderTest = useOfForceEditCheck
 const permission = UseOfForcePermission.edit
