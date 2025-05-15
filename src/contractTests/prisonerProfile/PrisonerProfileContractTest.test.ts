@@ -34,6 +34,8 @@ import { probationDocumentsReadScenarios } from '../../services/permissions/chec
 import { ProbationDocumentsPermission } from '../../types/public/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
 import { csipReadScenarios } from '../../services/permissions/checks/domains/interventions/personInterventions/csipRead/CSIPReadScenarios'
 import { PersonInterventionsPermission } from '../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
+import { prisonerAlertsEditScenarios } from '../../services/permissions/checks/domains/prisonerSpecific/personAlerts/prisonerAlertsEdit/PrisonerAlertsEditScenarios'
+import { PrisonerAlertsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -80,6 +82,9 @@ describe('Prisoner Profile Contract Tests', () => {
       })
       describe('Use of Force', () => {
         scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
+      })
+      describe('Prisoner Alerts', () => {
+        scenarioTest(prisonerAlertsEditScenarios, PrisonerAlertsPermission.edit)
       })
     })
 

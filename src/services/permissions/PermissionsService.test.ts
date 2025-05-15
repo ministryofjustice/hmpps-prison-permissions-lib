@@ -39,6 +39,8 @@ import { ProbationDocumentsPermission } from '../../types/public/permissions/dom
 import { csipReadScenarios } from './checks/domains/interventions/personInterventions/csipRead/CSIPReadScenarios'
 import { PersonInterventionsPermission } from '../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 import { PrisonerBasePermission } from '../../types/public/permissions/prisoner/PrisonerPermissions'
+import { prisonerAlertsEditScenarios } from './checks/domains/prisonerSpecific/personAlerts/prisonerAlertsEdit/PrisonerAlertsEditScenarios'
+import { PrisonerAlertsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -95,6 +97,9 @@ describe('PermissionsService', () => {
         })
         describe('Use of Force', () => {
           scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
+        })
+        describe('Prisoner Alerts', () => {
+          scenarioTest(prisonerAlertsEditScenarios, PrisonerAlertsPermission.edit)
         })
       })
 
