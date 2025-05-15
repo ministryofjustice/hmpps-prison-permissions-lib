@@ -39,6 +39,9 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       useOfForce: {
         'prisoner:use-of-force:edit': false,
       },
+      prisonerAlerts: {
+        'prisoner:prisoner-alerts:edit': false,
+      },
     },
     probation: {
       probationDocuments: {

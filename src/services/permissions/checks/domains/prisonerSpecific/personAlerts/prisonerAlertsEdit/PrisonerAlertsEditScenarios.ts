@@ -1,25 +1,36 @@
+import { Role } from '../../../../../../../types/internal/user/Role'
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../../testUtils/TestScenario'
 import {
   deniedBaseCheckScenarios,
+  grantedBaseCheckScenarios,
   grantedCaseLoadCheckScenarios,
-  grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
 } from '../../../../baseCheck/BaseCheckTestScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { Role } from '../../../../../../../types/internal/user/Role'
 
-const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+const deniedScenarios: TestScenarios = new TestScenarios([])
+  .and(deniedBaseCheckScenarios.withUserRoles([Role.UpdateAlert]))
+  .and(
+    grantedBaseCheckScenarios
+      .withoutUserRoles([Role.UpdateAlert])
+      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+  )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
-      .withRoles([Role.GlobalSearch])
+      .withRoles([Role.GlobalSearch, Role.UpdateAlert])
       .accessingTransferringPrisoner()
+      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+  )
+  .andScenarioWhere(
+    userWithActiveCaseLoad('MDI')
+      .withRoles([Role.GlobalSearch, Role.UpdateAlert])
+      .accessingPrisonerAt('LEI')
       .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
   )
 
 const grantedScenarios = grantedCaseLoadCheckScenarios
+  .and(grantedRestrictedPatientCheckScenarios)
   .and(grantedReleasedPrisonerCheckScenarios)
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
@@ -27,6 +38,7 @@ const grantedScenarios = grantedCaseLoadCheckScenarios
       .accessingTransferringPrisoner()
       .expectsStatus(PermissionCheckStatus.OK),
   )
+  .withUserRoles([Role.UpdateAlert])
 
 // eslint-disable-next-line import/prefer-default-export
-export const useOfForceEditScenarios = grantedScenarios.and(deniedScenarios)
+export const prisonerAlertsEditScenarios = grantedScenarios.and(deniedScenarios)

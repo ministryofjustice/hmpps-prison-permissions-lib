@@ -1,25 +1,26 @@
+import prisonerAlertsEditCheck from './PrisonerAlertsEditCheck'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
+import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
-import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
-import useOfForceEditCheck from './UseOfForceEditCheck'
-import { UseOfForcePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
+import { Role } from '../../../../../../../types/internal/user/Role'
+import { PrisonerAlertsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
 
-const checkUnderTest = useOfForceEditCheck
-const permission = UseOfForcePermission.edit
+const checkUnderTest = prisonerAlertsEditCheck
+const permission = PrisonerAlertsPermission.edit
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
-describe('UseOfForceEditCheck', () => {
+describe('PrisonerAlertsEditCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
     describe('when permission is granted', () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
-        user: prisonUserMock,
+        user: { ...prisonUserMock, userRoles: [Role.UpdateAlert] },
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: true,
@@ -30,7 +31,7 @@ describe('UseOfForceEditCheck', () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
-        user: prisonUserMock,
+        user: { ...prisonUserMock, userRoles: [Role.UpdateAlert] },
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusFail,
         expectedResult: false,
@@ -38,15 +39,15 @@ describe('UseOfForceEditCheck', () => {
       })
     })
 
-    describe(`when the prisoner not in user's caseloads`, () => {
+    describe(`when the user doesn't have a required role`, () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
         user: prisonUserMock,
-        prisoner: { ...prisonerMock, prisonId: 'OTHER' },
+        prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
       })
     })
   })
