@@ -36,6 +36,9 @@ import { csipReadScenarios } from '../../services/permissions/checks/domains/int
 import { PersonInterventionsPermission } from '../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 import { prisonerAlertsEditScenarios } from '../../services/permissions/checks/domains/prisonerSpecific/personAlerts/prisonerAlertsEdit/PrisonerAlertsEditScenarios'
 import { PrisonerAlertsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
+import { locationDetailsAndHistoryReadScenarios } from '../../services/permissions/checks/domains/runningAPrison/prisonerBaseLocation/locationDetailsAndHistoryRead/LocationDetailsAndHistoryReadScenarios'
+import { PrisonerBaseLocationPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
+import { moveCellScenarios } from '../../services/permissions/checks/domains/runningAPrison/prisonerBaseLocation/moveCell/MoveCellScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -97,6 +100,12 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Running A Prison', () => {
       describe('Prisoner Visits and Visitors', () => {
         scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
+      })
+
+      describe('Prisoner Base Location', () => {
+        scenarioTest(locationDetailsAndHistoryReadScenarios, PrisonerBaseLocationPermission.read_location_details)
+        scenarioTest(locationDetailsAndHistoryReadScenarios, PrisonerBaseLocationPermission.read_location_history)
+        scenarioTest(moveCellScenarios, PrisonerBaseLocationPermission.move_cell)
       })
     })
 
