@@ -17,6 +17,7 @@ export default function baseCheckStatus(user: HmppsUser, prisoner: Prisoner): Pe
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
   const globalSearchUser = userHasSomeRolesFrom([Role.GlobalSearch], user)
 
+  if (user.authSource !== 'nomis') return PermissionCheckStatus.NOT_PRISON_USER
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
   if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
   if (prisoner.prisonId === 'TRN') return transferringPrisonerStatus(user)
