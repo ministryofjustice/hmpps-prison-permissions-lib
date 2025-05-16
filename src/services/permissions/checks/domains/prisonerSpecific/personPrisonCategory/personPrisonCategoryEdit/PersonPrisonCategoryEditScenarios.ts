@@ -1,5 +1,5 @@
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
-import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckTestScenarios'
+import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
