@@ -52,6 +52,11 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       prisonerVisitsAndVisitors: {
         'prisoner:prisoner-visits-and-visitors:read': false,
       },
+      prisonerBaseLocation: {
+        'prisoner:location-cell:edit': false,
+        'prisoner:location-details:read': false,
+        'prisoner:location-history:read': false,
+      },
     },
     security: {
       pathfinder: {
