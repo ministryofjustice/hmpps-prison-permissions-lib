@@ -2,14 +2,13 @@ import PermissionsService from './PermissionsService'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import PermissionsLogger from './PermissionsLogger'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { scenarioTest } from '../../testUtils/TestScenario'
-import { baseCheckScenarios } from './checks/baseCheck/BaseCheckTestScenarios'
+import { scenarioTests } from '../../testUtils/TestScenario'
+import { baseCheckScenarios } from './checks/baseCheck/BaseCheckScenarios'
 import { PersonSentenceCalculationPermission } from '../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { sentenceCalculationReadScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationRead/SentenceCalculationReadScenarios'
 import { sentenceCalculationEditAdjustmentScenarios } from './checks/domains/sentenceAndOffence/personSentenceCalculation/sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentScenarios'
 import { PrisonerMoneyPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
 import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/prisonerMoney/prisonerMoneyRead/PrisonerMoneyReadScenarios'
-import { prisonerAdjudicationsReadScenarios } from './checks/domains/prisonerSpecific/prisonerAdjudications/prisonerAdjudicationsRead/PrisonerAdjudicationsReadScenarios'
 import { PrisonerAdjudicationsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 import { prisonerVisitsAndVisitorsReadScenarios } from './checks/domains/runningAPrison/prisonerVisitsAndVisitors/prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadScenarios'
 import { PrisonerVisitsAndVisitorsPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
@@ -17,12 +16,10 @@ import { prisonerIncentivesReadScenarios } from './checks/domains/prisonerSpecif
 import { PrisonerIncentivesPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import { personPrisonCategoryEditScenarios } from './checks/domains/prisonerSpecific/personPrisonCategory/personPrisonCategoryEdit/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
-import { caseNotesReadScenarios } from './checks/domains/person/caseNotes/caseNotesRead/CaseNotesReadScenarios'
 import { CaseNotesPermission } from '../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 import { sensitiveCaseNotesReadScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesRead/SensitiveCaseNotesReadScenarios'
 import { sensitiveCaseNotesDeleteScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesDelete/SensitiveCaseNotesDeleteScenarios'
 import { sensitiveCaseNotesEditScenarios } from './checks/domains/person/caseNotes/sensitiveCaseNotesEdit/SensitiveCaseNotesEditScenarios'
-import { caseNotesEditScenarios } from './checks/domains/person/caseNotes/caseNotesEdit/CaseNotesEditScenarios'
 import { useOfForceEditScenarios } from './checks/domains/prisonerSpecific/useOfForce/useOfForceEdit/UseOfForceEditScenarios'
 import { UseOfForcePermission } from '../../types/public/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
 import { PrisonerSchedulePermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
@@ -44,6 +41,13 @@ import { PrisonerAlertsPermission } from '../../types/public/permissions/domains
 import { locationDetailsAndHistoryReadScenarios } from './checks/domains/runningAPrison/prisonerBaseLocation/locationDetailsAndHistoryRead/LocationDetailsAndHistoryReadScenarios'
 import { PrisonerBaseLocationPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
 import { moveCellScenarios } from './checks/domains/runningAPrison/prisonerBaseLocation/moveCell/MoveCellScenarios'
+import { CorePersonRecordPermission } from '../../types/public/permissions/domains/person/corePersonRecord/CorePersonRecordPermissions'
+import { prisonerProfileEditCheckScenarios } from './checks/sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheckScenarios'
+import { caseNotesReadAndEditScenarios } from './checks/domains/person/caseNotes/CaseNotesReadAndEditScenarios'
+import { prisonerAdjudicationsReadPrisonerProfileScenarios } from '../../contractTests/prisonerProfile/scenarios/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsReadScenarios'
+import { PersonHealthAndMedicationPermission } from '../../types/public/permissions/domains/person/personHealthAndMedication/PersonHealthAndMedicationPermissions'
+import { dietEditScenarios } from './checks/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
+import { PersonProtectedCharacteristicsPermission } from '../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -61,84 +65,158 @@ describe('PermissionsService', () => {
 
   describe('getPrisonerPermissions', () => {
     describe('Base check', () => {
-      scenarioTest(baseCheckScenarios, PrisonerBasePermission.read)
+      scenarioTests<PrisonerBasePermission>({ [PrisonerBasePermission.read]: baseCheckScenarios })
     })
 
     describe('Domains', () => {
       describe('Interventions', () => {
         describe('Person Interventions', () => {
-          scenarioTest(csipReadScenarios, PersonInterventionsPermission.read_csip)
+          scenarioTests<PersonInterventionsPermission>({ [PersonInterventionsPermission.read_csip]: csipReadScenarios })
         })
       })
 
       describe('Person', () => {
         describe('Case Notes', () => {
-          scenarioTest(caseNotesReadScenarios, CaseNotesPermission.read)
-          scenarioTest(caseNotesEditScenarios, CaseNotesPermission.edit)
-          scenarioTest(sensitiveCaseNotesReadScenarios, CaseNotesPermission.read_sensitive)
-          scenarioTest(sensitiveCaseNotesDeleteScenarios, CaseNotesPermission.delete_sensitive)
-          scenarioTest(sensitiveCaseNotesEditScenarios, CaseNotesPermission.edit_sensitive)
+          scenarioTests<CaseNotesPermission>({
+            [CaseNotesPermission.read]: caseNotesReadAndEditScenarios,
+            [CaseNotesPermission.edit]: caseNotesReadAndEditScenarios,
+            [CaseNotesPermission.read_sensitive]: sensitiveCaseNotesReadScenarios,
+            [CaseNotesPermission.delete_sensitive]: sensitiveCaseNotesDeleteScenarios,
+            [CaseNotesPermission.edit_sensitive]: sensitiveCaseNotesEditScenarios,
+          })
+        })
+
+        describe('Core Person Record', () => {
+          scenarioTests<CorePersonRecordPermission>({
+            [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_photo]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_photo]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_military_history]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_name_and_aliases]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_name_and_aliases]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_date_of_birth]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_date_of_birth]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_address]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_address]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_nationality]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_nationality]: prisonerProfileEditCheckScenarios,
+            [CorePersonRecordPermission.read_identifiers]: baseCheckScenarios,
+            [CorePersonRecordPermission.edit_identifiers]: prisonerProfileEditCheckScenarios,
+          })
+        })
+
+        describe('Person Protected Characteristics', () => {
+          scenarioTests<PersonProtectedCharacteristicsPermission>({
+            [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: baseCheckScenarios,
+            [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]: prisonerProfileEditCheckScenarios,
+            [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: baseCheckScenarios,
+            [PersonProtectedCharacteristicsPermission.edit_religion_and_belief]: prisonerProfileEditCheckScenarios,
+            [PersonProtectedCharacteristicsPermission.read_ethnicity]: baseCheckScenarios,
+            [PersonProtectedCharacteristicsPermission.edit_ethnicity]: prisonerProfileEditCheckScenarios,
+          })
+        })
+
+        describe('Person Health And Medication', () => {
+          scenarioTests<PersonHealthAndMedicationPermission>({
+            [PersonHealthAndMedicationPermission.read_pregnancy]: baseCheckScenarios,
+            [PersonHealthAndMedicationPermission.edit_pregnancy]: prisonerProfileEditCheckScenarios,
+            [PersonHealthAndMedicationPermission.read_smoker]: baseCheckScenarios,
+            [PersonHealthAndMedicationPermission.edit_smoker]: prisonerProfileEditCheckScenarios,
+            [PersonHealthAndMedicationPermission.read_diet]: baseCheckScenarios,
+            [PersonHealthAndMedicationPermission.edit_diet]: dietEditScenarios,
+          })
         })
       })
 
       describe('Prisoner Specific', () => {
-        describe('Prisoner Money', () => {
-          scenarioTest(prisonerMoneyReadScenarios, PrisonerMoneyPermission.read)
-        })
-        describe('Prisoner Adjudications', () => {
-          scenarioTest(prisonerAdjudicationsReadScenarios, PrisonerAdjudicationsPermission.read)
-        })
-        describe('Prisoner Incentives', () => {
-          scenarioTest(prisonerIncentivesReadScenarios, PrisonerIncentivesPermission.read)
-        })
         describe('Person Prison Category', () => {
-          scenarioTest(personPrisonCategoryEditScenarios, PersonPrisonCategoryPermission.edit)
+          scenarioTests<PersonPrisonCategoryPermission>({
+            [PersonPrisonCategoryPermission.edit]: personPrisonCategoryEditScenarios,
+          })
         })
+
+        describe('Prisoner Adjudications', () => {
+          scenarioTests<PrisonerAdjudicationsPermission>({
+            [PrisonerAdjudicationsPermission.read]: prisonerAdjudicationsReadPrisonerProfileScenarios,
+          })
+        })
+
+        describe('Prisoner Incentives', () => {
+          scenarioTests<PrisonerIncentivesPermission>({
+            [PrisonerIncentivesPermission.read]: prisonerIncentivesReadScenarios,
+          })
+        })
+
+        describe('Prisoner Money', () => {
+          scenarioTests<PrisonerMoneyPermission>({ [PrisonerMoneyPermission.read]: prisonerMoneyReadScenarios })
+        })
+
         describe('Prisoner Schedule', () => {
-          scenarioTest(prisonerAppointmentEditScenarios, PrisonerSchedulePermission.edit_appointment)
-          scenarioTest(prisonerActivityEditScenarios, PrisonerSchedulePermission.edit_activity)
+          scenarioTests<PrisonerSchedulePermission>({
+            [PrisonerSchedulePermission.edit_appointment]: prisonerAppointmentEditScenarios,
+            [PrisonerSchedulePermission.edit_activity]: prisonerActivityEditScenarios,
+          })
         })
+
         describe('Use of Force', () => {
-          scenarioTest(useOfForceEditScenarios, UseOfForcePermission.edit)
+          scenarioTests<UseOfForcePermission>({ [UseOfForcePermission.edit]: useOfForceEditScenarios })
         })
+
         describe('Prisoner Alerts', () => {
-          scenarioTest(prisonerAlertsEditScenarios, PrisonerAlertsPermission.edit)
+          scenarioTests<PrisonerAlertsPermission>({ [PrisonerAlertsPermission.edit]: prisonerAlertsEditScenarios })
         })
       })
 
       describe('Probation', () => {
         describe('Probation Documents', () => {
-          scenarioTest(probationDocumentsReadScenarios, ProbationDocumentsPermission.read)
+          scenarioTests<ProbationDocumentsPermission>({
+            [ProbationDocumentsPermission.read]: probationDocumentsReadScenarios,
+          })
         })
       })
 
-      describe('Running a Prison', () => {
+      describe('Running A Prison', () => {
         describe('Prisoner Visits and Visitors', () => {
-          scenarioTest(prisonerVisitsAndVisitorsReadScenarios, PrisonerVisitsAndVisitorsPermission.read)
+          scenarioTests<PrisonerVisitsAndVisitorsPermission>({
+            [PrisonerVisitsAndVisitorsPermission.read]: prisonerVisitsAndVisitorsReadScenarios,
+          })
         })
 
         describe('Prisoner Base Location', () => {
-          scenarioTest(locationDetailsAndHistoryReadScenarios, PrisonerBaseLocationPermission.read_location_details)
-          scenarioTest(locationDetailsAndHistoryReadScenarios, PrisonerBaseLocationPermission.read_location_history)
-          scenarioTest(moveCellScenarios, PrisonerBaseLocationPermission.move_cell)
+          scenarioTests<PrisonerBaseLocationPermission>({
+            [PrisonerBaseLocationPermission.read_location_details]: locationDetailsAndHistoryReadScenarios,
+            [PrisonerBaseLocationPermission.read_location_history]: locationDetailsAndHistoryReadScenarios,
+            [PrisonerBaseLocationPermission.move_cell]: moveCellScenarios,
+          })
         })
       })
 
       describe('Security', () => {
         describe('Pathfinder', () => {
-          scenarioTest(pathfinderReadScenarios, PathfinderPermission.read)
-          scenarioTest(pathfinderEditScenarios, PathfinderPermission.edit)
+          scenarioTests<PathfinderPermission>({
+            [PathfinderPermission.read]: pathfinderReadScenarios,
+            [PathfinderPermission.edit]: pathfinderEditScenarios,
+          })
         })
+
         describe('SOC', () => {
-          scenarioTest(socReadScenarios, SOCPermission.read)
-          scenarioTest(socEditScenarios, SOCPermission.edit)
+          scenarioTests<SOCPermission>({
+            [SOCPermission.read]: socReadScenarios,
+            [SOCPermission.edit]: socEditScenarios,
+          })
         })
       })
 
       describe('Sentence / Offence', () => {
         describe('Person Sentence Calculation', () => {
-          scenarioTest(sentenceCalculationReadScenarios, PersonSentenceCalculationPermission.read)
-          scenarioTest(sentenceCalculationEditAdjustmentScenarios, PersonSentenceCalculationPermission.edit_adjustments)
+          scenarioTests<PersonSentenceCalculationPermission>({
+            [PersonSentenceCalculationPermission.read]: sentenceCalculationReadScenarios,
+            [PersonSentenceCalculationPermission.edit_adjustments]: sentenceCalculationEditAdjustmentScenarios,
+          })
         })
       })
     })

@@ -6,7 +6,7 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
-} from '../../../../baseCheck/BaseCheckTestScenarios'
+} from '../../../../baseCheck/BaseCheckScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
 

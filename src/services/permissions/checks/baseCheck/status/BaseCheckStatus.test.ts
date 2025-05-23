@@ -1,6 +1,6 @@
 import baseCheckStatus from './BaseCheckStatus'
 import { TestScenario } from '../../../../../testUtils/TestScenario'
-import { baseCheckScenarios } from '../BaseCheckTestScenarios'
+import { baseCheckScenarios } from '../BaseCheckScenarios'
 import { prisonUserMock } from '../../../../../testUtils/UserMocks'
 import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import { prisonerMock } from '../../../../../testUtils/PrisonerMocks'

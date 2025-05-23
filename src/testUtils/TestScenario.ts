@@ -230,7 +230,7 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
   }
 }
 
-export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: PrisonerPermission) {
+export function scenarioTests<T extends PrisonerPermission>(permissionScenarios: Record<T, TestScenarios>) {
   let prisonerSearchClient: PrisonerSearchClient
   let permissionsLogger: PermissionsLogger
 
@@ -244,31 +244,36 @@ export function scenarioTest(scenarios: TestScenarios, permissionUnderTest: Pris
     service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
   })
 
-  describe(`Permission: ${permissionUnderTest}`, () => {
-    it.each(scenarios.toTestArray())(
-      `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
-      (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
-        const { user, prisoner, expectedStatus } = testScenario as TestScenario
+  Object.keys(permissionScenarios).forEach(key => {
+    const permissionUnderTest = key as PrisonerPermission
+    const scenarios = permissionScenarios[key as T]
 
-        const permissions = service.getPrisonerPermissions({
-          user,
-          prisoner,
-          requestDependentOn: [permissionUnderTest],
-        })
+    describe(`Permission: ${permissionUnderTest}`, () => {
+      it.each(scenarios.toTestArray())(
+        `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
+        (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
+          const { user, prisoner, expectedStatus } = testScenario as TestScenario
 
-        expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
-
-        if (expectedStatus === PermissionCheckStatus.OK) {
-          expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-        } else {
-          expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+          const permissions = service.getPrisonerPermissions({
             user,
             prisoner,
-            permissionUnderTest,
-            expectedStatus,
-          )
-        }
-      },
-    )
+            requestDependentOn: [permissionUnderTest],
+          })
+
+          expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
+
+          if (expectedStatus === PermissionCheckStatus.OK) {
+            expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+          } else {
+            expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+              user,
+              prisoner,
+              permissionUnderTest,
+              expectedStatus,
+            )
+          }
+        },
+      )
+    })
   })
 }

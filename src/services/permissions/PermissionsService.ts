@@ -66,7 +66,7 @@ export default class PermissionsService {
     }
 
     return {
-      [PrisonerBasePermission.read]: baseCheck(request),
+      [PrisonerBasePermission.read]: baseCheck(PrisonerBasePermission.read, request),
 
       domainGroups: {
         interventions: interventionsCheck(request),

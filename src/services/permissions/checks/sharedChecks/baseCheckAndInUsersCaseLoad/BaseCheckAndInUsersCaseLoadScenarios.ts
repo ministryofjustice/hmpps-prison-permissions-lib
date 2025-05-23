@@ -5,7 +5,7 @@ import {
   grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
-} from '../../baseCheck/BaseCheckTestScenarios'
+} from '../../baseCheck/BaseCheckScenarios'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios

@@ -7,7 +7,7 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
-} from '../../../../baseCheck/BaseCheckTestScenarios'
+} from '../../../../baseCheck/BaseCheckScenarios'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedPrisonerAdjudicationReadScenarios: TestScenarios = deniedBaseCheckScenarios
