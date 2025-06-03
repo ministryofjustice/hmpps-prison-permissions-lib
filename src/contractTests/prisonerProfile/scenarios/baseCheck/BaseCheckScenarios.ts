@@ -126,4 +126,4 @@ export const grantedBaseCheckScenarios = grantedRestrictedPatientCheckScenarios
   .and(grantedCaseLoadCheckScenarios)
   .and(grantedGlobalSearchCheckScenarios)
 
-export const baseCheckPrisonerProfileScenarios = grantedBaseCheckScenarios.and(deniedBaseCheckScenarios)
+export const baseCheckScenarios = grantedBaseCheckScenarios.and(deniedBaseCheckScenarios)

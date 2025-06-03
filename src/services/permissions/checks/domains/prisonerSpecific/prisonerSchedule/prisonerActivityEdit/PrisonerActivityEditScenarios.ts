@@ -1,5 +1,5 @@
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../../testUtils/TestScenario'
-import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckTestScenarios'
+import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckScenarios'
 import CaseLoad from '../../../../../../../types/internal/user/CaseLoad'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'

@@ -11,7 +11,7 @@ import {
   grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
-} from '../../../../../../services/permissions/checks/baseCheck/BaseCheckTestScenarios'
+} from '../../../../../../services/permissions/checks/baseCheck/BaseCheckScenarios'
 import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const allPermissiveRoles = [Role.PomUser, Role.AddSensitiveCaseNotes]

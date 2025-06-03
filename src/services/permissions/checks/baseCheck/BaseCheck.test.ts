@@ -21,7 +21,7 @@ describe('BaseCheck', () => {
     ${baseCheckStatusGranted} | ${true}
   `('baseCheckStatus: $baseCheckStatus, permitted: $permitted', async ({ baseCheckStatus, permitted }) => {
     const user = prisonUserMock
-    const result = baseCheck({
+    const result = baseCheck(PrisonerBasePermission.read, {
       user,
       prisoner: prisonerMock,
       baseCheckStatus,
@@ -44,7 +44,7 @@ describe('BaseCheck', () => {
   })
 
   it('does not log permission failure if request not dependent on permission', () => {
-    const result = baseCheck({
+    const result = baseCheck(PrisonerBasePermission.read, {
       user: prisonUserMock,
       prisoner: prisonerMock,
       baseCheckStatus: baseCheckStatusDenied,
