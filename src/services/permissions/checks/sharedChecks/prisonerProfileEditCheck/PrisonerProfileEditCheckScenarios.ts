@@ -1,5 +1,4 @@
-import baseCheckAndUserHasRoleScenarios from '../baseCheckAndUserHasRole/BaseCheckAndUserHasRoleScenarios'
-import { Role } from '../../../../../types/internal/user/Role'
+import { baseCheckScenarios } from '../../baseCheck/BaseCheckScenarios'
 
 // eslint-disable-next-line import/prefer-default-export
-export const prisonerProfileEditCheckScenarios = baseCheckAndUserHasRoleScenarios(Role.DPSApplicationDeveloper)
+export const prisonerProfileEditCheckScenarios = baseCheckScenarios

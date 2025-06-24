@@ -5,6 +5,7 @@ import {
   PersonProtectedCharacteristicsPermission,
   PersonProtectedCharacteristicsPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
+import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 
 export default function personProtectedCharacteristicsCheck(
   request: PermissionsCheckRequest,
@@ -17,7 +18,7 @@ export default function personProtectedCharacteristicsCheck(
     ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
 
     ...readCheck(PersonProtectedCharacteristicsPermission.read_ethnicity, request),
-    ...editCheck(PersonProtectedCharacteristicsPermission.edit_ethnicity, request),
+    ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_ethnicity, request),
   }
 }
 
@@ -33,6 +34,16 @@ function editCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
   request: PermissionsCheckRequest,
 ): Pick<PersonProtectedCharacteristicsPermissions, P> {
   return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<
+    PersonProtectedCharacteristicsPermissions,
+    P
+  >
+}
+
+function sensitiveEditCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
+  permission: P,
+  request: PermissionsCheckRequest,
+): Pick<PersonProtectedCharacteristicsPermissions, P> {
+  return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
     PersonProtectedCharacteristicsPermissions,
     P
   >
