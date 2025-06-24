@@ -44,6 +44,7 @@ import { prisonerProfileEditCheckScenarios } from './scenarios/shared/PrisonerPr
 import { PersonHealthAndMedicationPermission } from '../../types/public/permissions/domains/person/personHealthAndMedication/PersonHealthAndMedicationPermissions'
 import { dietEditScenarios } from '../../services/permissions/checks/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
 import { PersonProtectedCharacteristicsPermission } from '../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
+import { prisonerProfileSensitiveEditCheckScenarios } from '../../services/permissions/checks/sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheckScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -77,21 +78,29 @@ describe('Prisoner Profile Contract Tests', () => {
           [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
           [CorePersonRecordPermission.read_photo]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_photo]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_photo]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_military_history]: prisonerProfileEditCheckScenarios,
           [CorePersonRecordPermission.read_name_and_aliases]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_name_and_aliases]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_name_and_aliases]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_date_of_birth]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_date_of_birth]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_date_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_address]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_address]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_address]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_nationality]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_nationality]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_nationality]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_identifiers]: baseCheckScenarios,
-          [CorePersonRecordPermission.edit_identifiers]: prisonerProfileEditCheckScenarios,
+          [CorePersonRecordPermission.edit_identifiers]: prisonerProfileSensitiveEditCheckScenarios,
+          [CorePersonRecordPermission.read_phone_numbers]: baseCheckScenarios,
+          [CorePersonRecordPermission.edit_phone_numbers]: prisonerProfileSensitiveEditCheckScenarios,
+          [CorePersonRecordPermission.read_email_addresses]: baseCheckScenarios,
+          [CorePersonRecordPermission.edit_email_addresses]: prisonerProfileSensitiveEditCheckScenarios,
+          [CorePersonRecordPermission.read_distinguishing_marks]: baseCheckScenarios,
+          [CorePersonRecordPermission.edit_distinguishing_marks]: prisonerProfileSensitiveEditCheckScenarios,
+          [CorePersonRecordPermission.read_emergency_contacts]: baseCheckScenarios,
+          [CorePersonRecordPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
         })
       })
 
@@ -102,7 +111,7 @@ describe('Prisoner Profile Contract Tests', () => {
           [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: baseCheckScenarios,
           [PersonProtectedCharacteristicsPermission.edit_religion_and_belief]: prisonerProfileEditCheckScenarios,
           [PersonProtectedCharacteristicsPermission.read_ethnicity]: baseCheckScenarios,
-          [PersonProtectedCharacteristicsPermission.edit_ethnicity]: prisonerProfileEditCheckScenarios,
+          [PersonProtectedCharacteristicsPermission.edit_ethnicity]: prisonerProfileSensitiveEditCheckScenarios,
         })
       })
 

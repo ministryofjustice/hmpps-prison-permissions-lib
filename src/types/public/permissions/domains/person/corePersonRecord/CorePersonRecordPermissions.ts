@@ -27,6 +27,19 @@ export enum CorePersonRecordPermission {
   // (Such as PNC / CRO / NI number...)
   read_identifiers = 'prisoner:identifiers:read',
   edit_identifiers = 'prisoner:identifiers:edit',
+
+  read_phone_numbers = 'prisoner:phone-numbers:read',
+  edit_phone_numbers = 'prisoner:phone-numbers:edit',
+
+  read_email_addresses = 'prisoner:email-addresses:read',
+  edit_email_addresses = 'prisoner:email-addresses:edit',
+
+  read_distinguishing_marks = 'prisoner:distinguishing-marks:read',
+  edit_distinguishing_marks = 'prisoner:distinguishing-marks:edit',
+
+  // Next of kin & emergency contacts
+  read_emergency_contacts = 'prisoner:emergency-contacts:read',
+  edit_emergency_contacts = 'prisoner:emergency-contacts:edit',
 }
 
 export type CorePersonRecordPermissions = Record<CorePersonRecordPermission, boolean>
