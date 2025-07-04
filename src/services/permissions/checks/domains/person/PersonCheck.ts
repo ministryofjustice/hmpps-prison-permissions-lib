@@ -4,6 +4,7 @@ import { PersonDomainPermissions } from '../../../../../types/public/permissions
 import corePersonRecordCheck from './corePersonRecord/CorePersonRecordCheck'
 import personProtectedCharacteristicsCheck from './personProtectedCharacteristics/PersonProtectedCharacteristicsCheck'
 import personHealthAndMedicationCheck from './personHealthAndMedication/PersonHealthAndMedicationCheck'
+import personalRelationshipsCheck from './personalRelationships/PersonalRelationshipsCheck'
 
 export default function personCheck(request: PermissionsCheckRequest): PersonDomainPermissions {
   return {
@@ -11,5 +12,6 @@ export default function personCheck(request: PermissionsCheckRequest): PersonDom
     corePersonRecord: corePersonRecordCheck(request),
     personProtectedCharacteristics: personProtectedCharacteristicsCheck(request),
     personHealthAndMedication: personHealthAndMedicationCheck(request),
+    personalRelationships: personalRelationshipsCheck(request),
   }
 }
