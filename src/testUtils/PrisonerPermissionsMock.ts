@@ -37,6 +37,12 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:nationality:edit': false,
         'prisoner:identifiers:read': false,
         'prisoner:identifiers:edit': false,
+        'prisoner:phone-numbers:read': false,
+        'prisoner:phone-numbers:edit': false,
+        'prisoner:email-addresses:read': false,
+        'prisoner:email-addresses:edit': false,
+        'prisoner:distinguishing-marks:read': false,
+        'prisoner:distinguishing-marks:edit': false,
       },
       personProtectedCharacteristics: {
         'prisoner:sexual-orientation:read': false,
@@ -53,6 +59,10 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:diet:edit': false,
         'prisoner:smoker:read': false,
         'prisoner:smoker:edit': false,
+      },
+      personalRelationships: {
+        'prisoner:emergency-contacts:read': false,
+        'prisoner:emergency-contacts:edit': false,
       },
     },
     prisonerSpecific: {

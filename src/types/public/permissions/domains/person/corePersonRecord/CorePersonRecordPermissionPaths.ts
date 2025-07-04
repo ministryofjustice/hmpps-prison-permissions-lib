@@ -32,4 +32,13 @@ export const corePersonRecordPermissionPaths: Record<CorePersonRecordPermission,
 
   [CorePersonRecordPermission.read_identifiers]: `${basePath}.${CorePersonRecordPermission.read_identifiers}`,
   [CorePersonRecordPermission.edit_identifiers]: `${basePath}.${CorePersonRecordPermission.edit_identifiers}`,
+
+  [CorePersonRecordPermission.read_phone_numbers]: `${basePath}.${CorePersonRecordPermission.read_phone_numbers}`,
+  [CorePersonRecordPermission.edit_phone_numbers]: `${basePath}.${CorePersonRecordPermission.edit_phone_numbers}`,
+
+  [CorePersonRecordPermission.read_email_addresses]: `${basePath}.${CorePersonRecordPermission.read_email_addresses}`,
+  [CorePersonRecordPermission.edit_email_addresses]: `${basePath}.${CorePersonRecordPermission.edit_email_addresses}`,
+
+  [CorePersonRecordPermission.read_distinguishing_marks]: `${basePath}.${CorePersonRecordPermission.read_distinguishing_marks}`,
+  [CorePersonRecordPermission.edit_distinguishing_marks]: `${basePath}.${CorePersonRecordPermission.edit_distinguishing_marks}`,
 }

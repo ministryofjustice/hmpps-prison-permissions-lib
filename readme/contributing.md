@@ -16,7 +16,8 @@ Adding a new permission involves the following:
    e.g. [PrisonerMoneyPermissions.ts](../src/types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions.ts)
 3) Add the permission path to the relevant path object,
    e.g. [PrisonerMoneyPermissionPaths.ts](../src/types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionPaths.ts)
-4) Add a folder under `src/services/permissions/domains/...` for the new permission check. This should include the
+4) Add a folder under `src/services/permissions/checks/domains/...` for the new permission check. This should include
+   the
    check, a unit test and a scenarios file. The scenarios can be built up with the builders and help to verify
    the end-to-end permission check works ok.
 5) Using the above scenarios for the permission, add a test

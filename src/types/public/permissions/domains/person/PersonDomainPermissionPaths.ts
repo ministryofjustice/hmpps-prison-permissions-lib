@@ -5,6 +5,7 @@ import { PersonDomainPermission } from './PersonDomainPermissions'
 import { corePersonRecordPermissionPaths } from './corePersonRecord/CorePersonRecordPermissionPaths'
 import { personProtectedCharacteristicsPermissionPaths } from './personProtectedCharacteristics/PersonProtectedCharacteristicsPermissionPaths'
 import { personHealthAndMedicationPermissionPaths } from './personHealthAndMedication/PersonHealthAndMedicationPermissionPaths'
+import { personalRelationshipsPermissionPaths } from './personalRelationships/PersonalRelationshipsPermissionPaths'
 
 // eslint-disable-next-line import/prefer-default-export
 export const personDomainPermissionPaths: Record<PersonDomainPermission, Path<PrisonerPermissions>> = {
@@ -12,4 +13,5 @@ export const personDomainPermissionPaths: Record<PersonDomainPermission, Path<Pr
   ...corePersonRecordPermissionPaths,
   ...personProtectedCharacteristicsPermissionPaths,
   ...personHealthAndMedicationPermissionPaths,
+  ...personalRelationshipsPermissionPaths,
 }

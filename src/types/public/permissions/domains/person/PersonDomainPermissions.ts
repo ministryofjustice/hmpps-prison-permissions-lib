@@ -8,12 +8,17 @@ import {
   PersonHealthAndMedicationPermission,
   PersonHealthAndMedicationPermissions,
 } from './personHealthAndMedication/PersonHealthAndMedicationPermissions'
+import {
+  PersonalRelationshipsPermission,
+  PersonalRelationshipsPermissions,
+} from './personalRelationships/PersonalRelationshipsPermissions'
 
 export interface PersonDomainPermissions {
   caseNotes: CaseNotesPermissions
   corePersonRecord: CorePersonRecordPermissions
   personProtectedCharacteristics: PersonProtectedCharacteristicsPermissions
   personHealthAndMedication: PersonHealthAndMedicationPermissions
+  personalRelationships: PersonalRelationshipsPermissions
 }
 
 export type PersonDomainPermission =
@@ -21,3 +26,4 @@ export type PersonDomainPermission =
   | CorePersonRecordPermission
   | PersonProtectedCharacteristicsPermission
   | PersonHealthAndMedicationPermission
+  | PersonalRelationshipsPermission
