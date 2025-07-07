@@ -18,6 +18,10 @@ import {
   InterventionsDomainPermission,
   InterventionsDomainPermissions,
 } from '../domains/interventions/InterventionsDomainPermissions'
+import {
+  PersonPlanAndNeedsDomainPermission,
+  PersonPlanAndNeedsDomainPermissions,
+} from '../domains/personPlanAndNeeds/PersonPlanAndNeedsDomainPermissions'
 
 export enum PrisonerBasePermission {
   read = 'prisoner:base-record:read',
@@ -32,6 +36,7 @@ export interface PrisonerPermissions {
   domainGroups: {
     interventions: InterventionsDomainPermissions
     person: PersonDomainPermissions
+    personPlanAndNeeds: PersonPlanAndNeedsDomainPermissions
     prisonerSpecific: PrisonerSpecificDomainPermissions
     probation: ProbationDomainPermissions
     runningAPrison: RunningAPrisonDomainPermissions
@@ -44,6 +49,7 @@ export type PrisonerPermission =
   | PrisonerBasePermission
   | InterventionsDomainPermission
   | PersonDomainPermission
+  | PersonPlanAndNeedsDomainPermission
   | PrisonerSpecificDomainPermission
   | ProbationDocumentsPermission
   | RunningAPrisonDomainPermission

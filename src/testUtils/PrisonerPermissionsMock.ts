@@ -63,6 +63,16 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       personalRelationships: {
         'prisoner:emergency-contacts:read': false,
         'prisoner:emergency-contacts:edit': false,
+        'prisoner:number-of-children:read': false,
+        'prisoner:number-of-children:edit': false,
+        'prisoner:domestic-status:read': false,
+        'prisoner:domestic-status:edit': false,
+      },
+    },
+    personPlanAndNeeds: {
+      personCommunicationNeeds: {
+        'prisoner:language:read': false,
+        'prisoner:language:edit': false,
       },
     },
     prisonerSpecific: {
