@@ -1,7 +1,7 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import baseCheck from '../../baseCheck/BaseCheck'
+import baseCheckAndInUsersCaseLoad from '../baseCheckAndInUsersCaseLoad/BaseCheckAndInUsersCaseLoad'
 
 export default function prisonerProfileEditCheck(permission: PrisonerPermission, request: PermissionsCheckRequest) {
-  return baseCheck(permission, request)
+  return baseCheckAndInUsersCaseLoad(permission, request)
 }
