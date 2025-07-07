@@ -20,6 +20,7 @@ import {
   PrisonerPermission,
   PrisonerPermissions,
 } from '../../types/public/permissions/prisoner/PrisonerPermissions'
+import personPlanAndNeedsCheck from './checks/domains/personPlanAndNeeds/PersonPlanAndNeedsCheck'
 
 export default class PermissionsService {
   private readonly prisonerSearchClient: PrisonerSearchClient
@@ -71,6 +72,7 @@ export default class PermissionsService {
       domainGroups: {
         interventions: interventionsCheck(request),
         person: personCheck(request),
+        personPlanAndNeeds: personPlanAndNeedsCheck(request),
         prisonerSpecific: prisonerSpecificCheck(request),
         probation: probationCheck(request),
         runningAPrison: runningAPrisonCheck(request),

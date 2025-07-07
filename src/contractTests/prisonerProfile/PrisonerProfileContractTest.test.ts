@@ -46,6 +46,7 @@ import { dietEditScenarios } from '../../services/permissions/checks/domains/per
 import { PersonProtectedCharacteristicsPermission } from '../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
 import { prisonerProfileSensitiveEditCheckScenarios } from '../../services/permissions/checks/sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheckScenarios'
 import { PersonalRelationshipsPermission } from '../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
+import { PersonCommunicationNeedsPermission } from '../../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -106,7 +107,8 @@ describe('Prisoner Profile Contract Tests', () => {
       describe('Person Protected Characteristics', () => {
         scenarioTests<PersonProtectedCharacteristicsPermission>({
           [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: baseCheckScenarios,
-          [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]: prisonerProfileEditCheckScenarios,
+          [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]:
+            prisonerProfileSensitiveEditCheckScenarios,
           [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: baseCheckScenarios,
           [PersonProtectedCharacteristicsPermission.edit_religion_and_belief]: prisonerProfileEditCheckScenarios,
           [PersonProtectedCharacteristicsPermission.read_ethnicity]: baseCheckScenarios,
@@ -129,6 +131,19 @@ describe('Prisoner Profile Contract Tests', () => {
         scenarioTests<PersonalRelationshipsPermission>({
           [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
           [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
+          [PersonalRelationshipsPermission.read_number_of_children]: baseCheckScenarios,
+          [PersonalRelationshipsPermission.edit_number_of_children]: prisonerProfileEditCheckScenarios,
+          [PersonalRelationshipsPermission.read_domestic_status]: baseCheckScenarios,
+          [PersonalRelationshipsPermission.edit_domestic_status]: prisonerProfileEditCheckScenarios,
+        })
+      })
+    })
+
+    describe('Person Plan and Needs', () => {
+      describe('Person Communication Needs', () => {
+        scenarioTests<PersonCommunicationNeedsPermission>({
+          [PersonCommunicationNeedsPermission.read_language]: baseCheckScenarios,
+          [PersonCommunicationNeedsPermission.edit_language]: prisonerProfileEditCheckScenarios,
         })
       })
     })

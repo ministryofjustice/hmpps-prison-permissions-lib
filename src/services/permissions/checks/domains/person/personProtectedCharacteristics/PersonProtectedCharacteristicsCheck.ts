@@ -12,7 +12,7 @@ export default function personProtectedCharacteristicsCheck(
 ): PersonProtectedCharacteristicsPermissions {
   return {
     ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
-    ...editCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
+    ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
 
     ...readCheck(PersonProtectedCharacteristicsPermission.read_religion_and_belief, request),
     ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
