@@ -51,8 +51,7 @@ interface NunjucksEnvironment {
   addGlobal: (name: string, value: unknown) => NunjucksEnvironment
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function setupNunjucksPermissions(njkEnv: NunjucksEnvironment) {
+export default function setupNunjucksPermissions(njkEnv: NunjucksEnvironment) {
   njkEnv.addGlobal('isGranted', isGranted)
   Object.entries(nunjucksEnums).forEach(([key, value]) => njkEnv.addGlobal(key, value))
 }

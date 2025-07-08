@@ -5,4 +5,4 @@ export { default as PermissionsService } from './services/permissions/Permission
 export { default as prisonerPermissionsGuard } from './middleware/PrisonerPermissionsGuard'
 
 // View:
-export { setupNunjucksPermissions } from './view/setupNunjucksPermissions'
+export { default as setupNunjucksPermissions } from './view/SetupNunjucksPermissions'
