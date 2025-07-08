@@ -1,8 +1,7 @@
 import { Role } from '../../../../../types/internal/user/Role'
-import { TestScenarios } from '../../../../../testUtils/TestScenario'
+import { TestScenarios, userWithActiveCaseLoad } from '../../../../../testUtils/TestScenario'
 import {
   deniedBaseCheckScenarios,
-  grantedCaseLoadCheckScenarios,
   grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
@@ -10,35 +9,48 @@ import {
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  // These granted base check scenarios should be denied because the user must have the prisoner in case load:
+  // These granted base check scenarios should be denied because the user must have the prisoner in the active case load:
   .and(
     grantedReleasedPrisonerCheckScenarios
       .withUserRole(Role.PrisonerProfileSensitiveEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedTransferringPrisonerCheckScenarios
       .withUserRole(Role.PrisonerProfileSensitiveEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedReleasedPrisonerCheckScenarios
       .withUserRole(Role.PrisonerProfileSensitiveEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedGlobalSearchCheckScenarios
       .withUserRole(Role.PrisonerProfileSensitiveEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
-  // These scenarios should be denied because the user must have the required role:
-  .and(
-    grantedCaseLoadCheckScenarios
-      .withoutUserRoles([Role.PrisonerProfileSensitiveEdit])
-      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+  .andScenarioWhere(
+    userWithActiveCaseLoad('MDI')
+      .withAdditionalCaseLoads(['LEI'])
+      .withRoles([])
+      .accessingPrisonerAt('LEI')
+      .expectsStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+  )
+  // This granted base check scenario should be denied because the user doesn't have the required role:
+  .andScenarioWhere(
+    userWithActiveCaseLoad('MDI')
+      .withRoles([])
+      .accessingPrisonerAt('MDI')
+      .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
   )
 
-const grantedScenarios = grantedCaseLoadCheckScenarios.withUserRole(Role.PrisonerProfileSensitiveEdit)
+const grantedScenarios = new TestScenarios([
+  userWithActiveCaseLoad('MDI')
+    .withRoles([Role.PrisonerProfileSensitiveEdit])
+    .accessingPrisonerAt('MDI')
+    .expectsStatus(PermissionCheckStatus.OK),
+])
 
 // eslint-disable-next-line import/prefer-default-export
 export const prisonerProfileSensitiveEditCheckScenarios = grantedScenarios.and(deniedScenarios)

@@ -1,7 +1,7 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../utils/PermissionUtils'
+import { isActiveCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/internal/user/Role'
 
 export default function prisonerProfileSensitiveEditCheck(
@@ -11,16 +11,16 @@ export default function prisonerProfileSensitiveEditCheck(
   const { user, prisoner, baseCheckStatus } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
+  const inActiveCaseLoad = isActiveCaseLoad(prisoner.prisonId, user)
   const hasRole = userHasRole(Role.PrisonerProfileSensitiveEdit, user)
 
-  const check = baseCheckPassed && inUsersCaseLoad && hasRole
+  const check = baseCheckPassed && inActiveCaseLoad && hasRole
 
   if (!check)
     logDeniedPermissionCheck(
       permission,
       request,
-      inUsersCaseLoad ? PermissionCheckStatus.ROLE_NOT_PRESENT : PermissionCheckStatus.NOT_IN_CASELOAD,
+      inActiveCaseLoad ? PermissionCheckStatus.ROLE_NOT_PRESENT : PermissionCheckStatus.NOT_ACTIVE_CASELOAD,
     )
 
   return check
