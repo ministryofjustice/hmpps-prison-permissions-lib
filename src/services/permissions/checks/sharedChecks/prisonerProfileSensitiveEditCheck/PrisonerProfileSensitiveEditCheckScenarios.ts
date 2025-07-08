@@ -33,7 +33,7 @@ const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withAdditionalCaseLoads(['LEI'])
-      .withRoles([])
+      .withRoles([Role.PrisonerProfileSensitiveEdit])
       .accessingPrisonerAt('LEI')
       .expectsStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
   )
