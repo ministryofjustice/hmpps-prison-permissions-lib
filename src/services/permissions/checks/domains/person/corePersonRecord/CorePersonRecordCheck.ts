@@ -6,14 +6,15 @@ import {
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
+import photoReadCheck from './photo/PhotoReadCheck'
 
 export default function corePersonRecordCheck(request: PermissionsCheckRequest): CorePersonRecordPermissions {
   return {
+    [CorePersonRecordPermission.read_photo]: photoReadCheck(request),
+    ...sensitiveEditCheck(CorePersonRecordPermission.edit_photo, request),
+
     ...readCheck(CorePersonRecordPermission.read_physical_characteristics, request),
     ...editCheck(CorePersonRecordPermission.edit_physical_characteristics, request),
-
-    ...readCheck(CorePersonRecordPermission.read_photo, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_photo, request),
 
     ...readCheck(CorePersonRecordPermission.read_place_of_birth, request),
     ...sensitiveEditCheck(CorePersonRecordPermission.edit_place_of_birth, request),

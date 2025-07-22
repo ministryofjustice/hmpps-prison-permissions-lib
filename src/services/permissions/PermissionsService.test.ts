@@ -51,6 +51,7 @@ import { PersonProtectedCharacteristicsPermission } from '../../types/public/per
 import { prisonerProfileSensitiveEditCheckScenarios } from './checks/sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheckScenarios'
 import { PersonalRelationshipsPermission } from '../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
 import { PersonCommunicationNeedsPermission } from '../../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
+import { photoReadScenarios } from './checks/domains/person/corePersonRecord/photo/PhotoReadScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -93,7 +94,7 @@ describe('PermissionsService', () => {
           scenarioTests<CorePersonRecordPermission>({
             [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
             [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
-            [CorePersonRecordPermission.read_photo]: baseCheckScenarios,
+            [CorePersonRecordPermission.read_photo]: photoReadScenarios,
             [CorePersonRecordPermission.edit_photo]: prisonerProfileSensitiveEditCheckScenarios,
             [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
             [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,

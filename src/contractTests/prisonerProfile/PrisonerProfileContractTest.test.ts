@@ -47,6 +47,7 @@ import { pathfinderEditScenarios } from './scenarios/domains/security/pathfinder
 import { socReadScenarios } from './scenarios/domains/security/soc/SOCReadScenarios'
 import { socEditScenarios } from './scenarios/domains/security/soc/SOCEditScenarios'
 import { dietEditScenarios } from './scenarios/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
+import { photoReadScenarios } from './scenarios/domains/person/corePersonRecord/PhotoReadScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -79,7 +80,7 @@ describe('Prisoner Profile Contract Tests', () => {
         scenarioTests<CorePersonRecordPermission>({
           [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
-          [CorePersonRecordPermission.read_photo]: baseCheckScenarios,
+          [CorePersonRecordPermission.read_photo]: photoReadScenarios,
           [CorePersonRecordPermission.edit_photo]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
