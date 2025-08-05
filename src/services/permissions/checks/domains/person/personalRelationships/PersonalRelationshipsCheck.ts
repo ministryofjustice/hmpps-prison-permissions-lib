@@ -1,22 +1,49 @@
 import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
 import baseCheck from '../../../baseCheck/BaseCheck'
-import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import {
   PersonalRelationshipsPermission,
   PersonalRelationshipsPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
+import inUsersCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inUsersCaseLoadAndUserHasSomeRolesFrom/InUsersCaseLoadAndUserHasSomeRolesFrom'
+import { Role } from '../../../../../../types/internal/user/Role'
+import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
+import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
 
 export default function personalRelationshipsCheck(request: PermissionsCheckRequest): PersonalRelationshipsPermissions {
   return {
-    ...readCheck(PersonalRelationshipsPermission.read_emergency_contacts, request),
-    ...sensitiveEditCheck(PersonalRelationshipsPermission.edit_emergency_contacts, request),
-
     ...readCheck(PersonalRelationshipsPermission.read_number_of_children, request),
     ...editCheck(PersonalRelationshipsPermission.edit_number_of_children, request),
 
     ...readCheck(PersonalRelationshipsPermission.read_domestic_status, request),
     ...editCheck(PersonalRelationshipsPermission.edit_domestic_status, request),
+
+    ...readCheck(PersonalRelationshipsPermission.read_emergency_contacts, request),
+    ...sensitiveEditCheck(PersonalRelationshipsPermission.edit_emergency_contacts, request),
+
+    [PersonalRelationshipsPermission.read_contacts]: inUsersCaseLoad(
+      PersonalRelationshipsPermission.read_contacts,
+      request,
+    ),
+
+    [PersonalRelationshipsPermission.edit_contacts]: inUsersCaseLoadAndUserHasSomeRolesFrom(
+      [Role.ContactsAdministrator, Role.ContactsAuthoriser],
+      PersonalRelationshipsPermission.edit_contacts,
+      request,
+    ),
+
+    [PersonalRelationshipsPermission.edit_contact_restrictions]: inUsersCaseLoadAndUserHasRole(
+      Role.ContactsAuthoriser,
+      PersonalRelationshipsPermission.edit_contact_restrictions,
+      request,
+    ),
+
+    [PersonalRelationshipsPermission.edit_contact_visit_approval]: inUsersCaseLoadAndUserHasRole(
+      Role.ContactsAuthoriser,
+      PersonalRelationshipsPermission.edit_contact_visit_approval,
+      request,
+    ),
   }
 }
 

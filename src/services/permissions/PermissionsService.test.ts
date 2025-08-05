@@ -52,6 +52,10 @@ import { prisonerProfileSensitiveEditCheckScenarios } from './checks/sharedCheck
 import { PersonalRelationshipsPermission } from '../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
 import { PersonCommunicationNeedsPermission } from '../../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
 import { photoReadScenarios } from './checks/domains/person/corePersonRecord/photo/PhotoReadScenarios'
+import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from './checks/sharedChecks/inUsersCaseLoadAndUserHasSomeRolesFrom/InUsersCaseLoadAndUserHasSomeRolesFromScenarios'
+import { Role } from '../../types/internal/user/Role'
+import inUsersCaseLoadAndUserHasRoleScenarios from './checks/sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
+import { inUsersCaseLoadScenarios } from './checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -144,12 +148,23 @@ describe('PermissionsService', () => {
 
         describe('Personal Relationships', () => {
           scenarioTests<PersonalRelationshipsPermission>({
-            [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
-            [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
             [PersonalRelationshipsPermission.read_number_of_children]: baseCheckScenarios,
             [PersonalRelationshipsPermission.edit_number_of_children]: prisonerProfileEditCheckScenarios,
             [PersonalRelationshipsPermission.read_domestic_status]: baseCheckScenarios,
             [PersonalRelationshipsPermission.edit_domestic_status]: prisonerProfileEditCheckScenarios,
+            [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
+            [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
+            [PersonalRelationshipsPermission.read_contacts]: inUsersCaseLoadScenarios,
+            [PersonalRelationshipsPermission.edit_contacts]: inUsersCaseLoadAndUserHasSomeRolesFromScenarios([
+              Role.ContactsAdministrator,
+              Role.ContactsAuthoriser,
+            ]),
+            [PersonalRelationshipsPermission.edit_contact_restrictions]: inUsersCaseLoadAndUserHasRoleScenarios(
+              Role.ContactsAuthoriser,
+            ),
+            [PersonalRelationshipsPermission.edit_contact_visit_approval]: inUsersCaseLoadAndUserHasRoleScenarios(
+              Role.ContactsAuthoriser,
+            ),
           })
         })
       })

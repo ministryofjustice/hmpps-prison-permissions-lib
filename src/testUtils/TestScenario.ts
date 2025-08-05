@@ -230,7 +230,7 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
   }
 }
 
-export function scenarioTests<T extends PrisonerPermission>(permissionScenarios: Record<T, TestScenarios>) {
+export function scenarioTest(permissionUnderTest: PrisonerPermission, scenarios: TestScenarios) {
   let prisonerSearchClient: PrisonerSearchClient
   let permissionsLogger: PermissionsLogger
 
@@ -244,36 +244,41 @@ export function scenarioTests<T extends PrisonerPermission>(permissionScenarios:
     service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
   })
 
+  describe(`Permission: ${permissionUnderTest}`, () => {
+    it.each(scenarios.toTestArray())(
+      `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
+      (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
+        const { user, prisoner, expectedStatus } = testScenario as TestScenario
+
+        const permissions = service.getPrisonerPermissions({
+          user,
+          prisoner,
+          requestDependentOn: [permissionUnderTest],
+        })
+
+        expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
+
+        if (expectedStatus === PermissionCheckStatus.OK) {
+          expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+        } else {
+          expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+            user,
+            prisoner,
+            permissionUnderTest,
+            expectedStatus,
+          )
+        }
+      },
+    )
+  })
+}
+
+// This test function helps to ensure test coverage by using typing to check that permissions aren't missed
+export function scenarioTests<T extends PrisonerPermission>(permissionScenarios: Record<T, TestScenarios>) {
   Object.keys(permissionScenarios).forEach(key => {
     const permissionUnderTest = key as PrisonerPermission
     const scenarios = permissionScenarios[key as T]
 
-    describe(`Permission: ${permissionUnderTest}`, () => {
-      it.each(scenarios.toTestArray())(
-        `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
-        (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
-          const { user, prisoner, expectedStatus } = testScenario as TestScenario
-
-          const permissions = service.getPrisonerPermissions({
-            user,
-            prisoner,
-            requestDependentOn: [permissionUnderTest],
-          })
-
-          expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
-
-          if (expectedStatus === PermissionCheckStatus.OK) {
-            expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-          } else {
-            expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
-              user,
-              prisoner,
-              permissionUnderTest,
-              expectedStatus,
-            )
-          }
-        },
-      )
-    })
+    scenarioTest(permissionUnderTest, scenarios)
   })
 }
