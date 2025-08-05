@@ -1,7 +1,7 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PrisonerMoneyPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissions'
-import baseCheckAndInUsersCaseLoad from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndInUsersCaseLoad'
+import inUsersCaseLoad from '../../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function prisonerMoneyReadCheck(request: PermissionsCheckRequest) {
-  return baseCheckAndInUsersCaseLoad(PrisonerMoneyPermission.read, request)
+  return inUsersCaseLoad(PrisonerMoneyPermission.read, request)
 }

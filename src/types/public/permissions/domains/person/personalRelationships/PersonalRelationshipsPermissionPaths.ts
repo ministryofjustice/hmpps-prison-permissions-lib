@@ -9,10 +9,14 @@ export const personalRelationshipsPermissionPaths: Record<
   PersonalRelationshipsPermission,
   Path<PrisonerPermissions>
 > = {
-  [PersonalRelationshipsPermission.read_emergency_contacts]: `${basePath}.${PersonalRelationshipsPermission.read_emergency_contacts}`,
-  [PersonalRelationshipsPermission.edit_emergency_contacts]: `${basePath}.${PersonalRelationshipsPermission.edit_emergency_contacts}`,
   [PersonalRelationshipsPermission.read_number_of_children]: `${basePath}.${PersonalRelationshipsPermission.read_number_of_children}`,
   [PersonalRelationshipsPermission.edit_number_of_children]: `${basePath}.${PersonalRelationshipsPermission.edit_number_of_children}`,
   [PersonalRelationshipsPermission.read_domestic_status]: `${basePath}.${PersonalRelationshipsPermission.read_domestic_status}`,
   [PersonalRelationshipsPermission.edit_domestic_status]: `${basePath}.${PersonalRelationshipsPermission.edit_domestic_status}`,
+  [PersonalRelationshipsPermission.read_contacts]: `${basePath}.${PersonalRelationshipsPermission.read_contacts}`,
+  [PersonalRelationshipsPermission.edit_contacts]: `${basePath}.${PersonalRelationshipsPermission.edit_contacts}`,
+  [PersonalRelationshipsPermission.edit_contact_restrictions]: `${basePath}.${PersonalRelationshipsPermission.edit_contact_restrictions}`,
+  [PersonalRelationshipsPermission.edit_contact_visit_approval]: `${basePath}.${PersonalRelationshipsPermission.edit_contact_visit_approval}`,
+  [PersonalRelationshipsPermission.read_emergency_contacts]: `${basePath}.${PersonalRelationshipsPermission.read_emergency_contacts}`,
+  [PersonalRelationshipsPermission.edit_emergency_contacts]: `${basePath}.${PersonalRelationshipsPermission.edit_emergency_contacts}`,
 }

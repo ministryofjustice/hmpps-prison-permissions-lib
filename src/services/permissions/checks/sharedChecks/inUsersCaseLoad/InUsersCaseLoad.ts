@@ -1,15 +1,15 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsCheckRequest from '../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isActiveCaseLoad, logDeniedPermissionCheck } from '../../../utils/PermissionUtils'
+import { isInUsersCaseLoad, logDeniedPermissionCheck } from '../../../utils/PermissionUtils'
 
-export default function baseCheckAndInActiveCaseLoad(permission: PrisonerPermission, request: PermissionsCheckRequest) {
+export default function inUsersCaseLoad(permission: PrisonerPermission, request: PermissionsCheckRequest) {
   const { user, prisoner, baseCheckStatus } = request
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const check = baseCheckPassed && isActiveCaseLoad(prisoner.prisonId, user)
+  const check = baseCheckPassed && isInUsersCaseLoad(prisoner.prisonId, user)
 
-  if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_ACTIVE_CASELOAD)
+  if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_IN_CASELOAD)
 
   return check
 }

@@ -1,5 +1,5 @@
 import { PrisonerBasePermission } from '../../types/public/permissions/prisoner/PrisonerPermissions'
-import { scenarioTests } from '../../testUtils/TestScenario'
+import { scenarioTest, scenarioTests } from '../../testUtils/TestScenario'
 import { PersonSentenceCalculationPermission } from '../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { baseCheckScenarios } from './scenarios/baseCheck/BaseCheckScenarios'
 import { sentenceCalculationReadScenarios } from './scenarios/domains/sentenceAndOffence/personSentenceCalculation/SentenceCalculationReadScenarios'
@@ -48,6 +48,7 @@ import { socReadScenarios } from './scenarios/domains/security/soc/SOCReadScenar
 import { socEditScenarios } from './scenarios/domains/security/soc/SOCEditScenarios'
 import { dietEditScenarios } from './scenarios/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
 import { photoReadScenarios } from './scenarios/domains/person/corePersonRecord/PhotoReadScenarios'
+import { inUsersCaseLoadScenarios } from '../../services/permissions/checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -129,14 +130,16 @@ describe('Prisoner Profile Contract Tests', () => {
       })
 
       describe('Personal Relationships', () => {
-        scenarioTests<PersonalRelationshipsPermission>({
-          [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
-          [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
-          [PersonalRelationshipsPermission.read_number_of_children]: baseCheckScenarios,
-          [PersonalRelationshipsPermission.edit_number_of_children]: prisonerProfileEditCheckScenarios,
-          [PersonalRelationshipsPermission.read_domestic_status]: baseCheckScenarios,
-          [PersonalRelationshipsPermission.edit_domestic_status]: prisonerProfileEditCheckScenarios,
-        })
+        scenarioTest(PersonalRelationshipsPermission.read_number_of_children, baseCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.edit_number_of_children, prisonerProfileEditCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_domestic_status, baseCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.edit_domestic_status, prisonerProfileEditCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_emergency_contacts, baseCheckScenarios)
+        scenarioTest(
+          PersonalRelationshipsPermission.edit_emergency_contacts,
+          prisonerProfileSensitiveEditCheckScenarios,
+        )
+        scenarioTest(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoadScenarios)
       })
     })
 

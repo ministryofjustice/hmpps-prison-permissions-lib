@@ -1,7 +1,7 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PersonInterventionsPermission } from '../../../../../../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
-import baseCheckAndInUsersCaseLoad from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndInUsersCaseLoad'
+import inUsersCaseLoad from '../../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function csipReadCheck(request: PermissionsCheckRequest) {
-  return baseCheckAndInUsersCaseLoad(PersonInterventionsPermission.read_csip, request)
+  return inUsersCaseLoad(PersonInterventionsPermission.read_csip, request)
 }

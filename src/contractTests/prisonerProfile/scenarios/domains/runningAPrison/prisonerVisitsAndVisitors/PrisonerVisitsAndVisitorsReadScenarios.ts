@@ -1,4 +1,4 @@
-import { baseCheckAndInUsersCaseLoadScenarios } from '../../../shared/BaseCheckAndInUsersCaseLoadScenarios'
+import { inUsersCaseLoadScenarios } from '../../../shared/InUsersCaseLoadScenarios'
 
 // eslint-disable-next-line import/prefer-default-export
-export const prisonerVisitsAndVisitorsReadScenarios = baseCheckAndInUsersCaseLoadScenarios
+export const prisonerVisitsAndVisitorsReadScenarios = inUsersCaseLoadScenarios

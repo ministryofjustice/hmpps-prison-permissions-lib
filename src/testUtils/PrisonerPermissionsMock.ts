@@ -61,12 +61,16 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:smoker:edit': false,
       },
       personalRelationships: {
-        'prisoner:emergency-contacts:read': false,
-        'prisoner:emergency-contacts:edit': false,
         'prisoner:number-of-children:read': false,
         'prisoner:number-of-children:edit': false,
         'prisoner:domestic-status:read': false,
         'prisoner:domestic-status:edit': false,
+        'prisoner:emergency-contacts:read': false,
+        'prisoner:emergency-contacts:edit': false,
+        'prisoner:contacts:read': false,
+        'prisoner:contacts:edit': false,
+        'prisoner:contact-restrictions:edit': false,
+        'prisoner:contact-visit-approval:edit': false,
       },
     },
     personPlanAndNeeds: {

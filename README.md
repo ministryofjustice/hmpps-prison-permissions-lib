@@ -69,7 +69,8 @@ The permissions service should be created just like any other of your services. 
 
 * `prisonerSearchConfig`: [Prisoner Search](https://github.com/ministryofjustice/hmpps-prisoner-search) configuration
   conforming to the `hmpps-typescript-lib`'
-  s `ApiConfig` [interface](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/rest-client/src/main/types/ApiConfig.ts)
+  s
+  `ApiConfig` [interface](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/rest-client/src/main/types/ApiConfig.ts)
 * `authenticationClient`: An `AuthenticationClient` instance (
   see [hmpps-typescript-lib](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/auth-clients/src/main/AuthenticationClient.ts))
   in order to make authorized client credentials calls to Prisoner Search.
@@ -120,6 +121,33 @@ If the user does not have the required permissions listed in `requestDependentOn
 throw a `PrisonerPermissionError` with a status code of 403. The Typescript Template by default logs the user
 out when encountering an error status of 403,
 see [here](https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/errorHandler.ts#L9).
+
+#### 6. Make use of the permissions checking utility in your code
+
+You can check if a particular permission is granted in your code simply by using the isGranted method, for example:
+
+```js
+isGranted(PrisonerMoneyPermission.read, res.locals.prisonerPermissions)
+```
+
+#### 7. Make use of the permissions checking utility directly in your nunjucks templates
+
+You also can check permissions directly in nunjucks templates by:
+
+* Configuring the nunjucks environment in your `nunjucksSetup.ts` file or equivalent:
+
+```js
+// Enable permissions checking in templates:
+setupNunjucksPermissions(njkEnv)
+```
+
+* Using the permissions check in the template, for example:
+
+```
+{% if isGranted(PrisonerMoneyPermission.read, res.locals.prisonerPermissions) %}
+ ...
+{% endif %}
+```
 
 ## For library developers:
 

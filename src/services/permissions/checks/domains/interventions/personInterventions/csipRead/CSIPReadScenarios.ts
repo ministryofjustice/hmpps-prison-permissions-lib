@@ -1,4 +1,4 @@
-import { baseCheckAndInUsersCaseLoadScenarios } from '../../../../sharedChecks/baseCheckAndInUsersCaseLoad/BaseCheckAndInUsersCaseLoadScenarios'
+import { inUsersCaseLoadScenarios } from '../../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 
 // eslint-disable-next-line import/prefer-default-export
-export const csipReadScenarios = baseCheckAndInUsersCaseLoadScenarios
+export const csipReadScenarios = inUsersCaseLoadScenarios
