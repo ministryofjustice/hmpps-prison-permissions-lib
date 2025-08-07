@@ -153,3 +153,4 @@ setupNunjucksPermissions(njkEnv)
 
 1. [Publishing to NPM](readme/publishing.md)
 2. [Contributing to permissions](readme/contributing.md)
+3. [Versioning guidance](readme/versioning.md)

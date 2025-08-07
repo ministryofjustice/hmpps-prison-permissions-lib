@@ -56,6 +56,7 @@ import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from './checks/sharedChec
 import { Role } from '../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasRoleScenarios from './checks/sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
 import { inUsersCaseLoadScenarios } from './checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
+import inActiveCaseLoadAndUserHasSomeRolesFromScenarios from './checks/sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFromScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -99,7 +100,10 @@ describe('PermissionsService', () => {
             [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
             [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
             [CorePersonRecordPermission.read_photo]: photoReadScenarios,
-            [CorePersonRecordPermission.edit_photo]: prisonerProfileSensitiveEditCheckScenarios,
+            [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFromScenarios([
+              Role.PrisonerProfileSensitiveEdit,
+              Role.PrisonerProfilePhotoUpload,
+            ]),
             [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
             [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
             [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,

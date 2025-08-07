@@ -48,7 +48,9 @@ import { socReadScenarios } from './scenarios/domains/security/soc/SOCReadScenar
 import { socEditScenarios } from './scenarios/domains/security/soc/SOCEditScenarios'
 import { dietEditScenarios } from './scenarios/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
 import { photoReadScenarios } from './scenarios/domains/person/corePersonRecord/PhotoReadScenarios'
-import { inUsersCaseLoadScenarios } from '../../services/permissions/checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
+import { Role } from '../../types/internal/user/Role'
+import inActiveCaseLoadAndUserHasSomeRolesFromScenarios from './scenarios/shared/InActiveCaseLoadAndUserHasSomeRolesFromScenarios'
+import { inUsersCaseLoadScenarios } from './scenarios/shared/InUsersCaseLoadScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -82,7 +84,10 @@ describe('Prisoner Profile Contract Tests', () => {
           [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
           [CorePersonRecordPermission.read_photo]: photoReadScenarios,
-          [CorePersonRecordPermission.edit_photo]: prisonerProfileSensitiveEditCheckScenarios,
+          [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFromScenarios([
+            Role.PrisonerProfileSensitiveEdit,
+            Role.PrisonerProfilePhotoUpload,
+          ]),
           [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,
