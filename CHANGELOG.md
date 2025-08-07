@@ -1,6 +1,13 @@
 # Change log
 
-Please use this to capture reasoning behind changes
+Please use this to capture reasoning behind changes:
+
+## 0.2.0
+
+Incident response. We are introducing an additional role enabling staff to upload photos via DPS.
+
+This is in addition to the existing sensitive edit role to allow rollout of the feature independently of Prisoner
+Profile edit.
 
 ## 0.1.0
 

@@ -7,11 +7,17 @@ import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import photoReadCheck from './photo/PhotoReadCheck'
+import { Role } from '../../../../../../types/internal/user/Role'
+import inActiveCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFrom'
 
 export default function corePersonRecordCheck(request: PermissionsCheckRequest): CorePersonRecordPermissions {
   return {
     [CorePersonRecordPermission.read_photo]: photoReadCheck(request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_photo, request),
+    [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFrom(
+      [Role.PrisonerProfileSensitiveEdit, Role.PrisonerProfilePhotoUpload],
+      CorePersonRecordPermission.edit_photo,
+      request,
+    ),
 
     ...readCheck(CorePersonRecordPermission.read_physical_characteristics, request),
     ...editCheck(CorePersonRecordPermission.edit_physical_characteristics, request),
