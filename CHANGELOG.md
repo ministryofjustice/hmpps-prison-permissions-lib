@@ -2,6 +2,23 @@
 
 Please use this to capture reasoning behind changes:
 
+## 1.0.0
+
+This release changes the permissions around global access to case notes. Previously if a user had both the `POM` and `GLOBAL_SEARCH` roles they would be able read/write case notes any prisoner. The permissions have now been updated so that users with both the `POM` and `GLOBAL_SEARCH` roles will only be able to read/write a prisoner's case notes if the prisoner has been in the users establishment within the last 30 days.
+
+The permissions check requires additional data to be passed in via the `Prisoner` which now expects the `lastPrisonId` and `dateOutOfLastPrison` fields to be present. This data is being added to the prisoner search so clients using the permissions library will need to ensure the following fields are present.
+
+```
+export default interface Prisoner {
+  prisonerNumber: string
+  prisonId?: string
+  restrictedPatient: boolean
+  supportingPrisonId?: string
+  lastPrisonId?: string
+  dateOutOfLastPrison?: string
+}
+```
+
 ## 0.2.0
 
 Incident response. We are introducing an additional role enabling staff to upload photos via DPS.
