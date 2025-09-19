@@ -68,7 +68,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "^0.0.1",
+    "@ministryofjustice/hmpps-rest-client": "^0.0.3",
     "applicationinsights": "^2.9.7"
   }
 }
