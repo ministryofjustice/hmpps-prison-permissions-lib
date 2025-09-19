@@ -31,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
       - name: Setup node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
       - name: Use latest npm version
@@ -50,7 +50,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Use latest npm version
@@ -78,13 +78,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
       - name: Setup node with public npmjs.com registry
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
           scope: '@ministryofjustice'
       - name: Use latest npm version
-        run: npm install -g npm
+        run: npm install -g npm@latest
       - name: Install dependencies
         run: npm install
       - name: Build all packages
@@ -115,4 +115,3 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ github.token }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
