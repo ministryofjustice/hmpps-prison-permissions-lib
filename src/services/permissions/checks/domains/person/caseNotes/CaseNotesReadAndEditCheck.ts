@@ -10,6 +10,11 @@ import {
 import restrictedPatientStatus from '../../../baseCheck/status/RestrictedPatientStatus'
 import releasedPrisonerStatus from '../../../baseCheck/status/ReleasedPrisonerStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
+import { HmppsUser } from '../../../../../../types/internal/user/HmppsUser'
+import Prisoner from '../../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import { daysToMilliseconds, isDateWithinBounds } from '../../../../utils/DateUtils'
+
+const caseNotesAccessPeriodPostTransferInMs = daysToMilliseconds(30)
 
 export default function caseNotesReadAndEditCheck(permission: CaseNotesPermission, request: PermissionsCheckRequest) {
   const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
@@ -22,6 +27,19 @@ export default function caseNotesReadAndEditCheck(permission: CaseNotesPermissio
   if (!check) logDeniedPermissionCheck(permission, request, caseNotesCheckStatus)
 
   return check
+}
+
+function checkTimeBasedAccessToCaseNotesPostTransfer(
+  user: HmppsUser,
+  prisoner: Prisoner,
+  timePeriodForAccessPostTransferInMilliseconds: number,
+): boolean {
+  if (!isInUsersCaseLoad(prisoner.lastPrisonId, user) || !prisoner.dateOutOfLastPrison) return false
+
+  const dateOutOfLastPrison = Date.parse(prisoner.dateOutOfLastPrison)
+  const today = Date.now()
+
+  return isDateWithinBounds(dateOutOfLastPrison, today, today - timePeriodForAccessPostTransferInMilliseconds)
 }
 
 function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheckStatus {
@@ -43,8 +61,11 @@ function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheck
   // Case notes are accessible if the prisoner's prison is in the user's caseload:
   if (isInUsersCaseLoad(prisoner.prisonId, user)) return PermissionCheckStatus.OK
 
-  // Case notes for prisoners outside the user's caseload are only accessible with both Global Search and POM roles:
-  return userHasAllRoles([Role.GlobalSearch, Role.PomUser], user)
+  if (!userHasAllRoles([Role.GlobalSearch, Role.PomUser], user)) return PermissionCheckStatus.ROLE_NOT_PRESENT
+
+  // Case notes for prisoners outside the user's caseload are only accessible with both Global Search and POM roles if the prisoner
+  // was previously in one of the users caseloads in the 30 days:
+  return checkTimeBasedAccessToCaseNotesPostTransfer(user, prisoner, caseNotesAccessPeriodPostTransferInMs)
     ? PermissionCheckStatus.OK
-    : PermissionCheckStatus.ROLE_NOT_PRESENT
+    : PermissionCheckStatus.NOT_PERMITTED
 }
