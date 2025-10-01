@@ -2,6 +2,11 @@
 
 Please use this to capture reasoning behind changes:
 
+## 1.0.0
+
+Permissions check for `PersonProtectedCharacteristicsPermission.read_religion_and_belief` updated to only allow read access to a
+prisoner's religion data to users who are part of the prisoner's caseload.
+
 ## 0.2.0
 
 Incident response. We are introducing an additional role enabling staff to upload photos via DPS.
