@@ -149,6 +149,8 @@ setupNunjucksPermissions(njkEnv)
 {% endif %}
 ```
 
+To mock permissions in your tests, follow [these instructions](readme/mocking.md).
+
 ## For library developers:
 
 1. [Publishing to NPM](readme/publishing.md)
