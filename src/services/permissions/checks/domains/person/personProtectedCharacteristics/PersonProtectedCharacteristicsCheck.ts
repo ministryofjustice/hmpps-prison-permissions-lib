@@ -6,6 +6,7 @@ import {
   PersonProtectedCharacteristicsPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function personProtectedCharacteristicsCheck(
   request: PermissionsCheckRequest,
@@ -14,7 +15,7 @@ export default function personProtectedCharacteristicsCheck(
     ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
     ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
 
-    ...readCheck(PersonProtectedCharacteristicsPermission.read_religion_and_belief, request),
+    ...religionAndBeliefReadCheck(PersonProtectedCharacteristicsPermission.read_religion_and_belief, request),
     ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
 
     ...readCheck(PersonProtectedCharacteristicsPermission.read_ethnicity, request),
@@ -47,4 +48,11 @@ function sensitiveEditCheck<P extends keyof PersonProtectedCharacteristicsPermis
     PersonProtectedCharacteristicsPermissions,
     P
   >
+}
+
+function religionAndBeliefReadCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
+  permission: P,
+  request: PermissionsCheckRequest,
+): Pick<PersonProtectedCharacteristicsPermissions, P> {
+  return { [permission]: inUsersCaseLoad(permission, request) } as Pick<PersonProtectedCharacteristicsPermissions, P>
 }
