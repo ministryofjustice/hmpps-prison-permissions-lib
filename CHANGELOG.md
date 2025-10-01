@@ -6,7 +6,7 @@ Please use this to capture reasoning behind changes:
 
 This release changes the permissions around global access to case notes. Previously if a user had both the `POM` and `GLOBAL_SEARCH` roles they would be able read/write case notes any prisoner. The permissions have now been updated so that users with both the `POM` and `GLOBAL_SEARCH` roles will only be able to read/write a prisoner's case notes if the prisoner has been in the users establishment within the last 30 days.
 
-The permissions check requires additional data to be passed in via the `Prisoner` which now expects the `lastPrisonId` and `dateOutOfLastPrison` fields to be present. This data is being added to the prisoner search so clients using the permissions library will need to ensure the following fields are present.
+The permissions check requires additional data to be passed in via the `Prisoner` which now expects the `previousPrisonId` and `previousPrisonLeavingDate` fields to be present. This data is being added to the prisoner search so clients using the permissions library will need to ensure the following fields are present.
 
 ```
 export default interface Prisoner {
@@ -14,8 +14,8 @@ export default interface Prisoner {
   prisonId?: string
   restrictedPatient: boolean
   supportingPrisonId?: string
-  lastPrisonId?: string
-  dateOutOfLastPrison?: string
+  previousPrisonId?: string
+  previousPrisonLeavingDate?: string
 }
 ```
 

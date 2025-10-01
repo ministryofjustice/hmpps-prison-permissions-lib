@@ -84,8 +84,8 @@ export class TestScenario {
       this.prisoner.restrictedPatient
         ? `RESTRICTED_PATIENT_${this.prisoner.supportingPrisonId}`
         : this.prisoner.prisonId,
-      this.prisoner.lastPrisonId,
-      this.prisoner.dateOutOfLastPrison,
+      this.prisoner.previousPrisonId,
+      this.prisoner.previousPrisonLeavingDate,
       this.expectedStatus,
       this,
     ]
@@ -148,8 +148,8 @@ interface PrisonerBuilder {
   accessingRestrictedPatientSupportedBy: (prisonId: string) => ExpectedBaseStatusBuilder
   accessingPrisonerAtAfterTransferFrom: (
     currentPrisonId: string,
-    lastPrisonId: string,
-    dateOutOfLastPrison?: string,
+    previousPrisonId: string,
+    previousPrisonLeavingDate?: string,
   ) => ExpectedBaseStatusBuilder
 }
 
@@ -172,9 +172,9 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 
   private expectedStatus: PermissionCheckStatus = PermissionCheckStatus.NOT_PERMITTED
 
-  private lastPrisonId?: string
+  private previousPrisonId?: string
 
-  private dateOutOfLastPrison?: string
+  private previousPrisonLeavingDate?: string
 
   public constructor(activeCaseLoad: string) {
     this.activeCaseLoad = activeCaseLoad
@@ -213,12 +213,12 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 
   public accessingPrisonerAtAfterTransferFrom(
     currentPrisonId: string,
-    lastPrisonId: string,
-    dateOutOfLastPrison?: string,
+    previousPrisonId: string,
+    previousPrisonLeavingDate?: string,
   ) {
     this.prisonId = currentPrisonId
-    this.lastPrisonId = lastPrisonId
-    this.dateOutOfLastPrison = dateOutOfLastPrison
+    this.previousPrisonId = previousPrisonId
+    this.previousPrisonLeavingDate = previousPrisonLeavingDate
     return this
   }
 
@@ -246,8 +246,8 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
         prisonId: this.prisonId,
         restrictedPatient: this.restrictedPatient,
         supportingPrisonId: this.supportedByPrison,
-        lastPrisonId: this.lastPrisonId,
-        dateOutOfLastPrison: this.dateOutOfLastPrison,
+        previousPrisonId: this.previousPrisonId,
+        previousPrisonLeavingDate: this.previousPrisonLeavingDate,
       },
       expectedStatus: this.expectedStatus,
     })
@@ -270,14 +270,14 @@ export function scenarioTest(permissionUnderTest: PrisonerPermission, scenarios:
 
   describe(`Permission: ${permissionUnderTest}`, () => {
     it.each(scenarios.toTestArray())(
-      `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Last Prison location: %s | Date out of last prison: %s | Status: %s`,
+      `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Previous Prison location: %s | Date out of previous prison: %s | Status: %s`,
       (
         _activeCaseLoad,
         _otherCaseLoads,
         _roles,
         _prisonerLocation,
-        _lastPrisonId,
-        _dateOutOfLastPrison,
+        _previousPrisonId,
+        _previousPrisonLeavingDate,
         _status,
         testScenario,
       ) => {

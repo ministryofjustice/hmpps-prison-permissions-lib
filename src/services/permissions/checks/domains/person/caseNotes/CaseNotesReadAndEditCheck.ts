@@ -34,12 +34,12 @@ function checkTimeBasedAccessToCaseNotesPostTransfer(
   prisoner: Prisoner,
   timePeriodForAccessPostTransferInMilliseconds: number,
 ): boolean {
-  if (!isInUsersCaseLoad(prisoner.lastPrisonId, user) || !prisoner.dateOutOfLastPrison) return false
+  if (!isInUsersCaseLoad(prisoner.previousPrisonId, user) || !prisoner.previousPrisonLeavingDate) return false
 
-  const dateOutOfLastPrison = Date.parse(prisoner.dateOutOfLastPrison)
+  const previousPrisonLeavingDate = Date.parse(prisoner.previousPrisonLeavingDate)
   const today = Date.now()
 
-  return isDateWithinBounds(dateOutOfLastPrison, today, today - timePeriodForAccessPostTransferInMilliseconds)
+  return isDateWithinBounds(previousPrisonLeavingDate, today, today - timePeriodForAccessPostTransferInMilliseconds)
 }
 
 function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheckStatus {

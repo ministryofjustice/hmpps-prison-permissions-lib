@@ -3,6 +3,6 @@ export default interface Prisoner {
   prisonId?: string
   restrictedPatient: boolean
   supportingPrisonId?: string
-  lastPrisonId?: string
-  dateOutOfLastPrison?: string
+  previousPrisonId?: string
+  previousPrisonLeavingDate?: string
 }
