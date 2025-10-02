@@ -13,8 +13,17 @@ describe('BaseCheck', () => {
   })
 
   it.each(baseCheckScenarios.toTestArray())(
-    `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Status: %s`,
-    (_activeCaseLoad, _otherCaseLoads, _roles, _prisonerLocation, _status, testScenario) => {
+    `Active caseload: %s | Other caseloads: %s | Roles: %s | Prisoner location: %s | Previous Prison location: %s | Date out of previous prison: %s | Status: %s`,
+    (
+      _activeCaseLoad,
+      _otherCaseLoads,
+      _roles,
+      _prisonerLocation,
+      _previousPrisonId,
+      _previousPrisonLeavingDate,
+      _status,
+      testScenario,
+    ) => {
       const scenario = testScenario as TestScenario
       const status = baseCheckStatus(scenario.user, scenario.prisoner)
 
