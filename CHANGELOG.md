@@ -2,9 +2,9 @@
 
 Please use this to capture reasoning behind changes:
 
-## 1.0.0
+## 1.0.0-alpha1
 
-This release changes the permissions around global access to case notes and read access to religion data.
+Alpha release to test changes to the case notes and religion permissions.
 
 **Case Notes Permissions:**
 
