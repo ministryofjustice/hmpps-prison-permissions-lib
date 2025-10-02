@@ -49,8 +49,8 @@
     ]
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "^0.0.2",
-    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.3",
+    "@ministryofjustice/eslint-config-hmpps": "^0.0.5",
+    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.4",
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@rollup/plugin-node-resolve": "^16.0.1",
