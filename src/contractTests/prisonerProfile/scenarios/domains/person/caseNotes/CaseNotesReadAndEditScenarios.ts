@@ -29,7 +29,7 @@ const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   .andScenarioWhere(
     userWithActiveCaseLoad('STI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
-      .accessingPrisonerAtAfterTransferFrom('MDI', 'MDI')
+      .accessingPrisonerAt('MDI')
       .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
   )
   .andScenarioWhere(
