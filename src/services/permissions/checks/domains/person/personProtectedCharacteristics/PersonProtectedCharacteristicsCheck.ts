@@ -15,12 +15,10 @@ export default function personProtectedCharacteristicsCheck(
     ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
     ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
 
-    ...{
-      [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoad(
-        PersonProtectedCharacteristicsPermission.read_religion_and_belief,
-        request,
-      ),
-    },
+    [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoad(
+      PersonProtectedCharacteristicsPermission.read_religion_and_belief,
+      request,
+    ),
     ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
 
     ...readCheck(PersonProtectedCharacteristicsPermission.read_ethnicity, request),
