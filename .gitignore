@@ -9,4 +9,4 @@
 /.eslintcache
 
 **/.DS_Store
-.vscode/launch.json
+/.vscode

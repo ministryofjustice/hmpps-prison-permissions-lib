@@ -6,6 +6,7 @@ import {
   PersonProtectedCharacteristicsPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function personProtectedCharacteristicsCheck(
   request: PermissionsCheckRequest,
@@ -14,7 +15,10 @@ export default function personProtectedCharacteristicsCheck(
     ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
     ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
 
-    ...readCheck(PersonProtectedCharacteristicsPermission.read_religion_and_belief, request),
+    [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoad(
+      PersonProtectedCharacteristicsPermission.read_religion_and_belief,
+      request,
+    ),
     ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
 
     ...readCheck(PersonProtectedCharacteristicsPermission.read_ethnicity, request),

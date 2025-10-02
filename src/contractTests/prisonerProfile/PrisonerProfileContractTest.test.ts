@@ -116,7 +116,7 @@ describe('Prisoner Profile Contract Tests', () => {
           [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: baseCheckScenarios,
           [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]:
             prisonerProfileSensitiveEditCheckScenarios,
-          [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: baseCheckScenarios,
+          [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoadScenarios,
           [PersonProtectedCharacteristicsPermission.edit_religion_and_belief]: prisonerProfileEditCheckScenarios,
           [PersonProtectedCharacteristicsPermission.read_ethnicity]: baseCheckScenarios,
           [PersonProtectedCharacteristicsPermission.edit_ethnicity]: prisonerProfileSensitiveEditCheckScenarios,
