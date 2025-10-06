@@ -14,7 +14,7 @@ const today = Date.now()
 const twentyDaysAgo = getCurrentDateMinusDaysAsString(today, 20)
 const fortyDaysAgo = getCurrentDateMinusDaysAsString(today, 40)
 
-const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
+export const deniedCaseNotesReadAndEditScenarios: TestScenarios = deniedBaseCheckScenarios
   .and(
     grantedGlobalSearchCheckScenarios
       .withoutUserRoles([Role.PomUser])
@@ -39,9 +39,7 @@ const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
       .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
   )
 
-const grantedScenarios = grantedRestrictedPatientCheckScenarios
-  .and(grantedReleasedPrisonerCheckScenarios)
-  .and(grantedCaseLoadCheckScenarios)
+export const grantedCaseNotesReadAndEditAfterTransferScenarios = new TestScenarios([])
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
@@ -54,12 +52,20 @@ const grantedScenarios = grantedRestrictedPatientCheckScenarios
       .accessingPrisonerAtAfterTransferFrom('MDI', 'MDI')
       .expectsStatus(PermissionCheckStatus.OK),
   )
-  .andScenarioWhere(
-    userWithActiveCaseLoad('MDI')
-      .withRoles([Role.InactiveBookings])
-      .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.OK),
-  )
 
-// eslint-disable-next-line import/prefer-default-export
-export const caseNotesReadAndEditScenarios = grantedScenarios.and(deniedScenarios)
+export const grantedCaseNotesReadAndEditTransferringPrisonerScenarios = new TestScenarios([]).andScenarioWhere(
+  userWithActiveCaseLoad('MDI')
+    .withRoles([Role.InactiveBookings])
+    .accessingTransferringPrisoner()
+    .expectsStatus(PermissionCheckStatus.OK),
+)
+
+export const grantedCaseNotesReadAndEditScenarios = grantedRestrictedPatientCheckScenarios
+  .and(grantedReleasedPrisonerCheckScenarios)
+  .and(grantedCaseLoadCheckScenarios)
+  .and(grantedCaseNotesReadAndEditAfterTransferScenarios)
+  .and(grantedCaseNotesReadAndEditTransferringPrisonerScenarios)
+
+export const caseNotesReadAndEditScenarios = grantedCaseNotesReadAndEditScenarios.and(
+  deniedCaseNotesReadAndEditScenarios,
+)
