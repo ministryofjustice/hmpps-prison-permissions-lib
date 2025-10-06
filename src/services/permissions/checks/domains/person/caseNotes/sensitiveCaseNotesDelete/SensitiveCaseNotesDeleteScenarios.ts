@@ -1,5 +1,15 @@
+import {
+  grantedCaseNotesReadAndEditScenarios,
+  deniedCaseNotesReadAndEditScenarios,
+} from '../CaseNotesReadAndEditScenarios'
+import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import baseCheckAndUserHasRoleScenarios from '../../../../sharedChecks/baseCheckAndUserHasRole/BaseCheckAndUserHasRoleScenarios'
+
+const deniedScenarios = deniedCaseNotesReadAndEditScenarios.and(
+  grantedCaseNotesReadAndEditScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+)
+
+const grantedScenarios = grantedCaseNotesReadAndEditScenarios.withUserRole(Role.DeleteSensitiveCaseNotes)
 
 // eslint-disable-next-line import/prefer-default-export
-export const sensitiveCaseNotesDeleteScenarios = baseCheckAndUserHasRoleScenarios(Role.DeleteSensitiveCaseNotes)
+export const sensitiveCaseNotesDeleteScenarios = deniedScenarios.and(grantedScenarios)

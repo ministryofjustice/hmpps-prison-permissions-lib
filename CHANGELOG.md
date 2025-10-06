@@ -2,10 +2,9 @@
 
 Please use this to capture reasoning behind changes:
 
-## 1.0.0
+## 0.3.0-alpha.1
 
-Permissions check for `PersonProtectedCharacteristicsPermission.read_religion_and_belief` updated to only allow read access to a
-prisoner's religion data to users who are part of the prisoner's caseload.
+Alpha release to test changes to the case notes and religion permissions.
 
 ## 0.2.0
 
