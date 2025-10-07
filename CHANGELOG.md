@@ -2,6 +2,32 @@
 
 Please use this to capture reasoning behind changes:
 
+## 0.3.0
+
+Official release for updates to the Case Notes and Religion permissions.
+
+**Case Notes Permissions:**
+
+Previously if a user had both the `POM` and `GLOBAL_SEARCH` roles they would be able read/write case notes any prisoner. The case notes permissions have now been updated so that users with both the `POM` and `GLOBAL_SEARCH` roles will only be able to read/write a prisoner's case notes if the prisoner has been in the users establishment within the last 30 days.
+
+The permissions check requires additional data to be passed in via the `Prisoner` which now expects the `previousPrisonId` and `previousPrisonLeavingDate` fields to be present. This data has been added to the prisoner search API so clients using the permissions library will need to ensure the following fields are present in the `Prisoner` interface.
+
+```
+export default interface Prisoner {
+  prisonerNumber: string
+  prisonId?: string
+  restrictedPatient: boolean
+  supportingPrisonId?: string
+  previousPrisonId?: string
+  previousPrisonLeavingDate?: string
+}
+```
+
+**Religion and Belief Permissions:**
+
+The permissions check for `PersonProtectedCharacteristicsPermission.read_religion_and_belief` updated to only allow read access to a
+prisoner's religion data to users who are part of the prisoner's caseload.
+
 ## 0.3.0-alpha.1
 
 Alpha release to test changes to the case notes and religion permissions.
