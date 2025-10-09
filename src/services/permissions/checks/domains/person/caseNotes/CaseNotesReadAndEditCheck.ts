@@ -14,7 +14,7 @@ import { HmppsUser } from '../../../../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { daysToMilliseconds, isDateWithinBounds } from '../../../../utils/DateUtils'
 
-const caseNotesAccessPeriodPostTransferInMs = daysToMilliseconds(30)
+const caseNotesAccessPeriodPostTransferInMs = daysToMilliseconds(90)
 
 export default function caseNotesReadAndEditCheck(permission: CaseNotesPermission, request: PermissionsCheckRequest) {
   const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
