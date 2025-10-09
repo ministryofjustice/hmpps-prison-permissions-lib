@@ -12,7 +12,7 @@ import { getCurrentDateMinusDaysAsString } from '../../../../../../services/perm
 
 const today = Date.now()
 const twentyDaysAgo = getCurrentDateMinusDaysAsString(today, 20)
-const fortyDaysAgo = getCurrentDateMinusDaysAsString(today, 40)
+const ninetyFiveDaysAgo = getCurrentDateMinusDaysAsString(today, 95)
 
 export const deniedCaseNotesReadAndEditScenarios: TestScenarios = deniedBaseCheckScenarios
   .and(
@@ -35,7 +35,7 @@ export const deniedCaseNotesReadAndEditScenarios: TestScenarios = deniedBaseChec
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
-      .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', fortyDaysAgo)
+      .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', ninetyFiveDaysAgo)
       .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
   )
 
