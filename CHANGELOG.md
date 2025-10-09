@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 0.4.0
+
+Access period for users with both the `POM` and `GLOBAL_SEARCH` roles to access prisoner case notes after a transfer extended from 30 to 90 days.
+
 ## 0.3.0
 
 Official release for updates to the Case Notes and Religion permissions.
