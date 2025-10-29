@@ -49,10 +49,10 @@
     ]
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "^0.0.5",
-    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.4",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.0",
+    "@ministryofjustice/hmpps-precommit-hooks": "^0.1.0",
     "@rollup/plugin-commonjs": "^28.0.6",
-    "@rollup/plugin-multi-entry": "^6.0.1",
+    "@rollup/plugin-multi-entry": "^7.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.4",
     "@tsconfig/node22": "^22.0.2",
