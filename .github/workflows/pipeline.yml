@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 20, 22 ]
+        node: [20, 22, 24]
     needs: lint
     steps:
       - name: Checkout repository
@@ -52,7 +52,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24
       - name: Use latest npm version
         run: npm install -g npm
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
       - name: Setup node with public npmjs.com registry
         uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
           scope: '@ministryofjustice'
       - name: Use latest npm version
