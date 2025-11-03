@@ -25,7 +25,7 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": "20 || 22"
+    "node": "20 || 22 || 24"
   },
   "scripts": {
     "prepare": "hmpps-precommit-hooks-prepare",
@@ -55,7 +55,7 @@
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.4",
-    "@tsconfig/node22": "^22.0.2",
+    "@tsconfig/node24": "^24.0.1",
     "@types/bunyan": "^1.8.11",
     "@types/express": "^5.0.3",
     "@types/express-session": "^1.18.2",
@@ -68,7 +68,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "^0.0.3",
+    "@ministryofjustice/hmpps-rest-client": "^1.0.0",
     "applicationinsights": "^2.9.7"
   }
 }

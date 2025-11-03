@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import typescript from '@rollup/plugin-typescript'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { dts } from 'rollup-plugin-dts'

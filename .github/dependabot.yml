@@ -1,13 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directories:
-      - "/"
-      - "/packages/*"
+    directory: /
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - ">=23"
+          - ">=25"
     schedule:
       interval: weekly
       day: wednesday
