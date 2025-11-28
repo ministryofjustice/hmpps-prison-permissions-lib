@@ -19,7 +19,7 @@ export default function useOfForceEditCheck(request: PermissionsCheckRequest) {
     baseCheckPassed &&
     !prisoner.restrictedPatient &&
     (isInUsersCaseLoad(prisoner.prisonId, user) ||
-      (isReleasedOrTransferring(prisoner.prisonId) && userHasRole(Role.InactiveBookings, user)))
+      (isReleasedOrTransferring(prisoner) && userHasRole(Role.InactiveBookings, user)))
 
   if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_IN_CASELOAD)
 

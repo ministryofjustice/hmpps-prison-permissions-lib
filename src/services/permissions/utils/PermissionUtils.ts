@@ -3,6 +3,7 @@ import { PrisonerPermission } from '../../../types/public/permissions/prisoner/P
 import { Role } from '../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
 import PermissionsCheckRequest from '../checks/PermissionsCheckRequest'
+import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 
 export function isRequiredPermission(
   permission: PrisonerPermission,
@@ -32,8 +33,16 @@ export function isInUsersCaseLoad(prisonId: string | undefined, user: HmppsUser)
   return user.authSource === 'nomis' && user.caseLoads?.some(caseLoad => caseLoad.caseLoadId === prisonId)
 }
 
-export function isReleasedOrTransferring(prisonId: string | undefined): boolean {
-  return ['OUT', 'TRN'].includes(prisonId as string)
+export const isReleased = (prisoner: Prisoner): boolean => {
+  return !!prisoner?.prisonId && ['OUT'].includes(prisoner.prisonId)
+}
+
+export const isTransferring = (prisoner: Prisoner): boolean => {
+  return !!prisoner?.prisonId && ['TRN'].includes(prisoner.prisonId)
+}
+
+export function isReleasedOrTransferring(prisoner: Prisoner): boolean {
+  return isReleased(prisoner) || isTransferring(prisoner)
 }
 
 export function userHasSomeRolesFrom(rolesToCheck: Role[], user: HmppsUser): boolean {

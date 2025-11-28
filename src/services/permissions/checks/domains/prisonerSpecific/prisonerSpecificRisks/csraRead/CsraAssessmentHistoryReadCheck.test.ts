@@ -1,4 +1,4 @@
-import prisonerIncentivesReadCheck from './PrisonerIncentivesReadCheck'
+import csraAssessmentHistoryReadCheck from './CsraAssessmentHistoryReadCheck'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
@@ -6,14 +6,14 @@ import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PrisonerIncentivesPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
+import { PrisonerSpecificRisksPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 
-const checkUnderTest = prisonerIncentivesReadCheck
-const permission = PrisonerIncentivesPermission.read
+const checkUnderTest = csraAssessmentHistoryReadCheck
+const permission = PrisonerSpecificRisksPermission.read_csra_assessment_history
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
-describe('PrisonerIncentivesReadCheck', () => {
+describe('CsraHistoryReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
     describe('when permission is granted', () => {
       requestDependentOnPermissionTest({
@@ -38,12 +38,12 @@ describe('PrisonerIncentivesReadCheck', () => {
       })
     })
 
-    describe('when the prisoner is outside of the user caseload', () => {
+    describe(`when the prisoner is not in the user's case load`, () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
         user: prisonUserMock,
-        prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
+        prisoner: { ...prisonerMock, prisonId: 'OUT' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
         expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,

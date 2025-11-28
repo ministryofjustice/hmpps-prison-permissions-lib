@@ -3,6 +3,8 @@ import { PermissionCheckStatus } from '../../../../../../types/internal/permissi
 import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
 import {
   isInUsersCaseLoad,
+  isReleased,
+  isTransferring,
   logDeniedPermissionCheck,
   userHasAllRoles,
   userHasRole,
@@ -49,10 +51,10 @@ function checkCaseNotesAccess(request: PermissionsCheckRequest): PermissionCheck
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
 
   // Released prisoners follows the base check rules:
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
 
   // Case notes are only accessible for transferring prisoners if the user has the Inactive Bookings role:
-  if (prisoner.prisonId === 'TRN') {
+  if (isTransferring(prisoner)) {
     return userHasRole(Role.InactiveBookings, user)
       ? PermissionCheckStatus.OK
       : PermissionCheckStatus.PRISONER_IS_TRANSFERRING

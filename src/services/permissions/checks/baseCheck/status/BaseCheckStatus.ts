@@ -6,7 +6,7 @@
  */
 import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { isInUsersCaseLoad, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
+import { isInUsersCaseLoad, isReleased, isTransferring, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import restrictedPatientStatus from './RestrictedPatientStatus'
@@ -19,8 +19,8 @@ export default function baseCheckStatus(user: HmppsUser, prisoner: Prisoner): Pe
 
   if (user.authSource !== 'nomis') return PermissionCheckStatus.NOT_PRISON_USER
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
-  if (prisoner.prisonId === 'TRN') return transferringPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
+  if (isTransferring(prisoner)) return transferringPrisonerStatus(user)
   if (inUsersCaseLoad || globalSearchUser) return PermissionCheckStatus.OK
 
   return PermissionCheckStatus.NOT_IN_CASELOAD

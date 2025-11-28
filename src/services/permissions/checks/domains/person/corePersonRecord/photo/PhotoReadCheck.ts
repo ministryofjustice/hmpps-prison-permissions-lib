@@ -1,6 +1,12 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
+import {
+  isInUsersCaseLoad,
+  isReleased,
+  isTransferring,
+  logDeniedPermissionCheck,
+  userHasRole,
+} from '../../../../../utils/PermissionUtils'
 import restrictedPatientStatus from '../../../../baseCheck/status/RestrictedPatientStatus'
 import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
@@ -28,11 +34,11 @@ function checkPhotoAccess(request: PermissionsCheckRequest): PermissionCheckStat
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
 
   // Released prisoners follows the base check rules:
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
 
   // Photos are only accessible for transferring prisoners if the user has the Inactive Bookings role
   // (Global Search is NOT sufficient):
-  if (prisoner.prisonId === 'TRN') {
+  if (isTransferring(prisoner)) {
     return userHasRole(Role.InactiveBookings, user)
       ? PermissionCheckStatus.OK
       : PermissionCheckStatus.PRISONER_IS_TRANSFERRING

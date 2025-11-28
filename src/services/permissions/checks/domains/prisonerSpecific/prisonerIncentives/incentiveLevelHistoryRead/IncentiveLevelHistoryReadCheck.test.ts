@@ -1,4 +1,4 @@
-import csipReadCheck from './CSIPReadCheck'
+import incentiveLevelHistoryReadCheck from './IncentiveLevelHistoryReadCheck'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
@@ -6,14 +6,14 @@ import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
 } from '../../../../../../../testUtils/PermissionCheckTest'
-import { PersonInterventionsPermission } from '../../../../../../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
+import { PrisonerIncentivesPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 
-const checkUnderTest = csipReadCheck
-const permission = PersonInterventionsPermission.read_csip
+const checkUnderTest = incentiveLevelHistoryReadCheck
+const permission = PrisonerIncentivesPermission.read_incentive_level_history
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
-describe('csipReadCheck', () => {
+describe('PrisonerIncentivesReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
     describe('when permission is granted', () => {
       requestDependentOnPermissionTest({
@@ -38,12 +38,12 @@ describe('csipReadCheck', () => {
       })
     })
 
-    describe(`when the prisoner is outside the user's caseload`, () => {
+    describe('when the prisoner is outside of the user caseload', () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
         user: prisonUserMock,
-        prisoner: { ...prisonerMock, prisonId: 'SOMETHING ELSE' },
+        prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
         expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,

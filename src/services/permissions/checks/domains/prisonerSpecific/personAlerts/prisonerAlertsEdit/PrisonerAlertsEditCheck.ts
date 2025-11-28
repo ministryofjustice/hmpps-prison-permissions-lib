@@ -1,7 +1,13 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PrisonerAlertsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
+import {
+  isInUsersCaseLoad,
+  isReleased,
+  isTransferring,
+  logDeniedPermissionCheck,
+  userHasRole,
+} from '../../../../../utils/PermissionUtils'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
 import restrictedPatientStatus from '../../../../baseCheck/status/RestrictedPatientStatus'
@@ -32,11 +38,11 @@ function checkAlertsEditAccess(request: PermissionsCheckRequest): PermissionChec
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
 
   // Released prisoners follow base check:
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
 
   // For transferring prisoners, only the Inactive Bookings role is acceptable,
   // Global Search role is not sufficient:
-  if (prisoner.prisonId === 'TRN') {
+  if (isTransferring(prisoner)) {
     return userHasRole(Role.InactiveBookings, user)
       ? PermissionCheckStatus.OK
       : PermissionCheckStatus.PRISONER_IS_TRANSFERRING

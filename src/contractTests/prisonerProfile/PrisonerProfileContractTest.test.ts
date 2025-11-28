@@ -10,7 +10,6 @@ import { PrisonerAdjudicationsPermission } from '../../types/public/permissions/
 import { CaseNotesPermission } from '../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 import { personPrisonCategoryEditScenarios } from './scenarios/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
-import { prisonerIncentivesReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesReadScenarios'
 import { PrisonerIncentivesPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import { prisonerVisitsAndVisitorsReadScenarios } from './scenarios/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsReadScenarios'
 import { PrisonerVisitsAndVisitorsPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
@@ -51,6 +50,9 @@ import { photoReadScenarios } from './scenarios/domains/person/corePersonRecord/
 import { Role } from '../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasSomeRolesFromScenarios from './scenarios/shared/InActiveCaseLoadAndUserHasSomeRolesFromScenarios'
 import { inUsersCaseLoadScenarios } from './scenarios/shared/InUsersCaseLoadScenarios'
+import { PrisonerSpecificRisksPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
+import { incentiveLevelHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerIncentives/IncentiveLevelHistoryReadScenarios'
+import { csraAssessmentHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerSpecificRisks/CsraAssessmentHistoryReadScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -160,6 +162,7 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Prisoner Specific', () => {
       describe('Person Prison Category', () => {
         scenarioTests<PersonPrisonCategoryPermission>({
+          [PersonPrisonCategoryPermission.read]: baseCheckScenarios,
           [PersonPrisonCategoryPermission.edit]: personPrisonCategoryEditScenarios,
         })
       })
@@ -172,7 +175,8 @@ describe('Prisoner Profile Contract Tests', () => {
 
       describe('Prisoner Incentives', () => {
         scenarioTests<PrisonerIncentivesPermission>({
-          [PrisonerIncentivesPermission.read]: prisonerIncentivesReadScenarios,
+          [PrisonerIncentivesPermission.read_incentive_level]: baseCheckScenarios,
+          [PrisonerIncentivesPermission.read_incentive_level_history]: incentiveLevelHistoryReadScenarios,
         })
       })
 
@@ -193,6 +197,13 @@ describe('Prisoner Profile Contract Tests', () => {
 
       describe('Prisoner Alerts', () => {
         scenarioTests<PrisonerAlertsPermission>({ [PrisonerAlertsPermission.edit]: prisonerAlertsEditScenarios })
+      })
+
+      describe('Prisoner Specific Risks', () => {
+        scenarioTests<PrisonerSpecificRisksPermission>({
+          [PrisonerSpecificRisksPermission.read_csra_rating]: baseCheckScenarios,
+          [PrisonerSpecificRisksPermission.read_csra_assessment_history]: csraAssessmentHistoryReadScenarios,
+        })
       })
     })
 
