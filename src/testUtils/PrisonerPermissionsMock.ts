@@ -87,9 +87,11 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:prisoner-adjudications:read': false,
       },
       prisonerIncentives: {
-        'prisoner:prisoner-incentives:read': false,
+        'prisoner:prisoner-incentives:read_incentive_level': false,
+        'prisoner:prisoner-incentives:read_incentive_level_history': false,
       },
       personPrisonCategory: {
+        'prisoner:person-prison-category:read': false,
         'prisoner:person-prison-category:edit': false,
       },
       prisonerSchedule: {
@@ -101,6 +103,10 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       },
       prisonerAlerts: {
         'prisoner:prisoner-alerts:edit': false,
+      },
+      prisonerSpecificRisks: {
+        'prisoner:csra-rating:read': false,
+        'prisoner:csra-assessment-history:read': false,
       },
     },
     probation: {
@@ -152,4 +158,14 @@ export function setPrisonerPermission(
   // @ts-expect-error TS cannot determine object type
   lastObj[lastKey] = permitted
   return result
+}
+
+export function setPrisonerPermissions(
+  permissionsToSet: { [key in PrisonerPermission]?: boolean },
+  permissions: PrisonerPermissions = prisonerPermissionsMock,
+): PrisonerPermissions {
+  return Object.entries(permissionsToSet).reduce(
+    (acc, [permission, permitted]) => setPrisonerPermission(permission as PrisonerPermission, permitted, acc),
+    permissions,
+  )
 }

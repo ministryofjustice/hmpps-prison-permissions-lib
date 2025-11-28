@@ -10,16 +10,20 @@ import {
 import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
 
-const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  // These granted base check scenarios should be denied without extra role present:
+const deniedScenarios: TestScenarios = new TestScenarios([])
+  .and(deniedBaseCheckScenarios)
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
   .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
   .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(
+    grantedTransferringPrisonerCheckScenarios
+      .withoutUserRoles([Role.GlobalSearch])
+      .withExpectedStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+  )
 
-const grantedScenarios = grantedCaseLoadCheckScenarios
-  .and(grantedGlobalSearchCheckScenarios.withUserRoles([Role.GlobalSearch]))
-  .and(grantedReleasedPrisonerCheckScenarios.withUserRoles([Role.GlobalSearch]))
-  .and(grantedTransferringPrisonerCheckScenarios.withUserRoles([Role.GlobalSearch]))
-  .and(grantedRestrictedPatientCheckScenarios.withUserRoles([Role.GlobalSearch]))
+const grantedScenarios = grantedCaseLoadCheckScenarios.and(
+  grantedTransferringPrisonerCheckScenarios.withUserRole(Role.GlobalSearch),
+)
 
 // eslint-disable-next-line import/prefer-default-export
-export const prisonerIncentivesReadScenarios = grantedScenarios.and(deniedScenarios)
+export const csraAssessmentHistoryReadScenarios = grantedScenarios.and(deniedScenarios)

@@ -1,6 +1,12 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../../../utils/PermissionUtils'
+import {
+  isInUsersCaseLoad,
+  isReleased,
+  isTransferring,
+  logDeniedPermissionCheck,
+  userHasSomeRolesFrom,
+} from '../../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../../types/internal/user/Role'
 import { ProbationDocumentsPermission } from '../../../../../../../types/public/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
 import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
@@ -34,10 +40,10 @@ function checkProbationDocumentsReadAccess(request: PermissionsCheckRequest): Pe
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
 
   // Released prisoners follow the base check rules:
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
 
   // Transferring prisoners follow the base check rules:
-  if (prisoner.prisonId === 'TRN') return transferringPrisonerStatus(user)
+  if (isTransferring(prisoner)) return transferringPrisonerStatus(user)
 
   if (isInUsersCaseLoad(prisoner.prisonId, user)) return PermissionCheckStatus.OK
 

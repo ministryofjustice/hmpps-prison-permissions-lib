@@ -8,6 +8,7 @@ import { personPrisonCategoryPermissionPaths } from './personPrisonCategory/Pers
 import { prisonerSchedulePermissionPaths } from './prisonerSchedule/PrisonerSchedulePermissionPaths'
 import { useOfForcePermissionPaths } from './useOfForce/UseOfForcePermissionPaths'
 import { prisonerAlertsPermissionPaths } from './prisonerAlerts/PrisonerAlertsPermissionPaths'
+import { prisonerSpecificRisksPermissionPaths } from './prisonerSpecificRisks/PrisonerSpecificRisksPermissionPaths'
 
 // eslint-disable-next-line import/prefer-default-export
 export const prisonerSpecificDomainPermissionPaths: Record<
@@ -21,4 +22,5 @@ export const prisonerSpecificDomainPermissionPaths: Record<
   ...prisonerSchedulePermissionPaths,
   ...useOfForcePermissionPaths,
   ...prisonerAlertsPermissionPaths,
+  ...prisonerSpecificRisksPermissionPaths,
 }

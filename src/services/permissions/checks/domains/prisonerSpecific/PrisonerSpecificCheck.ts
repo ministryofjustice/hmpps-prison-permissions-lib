@@ -7,6 +7,7 @@ import personPrisonCategoryCheck from './personPrisonCategory/PersonPrisonCatego
 import prisonerScheduleCheck from './prisonerSchedule/PrisonerScheduleCheck'
 import useOfForceCheck from './useOfForce/UseOfForceCheck'
 import prisonerAlertsCheck from './personAlerts/PrisonerAlertsCheck'
+import prisonerSpecificRisksCheck from './prisonerSpecificRisks/PrisonerSpecificRisksCheck'
 
 export default function prisonerSpecificCheck(request: PermissionsCheckRequest): PrisonerSpecificDomainPermissions {
   return {
@@ -17,5 +18,6 @@ export default function prisonerSpecificCheck(request: PermissionsCheckRequest):
     prisonerSchedule: prisonerScheduleCheck(request),
     useOfForce: useOfForceCheck(request),
     prisonerAlerts: prisonerAlertsCheck(request),
+    prisonerSpecificRisks: prisonerSpecificRisksCheck(request),
   }
 }

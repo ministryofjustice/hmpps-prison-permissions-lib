@@ -20,6 +20,7 @@ import { PersonSentenceCalculationPermission } from '../types/public/permissions
 import { PersonInterventionsPermission } from '../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 import { isGranted } from '../types/public/permissions/prisoner/PrisonerPermissionsUtils'
 import { PersonCommunicationNeedsPermission } from '../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
+import { PrisonerSpecificRisksPermission } from '../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 
 // Add all permissions enums here to enable them to be referenced in
 // nunjucks templates:
@@ -41,6 +42,7 @@ const nunjucksEnums: Record<PrisonerPermission, object> = {
   ...nunjucksEnum({ PrisonerIncentivesPermission }),
   ...nunjucksEnum({ PrisonerMoneyPermission }),
   ...nunjucksEnum({ PrisonerSchedulePermission }),
+  ...nunjucksEnum({ PrisonerSpecificRisksPermission }),
   ...nunjucksEnum({ PrisonerVisitsAndVisitorsPermission }),
   ...nunjucksEnum({ ProbationDocumentsPermission }),
   ...nunjucksEnum({ SOCPermission }),

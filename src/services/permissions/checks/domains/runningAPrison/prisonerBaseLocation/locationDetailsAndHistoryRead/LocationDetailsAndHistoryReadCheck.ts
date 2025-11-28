@@ -1,6 +1,11 @@
 import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isInUsersCaseLoad, logDeniedPermissionCheck } from '../../../../../utils/PermissionUtils'
+import {
+  isInUsersCaseLoad,
+  isReleased,
+  isTransferring,
+  logDeniedPermissionCheck,
+} from '../../../../../utils/PermissionUtils'
 import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import restrictedPatientStatus from '../../../../baseCheck/status/RestrictedPatientStatus'
 import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
@@ -28,8 +33,8 @@ export function checkLocationDetailsAndHistoryAccess(request: PermissionsCheckRe
 
   // Follows the base check:
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
-  if (prisoner.prisonId === 'OUT') return releasedPrisonerStatus(user)
-  if (prisoner.prisonId === 'TRN') return transferringPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
+  if (isTransferring(prisoner)) return transferringPrisonerStatus(user)
 
   if (inUsersCaseLoad) return PermissionCheckStatus.OK
 

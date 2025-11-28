@@ -12,7 +12,7 @@ import { prisonerMoneyReadScenarios } from './checks/domains/prisonerSpecific/pr
 import { PrisonerAdjudicationsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 import { prisonerVisitsAndVisitorsReadScenarios } from './checks/domains/runningAPrison/prisonerVisitsAndVisitors/prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadScenarios'
 import { PrisonerVisitsAndVisitorsPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
-import { prisonerIncentivesReadScenarios } from './checks/domains/prisonerSpecific/prisonerIncentives/prisonerIncentivesRead/PrisonerIncentivesReadScenarios'
+import { incentiveLevelHistoryReadScenarios } from './checks/domains/prisonerSpecific/prisonerIncentives/incentiveLevelHistoryRead/IncentiveLevelHistoryReadScenarios'
 import { PrisonerIncentivesPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import { personPrisonCategoryEditScenarios } from './checks/domains/prisonerSpecific/personPrisonCategory/personPrisonCategoryEdit/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
@@ -33,7 +33,6 @@ import { SOCPermission } from '../../types/public/permissions/domains/security/s
 import { socEditScenarios } from './checks/domains/security/soc/socEdit/SocEditScenarios'
 import { probationDocumentsReadScenarios } from './checks/domains/probation/probationDocuments/probationDocumentsRead/ProbationDocumentsReadScenarios'
 import { ProbationDocumentsPermission } from '../../types/public/permissions/domains/probation/probationDocuments/ProbationDocumentsPermissions'
-import { csipReadScenarios } from './checks/domains/interventions/personInterventions/csipRead/CSIPReadScenarios'
 import { PersonInterventionsPermission } from '../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 import { PrisonerBasePermission } from '../../types/public/permissions/prisoner/PrisonerPermissions'
 import { prisonerAlertsEditScenarios } from './checks/domains/prisonerSpecific/personAlerts/prisonerAlertsEdit/PrisonerAlertsEditScenarios'
@@ -57,6 +56,8 @@ import { Role } from '../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasRoleScenarios from './checks/sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
 import { inUsersCaseLoadScenarios } from './checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 import inActiveCaseLoadAndUserHasSomeRolesFromScenarios from './checks/sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFromScenarios'
+import { PrisonerSpecificRisksPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
+import { csraAssessmentHistoryReadScenarios } from './checks/domains/prisonerSpecific/prisonerSpecificRisks/csraRead/CsraAssessmentHistoryReadScenarios'
 
 const permissionsLogger = new PermissionsLogger(console)
 
@@ -80,7 +81,9 @@ describe('PermissionsService', () => {
     describe('Domains', () => {
       describe('Interventions', () => {
         describe('Person Interventions', () => {
-          scenarioTests<PersonInterventionsPermission>({ [PersonInterventionsPermission.read_csip]: csipReadScenarios })
+          scenarioTests<PersonInterventionsPermission>({
+            [PersonInterventionsPermission.read_csip]: inUsersCaseLoadScenarios,
+          })
         })
       })
 
@@ -185,6 +188,7 @@ describe('PermissionsService', () => {
       describe('Prisoner Specific', () => {
         describe('Person Prison Category', () => {
           scenarioTests<PersonPrisonCategoryPermission>({
+            [PersonPrisonCategoryPermission.read]: baseCheckScenarios,
             [PersonPrisonCategoryPermission.edit]: personPrisonCategoryEditScenarios,
           })
         })
@@ -197,7 +201,8 @@ describe('PermissionsService', () => {
 
         describe('Prisoner Incentives', () => {
           scenarioTests<PrisonerIncentivesPermission>({
-            [PrisonerIncentivesPermission.read]: prisonerIncentivesReadScenarios,
+            [PrisonerIncentivesPermission.read_incentive_level]: baseCheckScenarios,
+            [PrisonerIncentivesPermission.read_incentive_level_history]: incentiveLevelHistoryReadScenarios,
           })
         })
 
@@ -218,6 +223,13 @@ describe('PermissionsService', () => {
 
         describe('Prisoner Alerts', () => {
           scenarioTests<PrisonerAlertsPermission>({ [PrisonerAlertsPermission.edit]: prisonerAlertsEditScenarios })
+        })
+
+        describe('Prisoner Specific Risks', () => {
+          scenarioTests<PrisonerSpecificRisksPermission>({
+            [PrisonerSpecificRisksPermission.read_csra_rating]: baseCheckScenarios,
+            [PrisonerSpecificRisksPermission.read_csra_assessment_history]: csraAssessmentHistoryReadScenarios,
+          })
         })
       })
 

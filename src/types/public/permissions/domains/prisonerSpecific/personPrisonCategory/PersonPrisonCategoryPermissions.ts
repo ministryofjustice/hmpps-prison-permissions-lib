@@ -1,4 +1,5 @@
 export enum PersonPrisonCategoryPermission {
+  read = 'prisoner:person-prison-category:read',
   edit = 'prisoner:person-prison-category:edit',
 }
 

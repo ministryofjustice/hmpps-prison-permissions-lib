@@ -1,8 +1,10 @@
 import {
   isActiveCaseLoad,
   isInUsersCaseLoad,
+  isReleased,
   isReleasedOrTransferring,
   isRequiredPermission,
+  isTransferring,
   userHasAllRoles,
   userHasRole,
   userHasSomeRolesFrom,
@@ -12,6 +14,7 @@ import CaseLoad from '../../../types/internal/user/CaseLoad'
 import { PrisonerBasePermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { PersonSentenceCalculationPermission } from '../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../types/internal/user/Role'
+import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 
 describe('PermissionUtils', () => {
   describe('isRequiredPermission', () => {
@@ -128,6 +131,28 @@ describe('PermissionUtils', () => {
     })
   })
 
+  describe('isReleased', () => {
+    it.each([
+      ['OUT', true],
+      ['TRN', false],
+      ['MDI', false],
+      ['LEI', false],
+    ])('', (prisonId: string, result: boolean) => {
+      expect(isReleased({ prisonId } as Prisoner)).toEqual(result)
+    })
+  })
+
+  describe('isTransferring', () => {
+    it.each([
+      ['OUT', false],
+      ['TRN', true],
+      ['MDI', false],
+      ['LEI', false],
+    ])('', (prisonId: string, result: boolean) => {
+      expect(isTransferring({ prisonId } as Prisoner)).toEqual(result)
+    })
+  })
+
   describe('isReleasedOrTransferring', () => {
     it.each([
       ['OUT', true],
@@ -135,7 +160,7 @@ describe('PermissionUtils', () => {
       ['MDI', false],
       ['LEI', false],
     ])('', (prisonId: string, result: boolean) => {
-      expect(isReleasedOrTransferring(prisonId)).toEqual(result)
+      expect(isReleasedOrTransferring({ prisonId } as Prisoner)).toEqual(result)
     })
   })
 })
