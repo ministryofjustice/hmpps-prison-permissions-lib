@@ -5,11 +5,12 @@ import {
   isReleased,
   isTransferring,
   logDeniedPermissionCheck,
+  userHasSomeRolesFrom,
 } from '../../../../../utils/PermissionUtils'
 import { PrisonerIncentivesPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import restrictedPatientStatus from '../../../../baseCheck/status/RestrictedPatientStatus'
 import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
-import transferringPrisonerStatus from '../../../../baseCheck/status/TransferringPrisonerStatus'
+import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PrisonerIncentivesPermission.read_incentive_level_history
 
@@ -35,8 +36,11 @@ function checkIncentiveLevelHistoryAccess(request: PermissionsCheckRequest): Per
   // Released prisoners follows the base check rules:
   if (isReleased(prisoner)) return releasedPrisonerStatus(user)
 
-  // Transferring prisoners follows the base check rules:
-  if (isTransferring(prisoner)) return transferringPrisonerStatus(user)
+  // Transferring prisoner incentive history can only be accessed by users with the Global Search role:
+  if (isTransferring(prisoner))
+    return userHasSomeRolesFrom([Role.GlobalSearch], user)
+      ? PermissionCheckStatus.OK
+      : PermissionCheckStatus.PRISONER_IS_TRANSFERRING
 
   // Global search is not sufficient for incentive level history access:
   return isInUsersCaseLoad(prisoner.prisonId, user) ? PermissionCheckStatus.OK : PermissionCheckStatus.NOT_IN_CASELOAD
