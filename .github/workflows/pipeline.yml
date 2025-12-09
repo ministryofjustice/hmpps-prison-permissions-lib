@@ -34,8 +34,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
-      - name: Use latest npm version
-        run: npm install -g npm@latest
       - name: Install dependencies
         run: npm run setup
       - name: Test build step
@@ -54,8 +52,6 @@ jobs:
         with:
           node-version: 24
       - name: Use latest npm version
-        run: npm install -g npm@latest
-      - name: Install dependencies
         run: npm run setup
       - name: Clean build step
         run: npm run clean
@@ -83,8 +79,6 @@ jobs:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
           scope: '@ministryofjustice'
-      - name: Use latest npm version
-        run: npm install -g npm@latest
       - name: Install dependencies
         run: npm run setup
       - name: Build all packages
