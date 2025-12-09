@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [20, 22, 24]
+        node: [ 20, 22, 24 ]
     needs: lint
     steps:
       - name: Checkout repository
@@ -35,9 +35,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Use latest npm version
-        run: npm install -g npm
+        run: npm install -g npm@latest
       - name: Install dependencies
-        run: npm install
+        run: npm run setup
       - name: Test build step
         run: npm run build
       - name: Run unit tests
@@ -54,9 +54,9 @@ jobs:
         with:
           node-version: 24
       - name: Use latest npm version
-        run: npm install -g npm
+        run: npm install -g npm@latest
       - name: Install dependencies
-        run: npm install
+        run: npm run setup
       - name: Clean build step
         run: npm run clean
       - name: Test build step
@@ -86,7 +86,7 @@ jobs:
       - name: Use latest npm version
         run: npm install -g npm@latest
       - name: Install dependencies
-        run: npm install
+        run: npm run setup
       - name: Build all packages
         run: |
           npm run clean
