@@ -1,5 +1,5 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import PermissionsCheckContext from '../../../../PermissionsCheckContext'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   isInUsersCaseLoad,
   isReleased,
@@ -13,12 +13,12 @@ import transferringPrisonerStatus from '../../../../baseCheck/status/Transferrin
 
 export default function locationDetailsAndHistoryReadCheck(
   permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ) {
-  const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
+  const baseCheckPassed = request.baseCheckStatus === PermissionStatus.OK
 
   const locationDetailsAndHistoryCheckStatus = checkLocationDetailsAndHistoryAccess(request)
-  const locationDetailsAndHistoryCheckPassed = locationDetailsAndHistoryCheckStatus === PermissionCheckStatus.OK
+  const locationDetailsAndHistoryCheckPassed = locationDetailsAndHistoryCheckStatus === PermissionStatus.OK
 
   const check = baseCheckPassed && locationDetailsAndHistoryCheckPassed
 
@@ -27,17 +27,17 @@ export default function locationDetailsAndHistoryReadCheck(
   return check
 }
 
-export function checkLocationDetailsAndHistoryAccess(request: PermissionsCheckRequest) {
+export function checkLocationDetailsAndHistoryAccess(request: PermissionsCheckContext) {
   const { user, prisoner } = request
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
 
   // Follows the base check:
   if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
-  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
-  if (isTransferring(prisoner)) return transferringPrisonerStatus(user)
+  if (isReleased(prisoner)) return releasedPrisonerStatus(user, prisoner)
+  if (isTransferring(prisoner)) return transferringPrisonerStatus(user, prisoner)
 
-  if (inUsersCaseLoad) return PermissionCheckStatus.OK
+  if (inUsersCaseLoad) return PermissionStatus.OK
 
   // Global Search access not allowed:
-  return PermissionCheckStatus.NOT_IN_CASELOAD
+  return PermissionStatus.NOT_IN_CASELOAD
 }

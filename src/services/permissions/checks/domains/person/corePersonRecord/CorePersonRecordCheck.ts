@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import {
   CorePersonRecordPermission,
   CorePersonRecordPermissions,
@@ -10,7 +10,7 @@ import photoReadCheck from './photo/PhotoReadCheck'
 import { Role } from '../../../../../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFrom'
 
-export default function corePersonRecordCheck(request: PermissionsCheckRequest): CorePersonRecordPermissions {
+export default function corePersonRecordCheck(request: PermissionsCheckContext): CorePersonRecordPermissions {
   return {
     [CorePersonRecordPermission.read_photo]: photoReadCheck(request),
     [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFrom(
@@ -56,21 +56,21 @@ export default function corePersonRecordCheck(request: PermissionsCheckRequest):
 
 function readCheck<P extends keyof CorePersonRecordPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<CorePersonRecordPermissions, P> {
   return { [permission]: baseCheck(permission, request) } as Pick<CorePersonRecordPermissions, P>
 }
 
 function editCheck<P extends keyof CorePersonRecordPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<CorePersonRecordPermissions, P> {
   return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<CorePersonRecordPermissions, P>
 }
 
 function sensitiveEditCheck<P extends keyof CorePersonRecordPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<CorePersonRecordPermissions, P> {
   return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
     CorePersonRecordPermissions,

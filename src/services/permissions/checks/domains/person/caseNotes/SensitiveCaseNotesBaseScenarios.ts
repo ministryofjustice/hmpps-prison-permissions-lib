@@ -5,7 +5,7 @@ import {
   grantedRestrictedPatientCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import {
   deniedCaseNotesReadAndEditScenarios,
   grantedCaseNotesReadAndEditAfterTransferScenarios,
@@ -18,31 +18,31 @@ export function deniedSensitiveCaseNotesBaseScenarios(allPermissiveRoles: Role[]
     .and(
       grantedRestrictedPatientCheckScenarios
         .withoutUserRoles([...allPermissiveRoles, Role.InactiveBookings])
-        .withExpectedStatus(PermissionCheckStatus.RESTRICTED_PATIENT),
+        .withExpectedStatus(PermissionStatus.RESTRICTED_PATIENT),
     )
     .andScenarioWhere(
       userWithActiveCaseLoad('MDI')
         .withRoles([Role.InactiveBookings])
         .accessingRestrictedPatientSupportedBy('MDI')
-        .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+        .expectsStatus(PermissionStatus.ROLE_NOT_PRESENT),
     )
     .andScenarioWhere(
       userWithActiveCaseLoad('MDI')
         .withRoles([Role.InactiveBookings])
         .accessingRestrictedPatientSupportedBy('LEI')
-        .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+        .expectsStatus(PermissionStatus.ROLE_NOT_PRESENT),
     )
     .and(
       grantedCaseNotesReadAndEditAfterTransferScenarios
         .withoutUserRoles(allPermissiveRoles)
-        .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+        .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT),
     )
     .and(
       grantedCaseNotesReadAndEditTransferringPrisonerScenarios
         .withoutUserRoles(allPermissiveRoles)
-        .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+        .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT),
     )
-    .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
-    .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+    .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT))
+    .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT))
     .and(deniedCaseNotesReadAndEditScenarios.withUserRoles(allPermissiveRoles.filter(role => role !== Role.PomUser)))
 }

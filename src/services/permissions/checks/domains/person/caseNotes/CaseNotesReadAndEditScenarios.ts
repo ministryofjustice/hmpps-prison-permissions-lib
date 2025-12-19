@@ -7,7 +7,7 @@ import {
   grantedRestrictedPatientCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import { getCurrentDateMinusDaysAsString } from '../../../../utils/DateUtils'
 
 const today = Date.now()
@@ -18,25 +18,25 @@ export const deniedCaseNotesReadAndEditScenarios: TestScenarios = deniedBaseChec
   .and(
     grantedGlobalSearchCheckScenarios
       .withoutUserRoles([Role.PomUser])
-      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+      .expectsStatus(PermissionStatus.PRISONER_IS_TRANSFERRING),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('STI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
       .accessingPrisonerAt('MDI')
-      .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
+      .expectsStatus(PermissionStatus.NOT_PERMITTED),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
       .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', ninetyFiveDaysAgo)
-      .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
+      .expectsStatus(PermissionStatus.NOT_PERMITTED),
   )
 
 export const grantedCaseNotesReadAndEditAfterTransferScenarios = new TestScenarios([])
@@ -44,20 +44,20 @@ export const grantedCaseNotesReadAndEditAfterTransferScenarios = new TestScenari
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
       .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', twentyDaysAgo)
-      .expectsStatus(PermissionCheckStatus.OK),
+      .expectsStatus(PermissionStatus.OK),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.PomUser])
       .accessingPrisonerAtAfterTransferFrom('MDI', 'MDI')
-      .expectsStatus(PermissionCheckStatus.OK),
+      .expectsStatus(PermissionStatus.OK),
   )
 
 export const grantedCaseNotesReadAndEditTransferringPrisonerScenarios = new TestScenarios([]).andScenarioWhere(
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.InactiveBookings])
     .accessingTransferringPrisoner()
-    .expectsStatus(PermissionCheckStatus.OK),
+    .expectsStatus(PermissionStatus.OK),
 )
 
 export const grantedCaseNotesReadAndEditScenarios = grantedRestrictedPatientCheckScenarios

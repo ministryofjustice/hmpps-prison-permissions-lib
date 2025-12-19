@@ -6,50 +6,50 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../../../../../services/permissions/checks/baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   // These granted base check scenarios should be denied because the user must have the prisoner in the active case load:
   .and(
     grantedReleasedPrisonerCheckScenarios
       .withUserRole(Role.DietAndAllergiesEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedTransferringPrisonerCheckScenarios
       .withUserRole(Role.DietAndAllergiesEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedReleasedPrisonerCheckScenarios
       .withUserRole(Role.DietAndAllergiesEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   .and(
     grantedGlobalSearchCheckScenarios
       .withUserRole(Role.DietAndAllergiesEdit)
-      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withAdditionalCaseLoads(['LEI'])
       .withRoles([Role.DietAndAllergiesEdit])
       .accessingPrisonerAt('LEI')
-      .expectsStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .expectsStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   // This granted base check scenario should be denied because the user doesn't have the required role:
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([])
       .accessingPrisonerAt('MDI')
-      .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .expectsStatus(PermissionStatus.ROLE_NOT_PRESENT),
   )
 
 const grantedScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
     .withRoles([Role.DietAndAllergiesEdit])
     .accessingPrisonerAt('MDI')
-    .expectsStatus(PermissionCheckStatus.OK),
+    .expectsStatus(PermissionStatus.OK),
 ])
 
 // eslint-disable-next-line import/prefer-default-export

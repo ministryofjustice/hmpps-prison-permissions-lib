@@ -1,5 +1,5 @@
 import csraAssessmentHistoryReadCheck from './CsraAssessmentHistoryReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
@@ -10,8 +10,8 @@ import { PrisonerSpecificRisksPermission } from '../../../../../../../types/publ
 
 const checkUnderTest = csraAssessmentHistoryReadCheck
 const permission = PrisonerSpecificRisksPermission.read_csra_assessment_history
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('CsraHistoryReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -46,7 +46,7 @@ describe('CsraHistoryReadCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'OUT' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

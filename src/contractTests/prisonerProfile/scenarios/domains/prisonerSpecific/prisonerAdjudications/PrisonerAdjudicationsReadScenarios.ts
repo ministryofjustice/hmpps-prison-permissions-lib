@@ -7,26 +7,26 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
 
 const deniedPrisonerAdjudicationReadScenarios: TestScenarios = deniedBaseCheckScenarios
   // These granted base check scenarios should be denied without extra role present:
-  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
+  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
   // and restricted patient base checks without POM user role:
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.InactiveBookings])
       .accessingRestrictedPatientSupportedBy('MDI')
-      .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .expectsStatus(PermissionStatus.NOT_IN_CASELOAD),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.InactiveBookings])
       .accessingRestrictedPatientSupportedBy('LEI')
-      .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .expectsStatus(PermissionStatus.NOT_IN_CASELOAD),
   )
 
 const grantedPrisonerAdjudicationsReadScenarios = grantedCaseLoadCheckScenarios

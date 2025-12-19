@@ -1,8 +1,8 @@
 import { SentenceAndOffenceDomainPermissions } from '../../../../../types/public/permissions/domains/sentenceAndOffence/SentenceAndOffenceDomainPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../PermissionsCheckContext'
 import personSentenceCalculationCheck from './personSentenceCalculation/PersonSentenceCalculationCheck'
 
-export default function sentenceAndOffenceCheck(request: PermissionsCheckRequest): SentenceAndOffenceDomainPermissions {
+export default function sentenceAndOffenceCheck(request: PermissionsCheckContext): SentenceAndOffenceDomainPermissions {
   return {
     personSentenceCalculation: personSentenceCalculationCheck(request),
   }

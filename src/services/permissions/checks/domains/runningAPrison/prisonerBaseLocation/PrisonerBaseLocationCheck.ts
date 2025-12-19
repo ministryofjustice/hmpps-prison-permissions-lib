@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import moveCellCheck from './moveCell/MoveCellCheck'
 import {
   PrisonerBaseLocationPermission,
@@ -6,7 +6,7 @@ import {
 } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
 import locationDetailsAndHistoryReadCheck from './locationDetailsAndHistoryRead/LocationDetailsAndHistoryReadCheck'
 
-export default function prisonerBaseLocationCheck(request: PermissionsCheckRequest): PrisonerBaseLocationPermissions {
+export default function prisonerBaseLocationCheck(request: PermissionsCheckContext): PrisonerBaseLocationPermissions {
   return {
     [PrisonerBaseLocationPermission.read_location_details]: locationDetailsAndHistoryReadCheck(
       PrisonerBaseLocationPermission.read_location_details,

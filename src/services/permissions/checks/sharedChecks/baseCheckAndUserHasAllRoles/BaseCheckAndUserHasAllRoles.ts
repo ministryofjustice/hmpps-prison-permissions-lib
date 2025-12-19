@@ -1,20 +1,20 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import PermissionsCheckContext from '../../PermissionsCheckContext'
+import { PermissionStatus } from '../../../../../types/internal/permissions/PermissionStatus'
 import { logDeniedPermissionCheck, userHasAllRoles } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/internal/user/Role'
 
 export default function baseCheckAndUserHasAllRoles(
   roles: Role[],
   permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
+  context: PermissionsCheckContext,
 ) {
-  const { user, baseCheckStatus } = request
+  const { user, baseCheckStatus } = context
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
+  const baseCheckPassed = baseCheckStatus === PermissionStatus.OK
   const check = baseCheckPassed && userHasAllRoles(roles, user)
 
-  if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.ROLE_NOT_PRESENT)
+  if (!check) logDeniedPermissionCheck(permission, context, PermissionStatus.ROLE_NOT_PRESENT)
 
   return check
 }

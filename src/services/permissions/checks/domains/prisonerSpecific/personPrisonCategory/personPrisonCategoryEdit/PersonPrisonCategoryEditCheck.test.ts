@@ -1,5 +1,5 @@
 import personPrisonCategoryEditCheck from './PersonPrisonCategoryEditCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
@@ -11,8 +11,8 @@ import { Role } from '../../../../../../../types/internal/user/Role'
 
 const checkUnderTest = personPrisonCategoryEditCheck
 const permission = PersonPrisonCategoryPermission.edit
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('PersonPrisonCategoryEditCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -47,7 +47,7 @@ describe('PersonPrisonCategoryEditCheck', () => {
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
       })
     })
   })

@@ -3,11 +3,11 @@ import {
   PersonSentenceCalculationPermissions,
 } from '../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import sentenceCalculationReadCheck from './sentenceCalculationRead/SentenceCalculationReadCheck'
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import sentenceCalculationEditAdjustmentCheck from './sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentCheck'
 
 export default function personSentenceCalculationCheck(
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): PersonSentenceCalculationPermissions {
   return {
     [PersonSentenceCalculationPermission.read]: sentenceCalculationReadCheck(request),

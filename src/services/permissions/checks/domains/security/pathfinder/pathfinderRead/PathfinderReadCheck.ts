@@ -1,9 +1,9 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../../PermissionsCheckContext'
 import baseCheckAndUserHasSomeRolesFrom from '../../../../sharedChecks/baseCheckAndUserHasSomeRolesFrom/BaseCheckAndUserHasSomeRolesFrom'
 import { Role } from '../../../../../../../types/internal/user/Role'
 import { PathfinderPermission } from '../../../../../../../types/public/permissions/domains/security/pathfinder/PathfinderPermissions'
 
-export default function pathfinderReadCheck(request: PermissionsCheckRequest) {
+export default function pathfinderReadCheck(request: PermissionsCheckContext) {
   return baseCheckAndUserHasSomeRolesFrom(
     [
       Role.PathfinderApproval,

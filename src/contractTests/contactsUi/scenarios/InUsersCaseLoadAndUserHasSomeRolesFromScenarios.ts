@@ -7,36 +7,28 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from './baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../types/internal/permissions/PermissionStatus'
 
 export default function inUsersCaseLoadAndUserHasSomeRolesFromScenarios(roles: Role[]) {
   const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
     // These granted base check scenarios should be denied because the user must have the prisoner in the active case load:
     .and(
-      grantedReleasedPrisonerCheckScenarios
-        .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      grantedReleasedPrisonerCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD),
     )
     .and(
       grantedTransferringPrisonerCheckScenarios
         .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+        .withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD),
     )
     .and(
-      grantedReleasedPrisonerCheckScenarios
-        .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      grantedReleasedPrisonerCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD),
     )
-    .and(
-      grantedGlobalSearchCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
-    )
-    .and(
-      grantedCaseLoadCheckScenarios.withoutUserRoles(roles).withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
-    )
+    .and(grantedGlobalSearchCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
+    .and(grantedCaseLoadCheckScenarios.withoutUserRoles(roles).withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT))
 
   const grantedScenarios = roles.reduce(
     (scenarios, role) =>
-      scenarios.and(grantedCaseLoadCheckScenarios.withUserRoles([role]).withExpectedStatus(PermissionCheckStatus.OK)),
+      scenarios.and(grantedCaseLoadCheckScenarios.withUserRoles([role]).withExpectedStatus(PermissionStatus.OK)),
     new TestScenarios([]),
   )
 
@@ -44,6 +36,6 @@ export default function inUsersCaseLoadAndUserHasSomeRolesFromScenarios(roles: R
     // Dependent on whether a role is required:
     grantedCaseLoadCheckScenarios
       .withoutUserRoles(roles)
-      .withExpectedStatus(roles.length === 0 ? PermissionCheckStatus.OK : PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .withExpectedStatus(roles.length === 0 ? PermissionStatus.OK : PermissionStatus.ROLE_NOT_PRESENT),
   )
 }

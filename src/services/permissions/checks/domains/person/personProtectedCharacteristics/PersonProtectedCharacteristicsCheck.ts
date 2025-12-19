@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import {
@@ -9,7 +9,7 @@ import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerPro
 import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function personProtectedCharacteristicsCheck(
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): PersonProtectedCharacteristicsPermissions {
   return {
     ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
@@ -28,14 +28,14 @@ export default function personProtectedCharacteristicsCheck(
 
 function readCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonProtectedCharacteristicsPermissions, P> {
   return { [permission]: baseCheck(permission, request) } as Pick<PersonProtectedCharacteristicsPermissions, P>
 }
 
 function editCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonProtectedCharacteristicsPermissions, P> {
   return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<
     PersonProtectedCharacteristicsPermissions,
@@ -45,7 +45,7 @@ function editCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
 
 function sensitiveEditCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonProtectedCharacteristicsPermissions, P> {
   return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
     PersonProtectedCharacteristicsPermissions,

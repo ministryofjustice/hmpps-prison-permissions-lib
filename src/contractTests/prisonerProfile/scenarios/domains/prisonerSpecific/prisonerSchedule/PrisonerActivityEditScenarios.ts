@@ -2,7 +2,7 @@ import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../testUti
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../baseCheck/BaseCheckScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
 import CaseLoad from '../../../../../../types/internal/user/CaseLoad'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
   .withUserRole(Role.ActivityHub)
@@ -14,20 +14,20 @@ const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
         { caseLoadId: 'MDI', currentlyActive: false } as CaseLoad,
         { caseLoadId: 'LEI', currentlyActive: false } as CaseLoad,
       ])
-      .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI') //
       .withRoles([]) // No Activity Hub role
       .accessingPrisonerAt('MDI')
-      .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .expectsStatus(PermissionStatus.ROLE_NOT_PRESENT),
   )
 
 const grantedScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI') //
     .withRoles([Role.ActivityHub])
     .accessingPrisonerAt('MDI')
-    .expectsStatus(PermissionCheckStatus.OK),
+    .expectsStatus(PermissionStatus.OK),
 ])
 
 // eslint-disable-next-line import/prefer-default-export

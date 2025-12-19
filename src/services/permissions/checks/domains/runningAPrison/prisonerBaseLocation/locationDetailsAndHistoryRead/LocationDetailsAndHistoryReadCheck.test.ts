@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -7,13 +7,13 @@ import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import { PrisonerBaseLocationPermission } from '../../../../../../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
 import locationDetailsAndHistoryReadCheck from './LocationDetailsAndHistoryReadCheck'
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../../PermissionsCheckContext'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PrisonerBaseLocationPermission.read_location_details
-const checkUnderTest = (request: PermissionsCheckRequest) => locationDetailsAndHistoryReadCheck(permission, request)
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const checkUnderTest = (request: PermissionsCheckContext) => locationDetailsAndHistoryReadCheck(permission, request)
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('LocationDetailsAndHistoryReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -48,7 +48,7 @@ describe('LocationDetailsAndHistoryReadCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

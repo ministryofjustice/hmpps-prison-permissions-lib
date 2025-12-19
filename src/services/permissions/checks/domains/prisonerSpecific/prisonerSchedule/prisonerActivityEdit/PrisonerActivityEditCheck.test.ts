@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -12,8 +12,8 @@ import { Role } from '../../../../../../../types/internal/user/Role'
 
 const checkUnderTest = prisonerActivityEditCheck
 const permission = PrisonerSchedulePermission.edit_activity
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('PrisonerActivityEditCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -56,7 +56,7 @@ describe('PrisonerActivityEditCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'LEI' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_ACTIVE_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_ACTIVE_CASELOAD,
       })
     })
 
@@ -71,7 +71,7 @@ describe('PrisonerActivityEditCheck', () => {
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
       })
     })
   })

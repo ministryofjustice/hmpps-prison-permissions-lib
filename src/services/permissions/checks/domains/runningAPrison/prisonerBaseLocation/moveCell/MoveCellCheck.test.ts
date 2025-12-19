@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -11,8 +11,8 @@ import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PrisonerBaseLocationPermission.move_cell
 const checkUnderTest = moveCellCheck
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('MoveCellCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -47,7 +47,7 @@ describe('MoveCellCheck', () => {
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
       })
     })
   })

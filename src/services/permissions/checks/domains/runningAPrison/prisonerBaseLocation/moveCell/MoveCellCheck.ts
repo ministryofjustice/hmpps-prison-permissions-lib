@@ -1,5 +1,5 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import PermissionsCheckContext from '../../../../PermissionsCheckContext'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
 import { checkLocationDetailsAndHistoryAccess } from '../locationDetailsAndHistoryRead/LocationDetailsAndHistoryReadCheck'
 import { Role } from '../../../../../../../types/internal/user/Role'
@@ -7,20 +7,20 @@ import { PrisonerBaseLocationPermission } from '../../../../../../../types/publi
 
 const permission = PrisonerBaseLocationPermission.move_cell
 
-export default function moveCellCheck(request: PermissionsCheckRequest) {
-  const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
+export default function moveCellCheck(context: PermissionsCheckContext) {
+  const baseCheckPassed = context.baseCheckStatus === PermissionStatus.OK
 
-  const hasCellMoveRole = userHasRole(Role.CellMove, request.user)
-  const locationDetailsAndHistoryCheckStatus = checkLocationDetailsAndHistoryAccess(request)
-  const locationDetailsAndHistoryCheckPassed = locationDetailsAndHistoryCheckStatus === PermissionCheckStatus.OK
+  const hasCellMoveRole = userHasRole(Role.CellMove, context.user)
+  const locationDetailsAndHistoryCheckStatus = checkLocationDetailsAndHistoryAccess(context)
+  const locationDetailsAndHistoryCheckPassed = locationDetailsAndHistoryCheckStatus === PermissionStatus.OK
 
   const check = baseCheckPassed && hasCellMoveRole && locationDetailsAndHistoryCheckPassed
 
   if (!check)
     logDeniedPermissionCheck(
       permission,
-      request,
-      hasCellMoveRole ? locationDetailsAndHistoryCheckStatus : PermissionCheckStatus.ROLE_NOT_PRESENT,
+      context,
+      hasCellMoveRole ? locationDetailsAndHistoryCheckStatus : PermissionStatus.ROLE_NOT_PRESENT,
     )
 
   return check

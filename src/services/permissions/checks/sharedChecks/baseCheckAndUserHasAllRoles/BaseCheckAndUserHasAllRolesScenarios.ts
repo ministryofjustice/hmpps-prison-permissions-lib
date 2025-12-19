@@ -1,15 +1,15 @@
 import { TestScenarios } from '../../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../baseCheck/BaseCheckScenarios'
 import { Role } from '../../../../../types/internal/user/Role'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../types/internal/permissions/PermissionStatus'
 
 export default function baseCheckAndUserHasAllRolesScenarios(roles: Role[]) {
   const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
     .withoutUserRoles(roles)
-    .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
+    .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT)
     .and(deniedBaseCheckScenarios.withUserRoles(roles))
 
-  const grantedScenarios = grantedBaseCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionCheckStatus.OK)
+  const grantedScenarios = grantedBaseCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionStatus.OK)
 
   return grantedScenarios.and(deniedScenarios)
 }

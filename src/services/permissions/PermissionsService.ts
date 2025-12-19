@@ -7,8 +7,7 @@ import PermissionsLogger from './PermissionsLogger'
 import PrisonerSearchClient from '../../data/hmppsPrisonerSearch/PrisonerSearchClient'
 import sentenceAndOffenceCheck from './checks/domains/sentenceAndOffence/SentenceAndOffenceCheck'
 import baseCheck from './checks/baseCheck/BaseCheck'
-import PermissionsCheckRequest from './checks/PermissionsCheckRequest'
-import baseCheckStatus from './checks/baseCheck/status/BaseCheckStatus'
+import PermissionsCheckContext from './checks/PermissionsCheckContext'
 import prisonerSpecificCheck from './checks/domains/prisonerSpecific/PrisonerSpecificCheck'
 import runningAPrisonCheck from './checks/domains/runningAPrison/RunningAPrisonCheck'
 import personCheck from './checks/domains/person/PersonCheck'
@@ -21,6 +20,7 @@ import {
   PrisonerPermissions,
 } from '../../types/public/permissions/prisoner/PrisonerPermissions'
 import personPlanAndNeedsCheck from './checks/domains/personPlanAndNeeds/PersonPlanAndNeedsCheck'
+import { getpermissionStatus } from './checks/baseCheck/status/BaseCheckStatus'
 
 export default class PermissionsService {
   private readonly prisonerSearchClient: PrisonerSearchClient
@@ -58,26 +58,26 @@ export default class PermissionsService {
     prisoner: Prisoner
     requestDependentOn: PrisonerPermission[]
   }): PrisonerPermissions {
-    const request: PermissionsCheckRequest = {
+    const context: PermissionsCheckContext = {
       user,
       prisoner,
-      baseCheckStatus: baseCheckStatus(user, prisoner),
+      baseCheckStatus: getpermissionStatus(user, prisoner),
       requestDependentOn,
       permissionsLogger: this.permissionsLogger,
     }
 
     return {
-      [PrisonerBasePermission.read]: baseCheck(PrisonerBasePermission.read, request),
+      [PrisonerBasePermission.read]: baseCheck(PrisonerBasePermission.read, context),
 
       domainGroups: {
-        interventions: interventionsCheck(request),
-        person: personCheck(request),
-        personPlanAndNeeds: personPlanAndNeedsCheck(request),
-        prisonerSpecific: prisonerSpecificCheck(request),
-        probation: probationCheck(request),
-        runningAPrison: runningAPrisonCheck(request),
-        security: securityCheck(request),
-        sentenceAndOffence: sentenceAndOffenceCheck(request),
+        interventions: interventionsCheck(context),
+        person: personCheck(context),
+        personPlanAndNeeds: personPlanAndNeedsCheck(context),
+        prisonerSpecific: prisonerSpecificCheck(context),
+        probation: probationCheck(context),
+        runningAPrison: runningAPrisonCheck(context),
+        security: securityCheck(context),
+        sentenceAndOffence: sentenceAndOffenceCheck(context),
       },
     }
   }

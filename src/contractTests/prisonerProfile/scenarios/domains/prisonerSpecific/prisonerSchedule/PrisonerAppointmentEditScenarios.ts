@@ -1,7 +1,7 @@
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../baseCheck/BaseCheckScenarios'
 import CaseLoad from '../../../../../../types/internal/user/CaseLoad'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios.and(
   grantedBaseCheckScenarios
@@ -10,14 +10,14 @@ const deniedScenarios: TestScenarios = deniedBaseCheckScenarios.and(
       { caseLoadId: 'MDI', currentlyActive: false } as CaseLoad,
       { caseLoadId: 'LEI', currentlyActive: false } as CaseLoad,
     ])
-    .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+    .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
 )
 
 const grantedScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI') //
     .withRoles([])
     .accessingPrisonerAt('MDI')
-    .expectsStatus(PermissionCheckStatus.OK),
+    .expectsStatus(PermissionStatus.OK),
 ])
 
 // eslint-disable-next-line import/prefer-default-export

@@ -1,4 +1,4 @@
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -10,8 +10,8 @@ import { UseOfForcePermission } from '../../../../../../../types/public/permissi
 
 const checkUnderTest = useOfForceEditCheck
 const permission = UseOfForcePermission.edit
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('UseOfForceEditCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -46,7 +46,7 @@ describe('UseOfForceEditCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'OTHER' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

@@ -1,13 +1,13 @@
 import { HmppsUser } from '../../../types/internal/user/HmppsUser'
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../types/internal/permissions/PermissionStatus'
 import { PrisonerPermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import PermissionsLogger from '../PermissionsLogger'
 
-export default interface PermissionsCheckRequest {
+export default interface PermissionsCheckContext {
   user: HmppsUser
   prisoner: Prisoner
-  baseCheckStatus: PermissionCheckStatus
+  baseCheckStatus: PermissionStatus
   requestDependentOn: PrisonerPermission[]
   permissionsLogger: PermissionsLogger
 }

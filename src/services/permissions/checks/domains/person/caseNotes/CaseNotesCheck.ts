@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import caseNotesReadCheck from './caseNotesRead/CaseNotesReadCheck'
 import {
   CaseNotesPermission,
@@ -9,12 +9,12 @@ import sensitiveCaseNotesDeleteCheck from './sensitiveCaseNotesDelete/SensitiveC
 import sensitiveCaseNotesEditCheck from './sensitiveCaseNotesEdit/SensitiveCaseNotesEditCheck'
 import caseNotesEditCheck from './caseNotesEdit/CaseNotesEditCheck'
 
-export default function caseNotesCheck(request: PermissionsCheckRequest): CaseNotesPermissions {
+export default function caseNotesCheck(context: PermissionsCheckContext): CaseNotesPermissions {
   return {
-    [CaseNotesPermission.read]: caseNotesReadCheck(request),
-    [CaseNotesPermission.edit]: caseNotesEditCheck(request),
-    [CaseNotesPermission.read_sensitive]: sensitiveCaseNotesReadCheck(request),
-    [CaseNotesPermission.delete_sensitive]: sensitiveCaseNotesDeleteCheck(request),
-    [CaseNotesPermission.edit_sensitive]: sensitiveCaseNotesEditCheck(request),
+    [CaseNotesPermission.read]: caseNotesReadCheck(context),
+    [CaseNotesPermission.edit]: caseNotesEditCheck(context),
+    [CaseNotesPermission.read_sensitive]: sensitiveCaseNotesReadCheck(context),
+    [CaseNotesPermission.delete_sensitive]: sensitiveCaseNotesDeleteCheck(context),
+    [CaseNotesPermission.edit_sensitive]: sensitiveCaseNotesEditCheck(context),
   }
 }

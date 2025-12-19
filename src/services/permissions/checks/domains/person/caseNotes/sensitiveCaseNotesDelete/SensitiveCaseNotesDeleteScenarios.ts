@@ -1,12 +1,12 @@
 import {
-  grantedCaseNotesReadAndEditScenarios,
   deniedCaseNotesReadAndEditScenarios,
+  grantedCaseNotesReadAndEditScenarios,
 } from '../CaseNotesReadAndEditScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedScenarios = deniedCaseNotesReadAndEditScenarios.and(
-  grantedCaseNotesReadAndEditScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+  grantedCaseNotesReadAndEditScenarios.withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT),
 )
 
 const grantedScenarios = grantedCaseNotesReadAndEditScenarios.withUserRole(Role.DeleteSensitiveCaseNotes)

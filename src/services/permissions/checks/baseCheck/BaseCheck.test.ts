@@ -1,18 +1,18 @@
-import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../types/internal/permissions/PermissionStatus'
 import PermissionsLogger from '../../PermissionsLogger'
 import { prisonUserMock } from '../../../../testUtils/UserMocks'
 import baseCheck from './BaseCheck'
 import { prisonerMock } from '../../../../testUtils/PrisonerMocks'
 import { PrisonerBasePermission } from '../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-const baseCheckStatusGranted = PermissionCheckStatus.OK
-const baseCheckStatusDenied = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusGranted = PermissionStatus.OK
+const baseCheckStatusDenied = PermissionStatus.NOT_PERMITTED
 
 describe('BaseCheck', () => {
   let permissionsLogger: PermissionsLogger
 
   beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+    permissionsLogger = { logpermissionStatus: jest.fn() } as unknown as PermissionsLogger
   })
 
   test.each`
@@ -32,14 +32,14 @@ describe('BaseCheck', () => {
     expect(result).toBe(permitted)
 
     if (!permitted) {
-      expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+      expect(permissionsLogger.logpermissionStatus).toHaveBeenCalledWith(
         user,
         prisonerMock,
         PrisonerBasePermission.read,
         baseCheckStatus,
       )
     } else {
-      expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+      expect(permissionsLogger.logpermissionStatus).not.toHaveBeenCalled()
     }
   })
 
@@ -53,6 +53,6 @@ describe('BaseCheck', () => {
     })
 
     expect(result).toBeFalsy()
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+    expect(permissionsLogger.logpermissionStatus).not.toHaveBeenCalled()
   })
 })

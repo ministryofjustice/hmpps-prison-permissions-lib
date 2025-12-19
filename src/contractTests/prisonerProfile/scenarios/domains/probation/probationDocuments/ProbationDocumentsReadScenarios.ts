@@ -7,22 +7,22 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
-  .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT))
+  .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT))
   .and(
     grantedGlobalSearchCheckScenarios
       .withUserRoles([Role.PomUser, Role.ViewProbationDocuments])
-      .withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.InactiveBookings])
       .accessingRestrictedPatientSupportedBy('MDI')
-      .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .expectsStatus(PermissionStatus.ROLE_NOT_PRESENT),
   )
 
 const grantedScenarios = new TestScenarios([])

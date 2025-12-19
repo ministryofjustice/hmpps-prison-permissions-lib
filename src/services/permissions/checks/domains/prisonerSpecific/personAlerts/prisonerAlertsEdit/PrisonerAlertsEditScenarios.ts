@@ -7,26 +7,26 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedRestrictedPatientCheckScenarios,
 } from '../../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 
 const deniedScenarios: TestScenarios = new TestScenarios([])
   .and(deniedBaseCheckScenarios.withUserRoles([Role.UpdateAlert]))
   .and(
     grantedBaseCheckScenarios
       .withoutUserRoles([Role.UpdateAlert])
-      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.UpdateAlert])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+      .expectsStatus(PermissionStatus.PRISONER_IS_TRANSFERRING),
   )
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch, Role.UpdateAlert])
       .accessingPrisonerAt('LEI')
-      .expectsStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+      .expectsStatus(PermissionStatus.NOT_IN_CASELOAD),
   )
 
 const grantedScenarios = grantedCaseLoadCheckScenarios
@@ -36,7 +36,7 @@ const grantedScenarios = grantedCaseLoadCheckScenarios
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.InactiveBookings])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.OK),
+      .expectsStatus(PermissionStatus.OK),
   )
   .withUserRoles([Role.UpdateAlert])
 

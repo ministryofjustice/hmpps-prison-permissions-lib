@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import {
   PersonalRelationshipsPermission,
@@ -11,7 +11,7 @@ import { Role } from '../../../../../../types/internal/user/Role'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
 
-export default function personalRelationshipsCheck(request: PermissionsCheckRequest): PersonalRelationshipsPermissions {
+export default function personalRelationshipsCheck(request: PermissionsCheckContext): PersonalRelationshipsPermissions {
   return {
     ...readCheck(PersonalRelationshipsPermission.read_number_of_children, request),
     ...editCheck(PersonalRelationshipsPermission.edit_number_of_children, request),
@@ -49,21 +49,21 @@ export default function personalRelationshipsCheck(request: PermissionsCheckRequ
 
 function readCheck<P extends keyof PersonalRelationshipsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonalRelationshipsPermissions, P> {
   return { [permission]: baseCheck(permission, request) } as Pick<PersonalRelationshipsPermissions, P>
 }
 
 function editCheck<P extends keyof PersonalRelationshipsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonalRelationshipsPermissions, P> {
   return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<PersonalRelationshipsPermissions, P>
 }
 
 function sensitiveEditCheck<P extends keyof PersonalRelationshipsPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonalRelationshipsPermissions, P> {
   return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
     PersonalRelationshipsPermissions,

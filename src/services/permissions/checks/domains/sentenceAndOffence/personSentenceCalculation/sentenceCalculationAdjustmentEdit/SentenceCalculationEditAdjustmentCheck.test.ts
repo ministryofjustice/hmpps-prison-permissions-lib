@@ -1,5 +1,5 @@
 import sentenceCalculationEditAdjustmentCheck from './SentenceCalculationEditAdjustmentCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { PersonSentenceCalculationPermission } from '../../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
@@ -11,8 +11,8 @@ import {
 
 const permission = PersonSentenceCalculationPermission.edit_adjustments
 const checkUnderTest = sentenceCalculationEditAdjustmentCheck
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('SentenceCalculationEditAdjustmentCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -47,7 +47,7 @@ describe('SentenceCalculationEditAdjustmentCheck', () => {
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
       })
     })
   })

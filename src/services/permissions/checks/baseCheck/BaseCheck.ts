@@ -1,15 +1,15 @@
-import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../types/internal/permissions/PermissionStatus'
 import { PrisonerPermission } from '../../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { isRequiredPermission } from '../../utils/PermissionUtils'
-import PermissionsCheckRequest from '../PermissionsCheckRequest'
+import PermissionsCheckContext from '../PermissionsCheckContext'
 
-export default function baseCheck(permission: PrisonerPermission, request: PermissionsCheckRequest) {
-  const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = request
+export default function baseCheck(permission: PrisonerPermission, context: PermissionsCheckContext) {
+  const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = context
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
+  const baseCheckPassed = baseCheckStatus === PermissionStatus.OK
 
   if (!baseCheckPassed && isRequiredPermission(permission, requestDependentOn)) {
-    permissionsLogger.logPermissionCheckStatus(user, prisoner, permission, baseCheckStatus)
+    permissionsLogger.logpermissionStatus(user, prisoner, permission, baseCheckStatus)
   }
 
   return baseCheckPassed

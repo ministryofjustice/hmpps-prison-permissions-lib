@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import prisonerVisitsAndVisitorsReadCheck from './prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadCheck'
 import {
   PrisonerVisitsAndVisitorsPermission,
@@ -6,9 +6,9 @@ import {
 } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
 
 export default function prisonerVisitsAndVisitorsCheck(
-  request: PermissionsCheckRequest,
+  context: PermissionsCheckContext,
 ): PrisonerVisitsAndVisitorsPermissions {
   return {
-    [PrisonerVisitsAndVisitorsPermission.read]: prisonerVisitsAndVisitorsReadCheck(request),
+    [PrisonerVisitsAndVisitorsPermission.read]: prisonerVisitsAndVisitorsReadCheck(context),
   }
 }

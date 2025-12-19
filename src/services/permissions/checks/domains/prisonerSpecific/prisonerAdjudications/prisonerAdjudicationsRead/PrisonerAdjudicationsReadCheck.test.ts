@@ -1,5 +1,5 @@
 import prisonerAdjudicationsReadCheck from './PrisonerAdjudicationsReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import { PrisonerAdjudicationsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
@@ -10,8 +10,8 @@ import {
 
 const checkUnderTest = prisonerAdjudicationsReadCheck
 const permission = PrisonerAdjudicationsPermission.read
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('PrisonerAdjudicationsReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -46,7 +46,7 @@ describe('PrisonerAdjudicationsReadCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'SOMEWHERE_ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

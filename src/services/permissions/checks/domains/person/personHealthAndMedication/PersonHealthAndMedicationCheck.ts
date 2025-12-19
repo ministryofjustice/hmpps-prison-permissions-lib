@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import {
@@ -8,7 +8,7 @@ import {
 import dietEditCheck from './dietEdit/DietEditCheck'
 
 export default function personHealthAndMedicationCheck(
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): PersonHealthAndMedicationPermissions {
   return {
     ...readCheck(PersonHealthAndMedicationPermission.read_pregnancy, request),
@@ -24,14 +24,14 @@ export default function personHealthAndMedicationCheck(
 
 function readCheck<P extends keyof PersonHealthAndMedicationPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonHealthAndMedicationPermissions, P> {
   return { [permission]: baseCheck(permission, request) } as Pick<PersonHealthAndMedicationPermissions, P>
 }
 
 function editCheck<P extends keyof PersonHealthAndMedicationPermissions>(
   permission: P,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ): Pick<PersonHealthAndMedicationPermissions, P> {
   return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<
     PersonHealthAndMedicationPermissions,

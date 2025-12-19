@@ -1,5 +1,5 @@
 import caseNotesReadCheck from './CaseNotesReadCheck'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
@@ -11,8 +11,8 @@ import { CaseNotesPermission } from '../../../../../../../types/public/permissio
 
 const checkUnderTest = caseNotesReadCheck
 const permission = CaseNotesPermission.read
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('caseNotesReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -47,7 +47,7 @@ describe('caseNotesReadCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'SOMETHING ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
       })
     })
   })

@@ -6,16 +6,16 @@ import {
   grantedRestrictedPatientCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../../testUtils/TestScenario'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios
-  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.InactiveBookings])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+      .expectsStatus(PermissionStatus.PRISONER_IS_TRANSFERRING),
   )
 
 const grantedScenarios = new TestScenarios([])
@@ -26,7 +26,7 @@ const grantedScenarios = new TestScenarios([])
     userWithActiveCaseLoad('MDI')
       .withRoles([Role.GlobalSearch])
       .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.OK),
+      .expectsStatus(PermissionStatus.OK),
   )
 
 // eslint-disable-next-line import/prefer-default-export

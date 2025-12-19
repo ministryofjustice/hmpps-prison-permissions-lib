@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import {
   PrisonerSpecificRisksPermission,
   PrisonerSpecificRisksPermissions,
@@ -6,7 +6,7 @@ import {
 import csraAssessmentHistoryReadCheck from './csraRead/CsraAssessmentHistoryReadCheck'
 import baseCheck from '../../../baseCheck/BaseCheck'
 
-export default function prisonerSpecificRisksCheck(request: PermissionsCheckRequest): PrisonerSpecificRisksPermissions {
+export default function prisonerSpecificRisksCheck(request: PermissionsCheckContext): PrisonerSpecificRisksPermissions {
   return {
     [PrisonerSpecificRisksPermission.read_csra_rating]: baseCheck(
       PrisonerSpecificRisksPermission.read_csra_rating,

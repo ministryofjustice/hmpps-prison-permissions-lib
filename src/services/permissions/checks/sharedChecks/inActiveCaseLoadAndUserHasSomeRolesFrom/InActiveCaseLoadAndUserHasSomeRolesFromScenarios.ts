@@ -5,7 +5,7 @@ import {
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../types/internal/user/Role'
 
 export default function inActiveCaseLoadAndUserHasSomeRolesFromScenarios(roles: Role[]) {
@@ -14,38 +14,33 @@ export default function inActiveCaseLoadAndUserHasSomeRolesFromScenarios(roles: 
     .and(
       grantedReleasedPrisonerCheckScenarios
         .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+        .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
     )
     .and(
       grantedTransferringPrisonerCheckScenarios
         .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+        .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
     )
     .and(
       grantedReleasedPrisonerCheckScenarios
         .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+        .withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
     )
     .and(
-      grantedGlobalSearchCheckScenarios
-        .withUserRoles(roles)
-        .withExpectedStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+      grantedGlobalSearchCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
     )
     .andScenarioWhere(
       userWithActiveCaseLoad('MDI')
         .withAdditionalCaseLoads(['LEI'])
         .withRoles(roles)
         .accessingPrisonerAt('LEI')
-        .expectsStatus(PermissionCheckStatus.NOT_ACTIVE_CASELOAD),
+        .expectsStatus(PermissionStatus.NOT_ACTIVE_CASELOAD),
     )
 
   const grantedScenarios = roles.reduce(
     (scenarios, role) =>
       scenarios.andScenarioWhere(
-        userWithActiveCaseLoad('MDI')
-          .withRoles([role])
-          .accessingPrisonerAt('MDI')
-          .expectsStatus(PermissionCheckStatus.OK),
+        userWithActiveCaseLoad('MDI').withRoles([role]).accessingPrisonerAt('MDI').expectsStatus(PermissionStatus.OK),
       ),
     new TestScenarios([]),
   )
@@ -55,6 +50,6 @@ export default function inActiveCaseLoadAndUserHasSomeRolesFromScenarios(roles: 
     userWithActiveCaseLoad('MDI')
       .withRoles([])
       .accessingPrisonerAt('MDI')
-      .expectsStatus(roles.length === 0 ? PermissionCheckStatus.OK : PermissionCheckStatus.ROLE_NOT_PRESENT),
+      .expectsStatus(roles.length === 0 ? PermissionStatus.OK : PermissionStatus.ROLE_NOT_PRESENT),
   )
 }

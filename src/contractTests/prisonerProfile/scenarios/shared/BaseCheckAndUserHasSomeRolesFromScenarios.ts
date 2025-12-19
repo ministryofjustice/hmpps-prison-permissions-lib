@@ -1,17 +1,17 @@
 import { Role } from '../../../../types/internal/user/Role'
 import { TestScenarios } from '../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../types/internal/permissions/PermissionStatus'
 
 export default function baseCheckAndUserHasSomeRolesFromScenarios(roles: Role[]) {
   const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
     .withoutUserRoles(roles)
-    .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
+    .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT)
     .and(deniedBaseCheckScenarios.withUserRoles(roles))
 
   const grantedScenarios = roles.reduce(
     (scenarios, role) =>
-      scenarios.and(grantedBaseCheckScenarios.withUserRoles([role]).withExpectedStatus(PermissionCheckStatus.OK)),
+      scenarios.and(grantedBaseCheckScenarios.withUserRoles([role]).withExpectedStatus(PermissionStatus.OK)),
     new TestScenarios([]),
   )
 

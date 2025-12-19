@@ -1,26 +1,26 @@
-import sentenceCalculationReadCheck from './SentenceCalculationReadCheck'
-import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
-import { PersonSentenceCalculationPermission } from '../../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
-import { Role } from '../../../../../../../types/internal/user/Role'
-import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
-import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
-} from '../../../../../../../testUtils/PermissionCheckTest'
+} from '../../../testUtils/PermissionCheckTest'
+import { matchBaseCheckAnd } from './PermissionCheckUtils'
+import { prisonUserMock } from '../../../testUtils/UserMocks'
+import { prisonerMock } from '../../../testUtils/PrisonerMocks'
+import { PermissionStatus } from '../../../types/internal/permissions/PermissionStatus'
+import { CorePersonRecordPermission } from '../../../types/public/permissions/domains/person/corePersonRecord/CorePersonRecordPermissions'
+import photoReadCheck from '../checks/domains/person/corePersonRecord/photo/PhotoReadCheck'
 
-const permission = PersonSentenceCalculationPermission.read
-const checkUnderTest = sentenceCalculationReadCheck
+const checkUnderTest = photoReadCheck
+const permission = CorePersonRecordPermission.read_photo
 const baseCheckStatusPass = PermissionStatus.OK
 const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
-describe('SentenceCalculationReadCheck', () => {
+describe('followBaseCheckExcept', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
     describe('when permission is granted', () => {
       requestDependentOnPermissionTest({
         permission,
-        checkUnderTest,
-        user: { ...prisonUserMock, userRoles: [Role.ReleaseDatesCalculator] },
+        checkUnderTest: req => matchBaseCheckAnd(req, permission, {}),
+        user: prisonUserMock,
         prisoner: prisonerMock,
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: true,
@@ -39,15 +39,15 @@ describe('SentenceCalculationReadCheck', () => {
       })
     })
 
-    describe(`when the prisoner doesn't have role ${Role.ReleaseDatesCalculator}`, () => {
+    describe(`when the user doesn't have the caseload`, () => {
       requestDependentOnPermissionTest({
         permission,
         checkUnderTest,
         user: prisonUserMock,
-        prisoner: prisonerMock,
+        prisoner: { ...prisonerMock, prisonId: 'SOMETHING ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionStatus.ROLE_NOT_PRESENT,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

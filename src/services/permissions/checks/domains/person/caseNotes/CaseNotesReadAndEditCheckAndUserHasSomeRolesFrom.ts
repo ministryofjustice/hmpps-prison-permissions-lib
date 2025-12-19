@@ -1,6 +1,6 @@
 import { CaseNotesPermission } from '../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import { logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../types/internal/user/Role'
 import caseNotesReadAndEditCheck from './CaseNotesReadAndEditCheck'
@@ -8,7 +8,7 @@ import caseNotesReadAndEditCheck from './CaseNotesReadAndEditCheck'
 export default function caseNotesReadAndEditCheckAndUserHasRolesFrom(
   roles: Role[],
   permission: CaseNotesPermission,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ) {
   const { user } = request
 
@@ -16,7 +16,7 @@ export default function caseNotesReadAndEditCheckAndUserHasRolesFrom(
 
   const check = baseCaseNotesCheckPassed && userHasSomeRolesFrom(roles, user)
 
-  if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.ROLE_NOT_PRESENT)
+  if (!check) logDeniedPermissionCheck(permission, request, PermissionStatus.ROLE_NOT_PRESENT)
 
   return check
 }

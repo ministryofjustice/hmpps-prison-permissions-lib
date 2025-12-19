@@ -1,8 +1,8 @@
 import { PrisonerPermission } from '../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../services/permissions/checks/PermissionsCheckRequest'
+import PermissionsCheckContext from '../services/permissions/checks/PermissionsCheckContext'
 import { HmppsUser } from '../types/internal/user/HmppsUser'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
-import { PermissionCheckStatus } from '../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../types/internal/permissions/PermissionStatus'
 import PermissionsLogger from '../services/permissions/PermissionsLogger'
 import { prisonUserMock } from './UserMocks'
 import { prisonerMock } from './PrisonerMocks'
@@ -17,17 +17,17 @@ export function requestDependentOnPermissionTest({
   expectedStatusLogged,
 }: {
   permission: PrisonerPermission
-  checkUnderTest: (request: PermissionsCheckRequest) => boolean
+  checkUnderTest: (request: PermissionsCheckContext) => boolean
   user: HmppsUser
   prisoner: Prisoner
-  baseCheckStatus: PermissionCheckStatus
+  baseCheckStatus: PermissionStatus
   expectedResult: boolean
-  expectedStatusLogged?: PermissionCheckStatus
+  expectedStatusLogged?: PermissionStatus
 }) {
   let permissionsLogger: PermissionsLogger
 
   beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+    permissionsLogger = { logpermissionStatus: jest.fn() } as unknown as PermissionsLogger
   })
 
   it(`check returns expected result: ${expectedResult}${expectedResult ? '' : ` and logs status: ${expectedStatusLogged}`}`, () => {
@@ -42,35 +42,35 @@ export function requestDependentOnPermissionTest({
     expect(result).toBe(expectedResult)
 
     if (!expectedResult) {
-      expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+      expect(permissionsLogger.logpermissionStatus).toHaveBeenCalledWith(
         user,
         prisoner,
         permission,
         expectedStatusLogged,
       )
     } else {
-      expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+      expect(permissionsLogger.logpermissionStatus).not.toHaveBeenCalled()
     }
   })
 }
 
-export function requestNotDependentOnPermissionTest(checkUnderTest: (request: PermissionsCheckRequest) => boolean) {
+export function requestNotDependentOnPermissionTest(checkUnderTest: (request: PermissionsCheckContext) => boolean) {
   let permissionsLogger: PermissionsLogger
 
   beforeEach(() => {
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+    permissionsLogger = { logpermissionStatus: jest.fn() } as unknown as PermissionsLogger
   })
 
   it(`denied check does not log the permission status`, () => {
     const result = checkUnderTest({
       user: prisonUserMock,
       prisoner: prisonerMock,
-      baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,
+      baseCheckStatus: PermissionStatus.NOT_PERMITTED,
       requestDependentOn: [],
       permissionsLogger,
     })
 
     expect(result).toBeFalsy()
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+    expect(permissionsLogger.logpermissionStatus).not.toHaveBeenCalled()
   })
 }

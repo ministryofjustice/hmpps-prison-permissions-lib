@@ -1,17 +1,17 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import PermissionsCheckContext from '../../PermissionsCheckContext'
+import { PermissionStatus } from '../../../../../types/internal/permissions/PermissionStatus'
 import { isInUsersCaseLoad, logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/internal/user/Role'
 
 export default function inUsersCaseLoadAndUserHasSomeRolesFrom(
   roles: Role[],
   permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
+  request: PermissionsCheckContext,
 ) {
   const { user, prisoner, baseCheckStatus } = request
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
+  const baseCheckPassed = baseCheckStatus === PermissionStatus.OK
   const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
   const hasRole = userHasSomeRolesFrom(roles, user)
 
@@ -21,7 +21,7 @@ export default function inUsersCaseLoadAndUserHasSomeRolesFrom(
     logDeniedPermissionCheck(
       permission,
       request,
-      inUsersCaseLoad ? PermissionCheckStatus.ROLE_NOT_PRESENT : PermissionCheckStatus.NOT_IN_CASELOAD,
+      inUsersCaseLoad ? PermissionStatus.ROLE_NOT_PRESENT : PermissionStatus.NOT_IN_CASELOAD,
     )
 
   return check

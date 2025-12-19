@@ -1,15 +1,15 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import PermissionsCheckContext from '../../../../PermissionsCheckContext'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { isActiveCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
 import { PrisonerSchedulePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
 const permission = PrisonerSchedulePermission.edit_activity
 
-export default function prisonerActivityEditCheck(request: PermissionsCheckRequest) {
+export default function prisonerActivityEditCheck(request: PermissionsCheckContext) {
   const { user, prisoner, baseCheckStatus } = request
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
+  const baseCheckPassed = baseCheckStatus === PermissionStatus.OK
   const userHasActivityHubRole = userHasRole(Role.ActivityHub, user)
 
   const check =
@@ -22,7 +22,7 @@ export default function prisonerActivityEditCheck(request: PermissionsCheckReque
     logDeniedPermissionCheck(
       permission,
       request,
-      userHasActivityHubRole ? PermissionCheckStatus.NOT_ACTIVE_CASELOAD : PermissionCheckStatus.ROLE_NOT_PRESENT,
+      userHasActivityHubRole ? PermissionStatus.NOT_ACTIVE_CASELOAD : PermissionStatus.ROLE_NOT_PRESENT,
     )
 
   return check

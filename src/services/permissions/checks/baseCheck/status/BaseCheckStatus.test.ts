@@ -4,12 +4,12 @@ import { baseCheckScenarios } from '../BaseCheckScenarios'
 import { prisonUserMock } from '../../../../../testUtils/UserMocks'
 import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import { prisonerMock } from '../../../../../testUtils/PrisonerMocks'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../types/internal/permissions/PermissionStatus'
 
 describe('BaseCheck', () => {
   it.each(['delius', 'external', 'azuread'])('Non prison user: %s fails check', authSource => {
     const status = baseCheckStatus({ ...prisonUserMock, authSource } as HmppsUser, prisonerMock)
-    expect(status).toEqual(PermissionCheckStatus.NOT_PRISON_USER)
+    expect(status).toEqual(PermissionStatus.NOT_PRISON_USER)
   })
 
   it.each(baseCheckScenarios.toTestArray())(

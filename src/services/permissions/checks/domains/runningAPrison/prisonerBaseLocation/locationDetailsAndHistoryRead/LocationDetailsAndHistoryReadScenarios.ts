@@ -7,10 +7,10 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 
 const deniedScenarios: TestScenarios = deniedBaseCheckScenarios.and(
-  grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
+  grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD),
 )
 
 const grantedScenarios = grantedRestrictedPatientCheckScenarios

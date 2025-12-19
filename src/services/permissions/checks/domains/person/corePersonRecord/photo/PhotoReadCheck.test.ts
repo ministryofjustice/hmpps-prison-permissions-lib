@@ -1,5 +1,5 @@
 import { CorePersonRecordPermission } from '../../../../../../../types/public/permissions/domains/person/corePersonRecord/CorePersonRecordPermissions'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import {
   requestDependentOnPermissionTest,
   requestNotDependentOnPermissionTest,
@@ -10,8 +10,8 @@ import photoReadCheck from './PhotoReadCheck'
 
 const checkUnderTest = photoReadCheck
 const permission = CorePersonRecordPermission.read_photo
-const baseCheckStatusPass = PermissionCheckStatus.OK
-const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
+const baseCheckStatusPass = PermissionStatus.OK
+const baseCheckStatusFail = PermissionStatus.NOT_PERMITTED
 
 describe('photoReadCheck', () => {
   describe(`when the request is dependent on permission: ${permission}`, () => {
@@ -46,7 +46,7 @@ describe('photoReadCheck', () => {
         prisoner: { ...prisonerMock, prisonId: 'SOMETHING ELSE' },
         baseCheckStatus: baseCheckStatusPass,
         expectedResult: false,
-        expectedStatusLogged: PermissionCheckStatus.NOT_IN_CASELOAD,
+        expectedStatusLogged: PermissionStatus.NOT_IN_CASELOAD,
       })
     })
   })

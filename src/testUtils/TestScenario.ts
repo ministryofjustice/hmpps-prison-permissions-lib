@@ -10,7 +10,7 @@ import PrisonerSearchClient from '../data/hmppsPrisonerSearch/PrisonerSearchClie
 import PermissionsLogger from '../services/permissions/PermissionsLogger'
 import PermissionsService from '../services/permissions/PermissionsService'
 import { isGranted } from '../types/public/permissions/prisoner/PrisonerPermissionsUtils'
-import { PermissionCheckStatus } from '../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../types/internal/permissions/PermissionStatus'
 
 export function userWithActiveCaseLoad(caseLoad: string) {
   return new TestScenarioBuilder(caseLoad) as RolesOrCaseLoadBuilder
@@ -21,7 +21,7 @@ export class TestScenario {
 
   readonly prisoner: Prisoner
 
-  readonly expectedStatus: PermissionCheckStatus
+  readonly expectedStatus: PermissionStatus
 
   constructor({
     user,
@@ -30,7 +30,7 @@ export class TestScenario {
   }: {
     user: HmppsUser
     prisoner: Prisoner
-    expectedStatus: PermissionCheckStatus
+    expectedStatus: PermissionStatus
   }) {
     this.user = user
     this.prisoner = prisoner
@@ -66,7 +66,7 @@ export class TestScenario {
     })
   }
 
-  public withExpectedStatus(expectedStatus: PermissionCheckStatus): TestScenario {
+  public withExpectedStatus(expectedStatus: PermissionStatus): TestScenario {
     return new TestScenario({
       user: { ...this.user },
       prisoner: { ...this.prisoner },
@@ -123,7 +123,7 @@ export class TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withCaseLoads(caseLoads)))
   }
 
-  public withExpectedStatus(expectedBaseCheckStatus: PermissionCheckStatus): TestScenarios {
+  public withExpectedStatus(expectedBaseCheckStatus: PermissionStatus): TestScenarios {
     return new TestScenarios(this.scenarios.map(s => s.withExpectedStatus(expectedBaseCheckStatus)))
   }
 
@@ -154,7 +154,7 @@ interface PrisonerBuilder {
 }
 
 interface ExpectedBaseStatusBuilder {
-  expectsStatus: (status: PermissionCheckStatus) => TestScenario
+  expectsStatus: (status: PermissionStatus) => TestScenario
 }
 
 class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, PrisonerBuilder, ExpectedBaseStatusBuilder {
@@ -170,7 +170,7 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 
   private supportedByPrison?: string
 
-  private expectedStatus: PermissionCheckStatus = PermissionCheckStatus.NOT_PERMITTED
+  private expectedStatus: PermissionStatus = PermissionStatus.NOT_PERMITTED
 
   private previousPrisonId?: string
 
@@ -222,7 +222,7 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
     return this
   }
 
-  public expectsStatus(status: PermissionCheckStatus): TestScenario {
+  public expectsStatus(status: PermissionStatus): TestScenario {
     this.expectedStatus = status
     return this.createTestScenario()
   }
@@ -262,7 +262,7 @@ export function scenarioTest(permissionUnderTest: PrisonerPermission, scenarios:
 
   beforeEach(() => {
     prisonerSearchClient = { getPrisonerDetails: jest.fn() } as unknown as PrisonerSearchClient
-    permissionsLogger = { logPermissionCheckStatus: jest.fn() } as unknown as PermissionsLogger
+    permissionsLogger = { logpermissionStatus: jest.fn() } as unknown as PermissionsLogger
 
     // @ts-expect-error - We are using a private constructor here for testing
     service = new (PermissionsService as unknown)(prisonerSearchClient, permissionsLogger)
@@ -289,12 +289,12 @@ export function scenarioTest(permissionUnderTest: PrisonerPermission, scenarios:
           requestDependentOn: [permissionUnderTest],
         })
 
-        expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionCheckStatus.OK)
+        expect(isGranted(permissionUnderTest, permissions)).toEqual(expectedStatus === PermissionStatus.OK)
 
-        if (expectedStatus === PermissionCheckStatus.OK) {
-          expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
+        if (expectedStatus === PermissionStatus.OK) {
+          expect(permissionsLogger.logpermissionStatus).not.toHaveBeenCalled()
         } else {
-          expect(permissionsLogger.logPermissionCheckStatus).toHaveBeenCalledWith(
+          expect(permissionsLogger.logpermissionStatus).toHaveBeenCalledWith(
             user,
             prisoner,
             permissionUnderTest,

@@ -7,18 +7,18 @@ import {
   grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = new TestScenarios([])
   .and(deniedBaseCheckScenarios)
-  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
-  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
+  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
+  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionStatus.NOT_IN_CASELOAD))
   .and(
     grantedTransferringPrisonerCheckScenarios
       .withoutUserRoles([Role.GlobalSearch])
-      .withExpectedStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+      .withExpectedStatus(PermissionStatus.PRISONER_IS_TRANSFERRING),
   )
 
 const grantedScenarios = grantedCaseLoadCheckScenarios.and(

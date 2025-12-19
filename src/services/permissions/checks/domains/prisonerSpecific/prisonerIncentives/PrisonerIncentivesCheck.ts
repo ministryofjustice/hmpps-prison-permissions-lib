@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PermissionsCheckContext from '../../../PermissionsCheckContext'
 import {
   PrisonerIncentivesPermission,
   PrisonerIncentivesPermissions,
@@ -6,7 +6,7 @@ import {
 import baseCheck from '../../../baseCheck/BaseCheck'
 import incentiveLevelHistoryReadCheck from './incentiveLevelHistoryRead/IncentiveLevelHistoryReadCheck'
 
-export default function prisonerIncentivesCheck(request: PermissionsCheckRequest): PrisonerIncentivesPermissions {
+export default function prisonerIncentivesCheck(request: PermissionsCheckContext): PrisonerIncentivesPermissions {
   return {
     [PrisonerIncentivesPermission.read_incentive_level]: baseCheck(
       PrisonerIncentivesPermission.read_incentive_level,

@@ -1,6 +1,6 @@
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { PermissionStatus } from '../../../../../../../types/internal/permissions/PermissionStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
@@ -10,7 +10,7 @@ const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
     Role.ApproveCategorisation,
     Role.CategorisationSecurity,
   ])
-  .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
+  .withExpectedStatus(PermissionStatus.ROLE_NOT_PRESENT)
   .and(
     deniedBaseCheckScenarios.withUserRoles([
       Role.CreateCategorisation,
