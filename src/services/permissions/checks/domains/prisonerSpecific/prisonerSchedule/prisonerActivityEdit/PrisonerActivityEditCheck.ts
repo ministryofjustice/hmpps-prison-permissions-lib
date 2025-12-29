@@ -1,29 +1,14 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isActiveCaseLoad, logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
-import { PrisonerSchedulePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSchedule/PrisonerSchedulePermissions'
+import { isActiveCaseLoad, userHasRole } from '../../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../../types/internal/user/Role'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
 
-const permission = PrisonerSchedulePermission.edit_activity
+const prisonerActivityEditCheck = matchBaseCheckAnd({
+  overridingCondition: (user, prisoner) => {
+    if (!userHasRole(Role.ActivityHub, user)) return PermissionCheckStatus.ROLE_NOT_PRESENT
+    if (!isActiveCaseLoad(prisoner.prisonId, user)) return PermissionCheckStatus.NOT_ACTIVE_CASELOAD
+    return PermissionCheckStatus.OK
+  },
+})
 
-export default function prisonerActivityEditCheck(request: PermissionsCheckRequest) {
-  const { user, prisoner, baseCheckStatus } = request
-
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const userHasActivityHubRole = userHasRole(Role.ActivityHub, user)
-
-  const check =
-    baseCheckPassed &&
-    userHasActivityHubRole &&
-    isActiveCaseLoad(prisoner.prisonId, user) &&
-    !prisoner.restrictedPatient
-
-  if (!check)
-    logDeniedPermissionCheck(
-      permission,
-      request,
-      userHasActivityHubRole ? PermissionCheckStatus.NOT_ACTIVE_CASELOAD : PermissionCheckStatus.ROLE_NOT_PRESENT,
-    )
-
-  return check
-}
+export default prisonerActivityEditCheck

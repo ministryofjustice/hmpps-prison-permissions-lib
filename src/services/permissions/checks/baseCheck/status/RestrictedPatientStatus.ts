@@ -13,8 +13,8 @@ export default function restrictedPatientStatus(user: HmppsUser, prisoner: Priso
   const pomUser = userHasRole(Role.PomUser, user)
   const inactiveBookingsUser = userHasRole(Role.InactiveBookings, user)
 
-  const userHasPrisonersSupportingPrisonInTheirCaseLoad = isInUsersCaseLoad(prisoner.supportingPrisonId, user)
-  const userIsPomUserWithSupportingPrisonInTheirCaseLoad = pomUser && userHasPrisonersSupportingPrisonInTheirCaseLoad
+  const userHasSupportingPrisonInTheirCaseLoad = isInUsersCaseLoad(prisoner.supportingPrisonId, user)
+  const userIsPomUserWithSupportingPrisonInTheirCaseLoad = pomUser && userHasSupportingPrisonInTheirCaseLoad
 
   if (userIsPomUserWithSupportingPrisonInTheirCaseLoad) return PermissionCheckStatus.OK
   if (inactiveBookingsUser) return PermissionCheckStatus.OK

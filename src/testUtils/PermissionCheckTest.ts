@@ -1,5 +1,5 @@
 import { PrisonerPermission } from '../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../services/permissions/checks/PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../types/internal/permissions/PrisonerPermissionsContext'
 import { HmppsUser } from '../types/internal/user/HmppsUser'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { PermissionCheckStatus } from '../types/internal/permissions/PermissionCheckStatus'
@@ -17,7 +17,7 @@ export function requestDependentOnPermissionTest({
   expectedStatusLogged,
 }: {
   permission: PrisonerPermission
-  checkUnderTest: (request: PermissionsCheckRequest) => boolean
+  checkUnderTest: (permission: PrisonerPermission, context: PrisonerPermissionsContext) => boolean
   user: HmppsUser
   prisoner: Prisoner
   baseCheckStatus: PermissionCheckStatus
@@ -31,7 +31,7 @@ export function requestDependentOnPermissionTest({
   })
 
   it(`check returns expected result: ${expectedResult}${expectedResult ? '' : ` and logs status: ${expectedStatusLogged}`}`, () => {
-    const result = checkUnderTest({
+    const result = checkUnderTest(permission, {
       user,
       prisoner,
       baseCheckStatus,
@@ -54,7 +54,10 @@ export function requestDependentOnPermissionTest({
   })
 }
 
-export function requestNotDependentOnPermissionTest(checkUnderTest: (request: PermissionsCheckRequest) => boolean) {
+export function requestNotDependentOnPermissionTest(
+  permission: PrisonerPermission,
+  checkUnderTest: (permission: PrisonerPermission, context: PrisonerPermissionsContext) => boolean,
+) {
   let permissionsLogger: PermissionsLogger
 
   beforeEach(() => {
@@ -62,7 +65,7 @@ export function requestNotDependentOnPermissionTest(checkUnderTest: (request: Pe
   })
 
   it(`denied check does not log the permission status`, () => {
-    const result = checkUnderTest({
+    const result = checkUnderTest(permission, {
       user: prisonUserMock,
       prisoner: prisonerMock,
       baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,

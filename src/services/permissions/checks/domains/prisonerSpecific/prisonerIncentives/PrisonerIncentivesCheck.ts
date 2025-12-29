@@ -1,17 +1,16 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import {
   PrisonerIncentivesPermission,
   PrisonerIncentivesPermissions,
 } from '../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import incentiveLevelHistoryReadCheck from './incentiveLevelHistoryRead/IncentiveLevelHistoryReadCheck'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
-export default function prisonerIncentivesCheck(request: PermissionsCheckRequest): PrisonerIncentivesPermissions {
+export default function prisonerIncentivesCheck(context: PrisonerPermissionsContext): PrisonerIncentivesPermissions {
+  const check = checkWith(context)
   return {
-    [PrisonerIncentivesPermission.read_incentive_level]: baseCheck(
-      PrisonerIncentivesPermission.read_incentive_level,
-      request,
-    ),
-    [PrisonerIncentivesPermission.read_incentive_level_history]: incentiveLevelHistoryReadCheck(request),
+    ...check(PrisonerIncentivesPermission.read_incentive_level, baseCheck),
+    ...check(PrisonerIncentivesPermission.read_incentive_level_history, incentiveLevelHistoryReadCheck),
   }
 }

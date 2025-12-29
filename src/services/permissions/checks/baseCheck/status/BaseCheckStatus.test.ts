@@ -1,10 +1,10 @@
-import baseCheckStatus from './BaseCheckStatus'
 import { TestScenario } from '../../../../../testUtils/TestScenario'
 import { baseCheckScenarios } from '../BaseCheckScenarios'
 import { prisonUserMock } from '../../../../../testUtils/UserMocks'
 import { HmppsUser } from '../../../../../types/internal/user/HmppsUser'
 import { prisonerMock } from '../../../../../testUtils/PrisonerMocks'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
+import { baseCheckStatus } from './BaseCheckStatus'
 
 describe('BaseCheck', () => {
   it.each(['delius', 'external', 'azuread'])('Non prison user: %s fails check', authSource => {

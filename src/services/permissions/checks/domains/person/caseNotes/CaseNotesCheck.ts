@@ -1,5 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
-import caseNotesReadCheck from './caseNotesRead/CaseNotesReadCheck'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import {
   CaseNotesPermission,
   CaseNotesPermissions,
@@ -7,14 +6,16 @@ import {
 import sensitiveCaseNotesReadCheck from './sensitiveCaseNotesRead/SensitiveCaseNotesReadCheck'
 import sensitiveCaseNotesDeleteCheck from './sensitiveCaseNotesDelete/SensitiveCaseNotesDeleteCheck'
 import sensitiveCaseNotesEditCheck from './sensitiveCaseNotesEdit/SensitiveCaseNotesEditCheck'
-import caseNotesEditCheck from './caseNotesEdit/CaseNotesEditCheck'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
+import caseNotesReadAndEditCheck from './CaseNotesReadAndEditCheck'
 
-export default function caseNotesCheck(request: PermissionsCheckRequest): CaseNotesPermissions {
+export default function caseNotesCheck(context: PrisonerPermissionsContext): CaseNotesPermissions {
+  const check = checkWith(context)
   return {
-    [CaseNotesPermission.read]: caseNotesReadCheck(request),
-    [CaseNotesPermission.edit]: caseNotesEditCheck(request),
-    [CaseNotesPermission.read_sensitive]: sensitiveCaseNotesReadCheck(request),
-    [CaseNotesPermission.delete_sensitive]: sensitiveCaseNotesDeleteCheck(request),
-    [CaseNotesPermission.edit_sensitive]: sensitiveCaseNotesEditCheck(request),
+    ...check(CaseNotesPermission.read, caseNotesReadAndEditCheck),
+    ...check(CaseNotesPermission.edit, caseNotesReadAndEditCheck),
+    ...check(CaseNotesPermission.read_sensitive, sensitiveCaseNotesReadCheck),
+    ...check(CaseNotesPermission.delete_sensitive, sensitiveCaseNotesDeleteCheck),
+    ...check(CaseNotesPermission.edit_sensitive, sensitiveCaseNotesEditCheck),
   }
 }

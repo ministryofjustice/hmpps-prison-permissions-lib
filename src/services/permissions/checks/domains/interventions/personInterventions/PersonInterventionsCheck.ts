@@ -1,12 +1,14 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import {
   PersonInterventionsPermission,
   PersonInterventionsPermissions,
 } from '../../../../../../types/public/permissions/domains/interventions/personInterventions/PersonInterventionsPermissions'
 import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
-export default function personInterventionsCheck(request: PermissionsCheckRequest): PersonInterventionsPermissions {
+export default function personInterventionsCheck(context: PrisonerPermissionsContext): PersonInterventionsPermissions {
+  const check = checkWith(context)
   return {
-    [PersonInterventionsPermission.read_csip]: inUsersCaseLoad(PersonInterventionsPermission.read_csip, request),
+    ...check(PersonInterventionsPermission.read_csip, inUsersCaseLoad),
   }
 }

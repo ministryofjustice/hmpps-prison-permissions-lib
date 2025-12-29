@@ -3,14 +3,16 @@ import {
   PersonSentenceCalculationPermissions,
 } from '../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import sentenceCalculationReadCheck from './sentenceCalculationRead/SentenceCalculationReadCheck'
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import sentenceCalculationEditAdjustmentCheck from './sentenceCalculationAdjustmentEdit/SentenceCalculationEditAdjustmentCheck'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
 export default function personSentenceCalculationCheck(
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ): PersonSentenceCalculationPermissions {
+  const check = checkWith(context)
   return {
-    [PersonSentenceCalculationPermission.read]: sentenceCalculationReadCheck(request),
-    [PersonSentenceCalculationPermission.edit_adjustments]: sentenceCalculationEditAdjustmentCheck(request),
+    ...check(PersonSentenceCalculationPermission.read, sentenceCalculationReadCheck),
+    ...check(PersonSentenceCalculationPermission.edit_adjustments, sentenceCalculationEditAdjustmentCheck),
   }
 }

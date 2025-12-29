@@ -14,30 +14,33 @@ const today = Date.now()
 const twentyDaysAgo = getCurrentDateMinusDaysAsString(today, 20)
 const ninetyFiveDaysAgo = getCurrentDateMinusDaysAsString(today, 95)
 
-export const deniedCaseNotesReadAndEditScenarios: TestScenarios = deniedBaseCheckScenarios
-  .and(
-    grantedGlobalSearchCheckScenarios
-      .withoutUserRoles([Role.PomUser])
-      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
-  )
-  .andScenarioWhere(
-    userWithActiveCaseLoad('MDI')
-      .withRoles([Role.GlobalSearch])
-      .accessingTransferringPrisoner()
-      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
-  )
-  .andScenarioWhere(
-    userWithActiveCaseLoad('STI')
-      .withRoles([Role.GlobalSearch, Role.PomUser])
-      .accessingPrisonerAt('MDI')
-      .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
-  )
-  .andScenarioWhere(
-    userWithActiveCaseLoad('MDI')
-      .withRoles([Role.GlobalSearch, Role.PomUser])
-      .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', ninetyFiveDaysAgo)
-      .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
-  )
+export const deniedCaseNotesReadAndEditScenarios: (
+  expectedStatus?: PermissionCheckStatus,
+) => TestScenarios = expectedStatus =>
+  deniedBaseCheckScenarios
+    .and(
+      grantedGlobalSearchCheckScenarios
+        .withoutUserRoles([Role.PomUser])
+        .withExpectedStatus(expectedStatus ?? PermissionCheckStatus.ROLE_NOT_PRESENT),
+    )
+    .andScenarioWhere(
+      userWithActiveCaseLoad('MDI')
+        .withRoles([Role.GlobalSearch])
+        .accessingTransferringPrisoner()
+        .expectsStatus(expectedStatus ?? PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+    )
+    .andScenarioWhere(
+      userWithActiveCaseLoad('STI')
+        .withRoles([Role.GlobalSearch, Role.PomUser])
+        .accessingPrisonerAt('MDI')
+        .expectsStatus(expectedStatus ?? PermissionCheckStatus.NOT_PERMITTED),
+    )
+    .andScenarioWhere(
+      userWithActiveCaseLoad('MDI')
+        .withRoles([Role.GlobalSearch, Role.PomUser])
+        .accessingPrisonerAtAfterTransferFrom('STI', 'MDI', ninetyFiveDaysAgo)
+        .expectsStatus(expectedStatus ?? PermissionCheckStatus.NOT_PERMITTED),
+    )
 
 export const grantedCaseNotesReadAndEditAfterTransferScenarios = new TestScenarios([])
   .andScenarioWhere(
@@ -67,5 +70,5 @@ export const grantedCaseNotesReadAndEditScenarios = grantedRestrictedPatientChec
   .and(grantedCaseNotesReadAndEditTransferringPrisonerScenarios)
 
 export const caseNotesReadAndEditScenarios = grantedCaseNotesReadAndEditScenarios.and(
-  deniedCaseNotesReadAndEditScenarios,
+  deniedCaseNotesReadAndEditScenarios(),
 )

@@ -1,27 +1,18 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import {
-  isInUsersCaseLoad,
-  isReleasedOrTransferring,
-  logDeniedPermissionCheck,
-  userHasRole,
-} from '../../../../../utils/PermissionUtils'
+import { userHasRole } from '../../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import { UseOfForcePermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/useOfForce/UseOfForcePermissions'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
+import { HmppsUser } from '../../../../../../../types/internal/user/HmppsUser'
 
-const permission = UseOfForcePermission.edit
+const requiresInactiveBookingRole = (user: HmppsUser) =>
+  userHasRole(Role.InactiveBookings, user) ? PermissionCheckStatus.OK : PermissionCheckStatus.NOT_IN_CASELOAD
 
-export default function useOfForceEditCheck(request: PermissionsCheckRequest) {
-  const { user, prisoner, baseCheckStatus } = request
+const useOfForceEditCheck = matchBaseCheckAnd({
+  ifRestrictedPatient: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+  ifReleasedPrisoner: requiresInactiveBookingRole,
+  ifTransferringPrisoner: requiresInactiveBookingRole,
+  ifPrisonNotInCaseload: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+  ifPrisonInCaseload: () => PermissionCheckStatus.OK,
+})
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const check =
-    baseCheckPassed &&
-    !prisoner.restrictedPatient &&
-    (isInUsersCaseLoad(prisoner.prisonId, user) ||
-      (isReleasedOrTransferring(prisoner) && userHasRole(Role.InactiveBookings, user)))
-
-  if (!check) logDeniedPermissionCheck(permission, request, PermissionCheckStatus.NOT_IN_CASELOAD)
-
-  return check
-}
+export default useOfForceEditCheck

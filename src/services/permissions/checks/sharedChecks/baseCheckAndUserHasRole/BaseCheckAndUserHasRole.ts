@@ -1,12 +1,6 @@
-import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
 import { Role } from '../../../../../types/internal/user/Role'
 import baseCheckAndUserHasAllRoles from '../baseCheckAndUserHasAllRoles/BaseCheckAndUserHasAllRoles'
 
-export default function baseCheckAndUserHasRole(
-  role: Role,
-  permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
-) {
-  return baseCheckAndUserHasAllRoles([role], permission, request)
-}
+const baseCheckAndUserHasRole = (role: Role) => baseCheckAndUserHasAllRoles([role])
+
+export default baseCheckAndUserHasRole

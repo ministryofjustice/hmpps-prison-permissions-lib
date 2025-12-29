@@ -1,30 +1,18 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import {
   PersonCommunicationNeedsPermission,
   PersonCommunicationNeedsPermissions,
 } from '../../../../../../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
 export default function personCommunicationNeedsCheck(
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ): PersonCommunicationNeedsPermissions {
+  const check = checkWith(context)
   return {
-    ...readCheck(PersonCommunicationNeedsPermission.read_language, request),
-    ...editCheck(PersonCommunicationNeedsPermission.edit_language, request),
+    ...check(PersonCommunicationNeedsPermission.read_language, baseCheck),
+    ...check(PersonCommunicationNeedsPermission.edit_language, prisonerProfileEditCheck),
   }
-}
-
-function readCheck<P extends keyof PersonCommunicationNeedsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonCommunicationNeedsPermissions, P> {
-  return { [permission]: baseCheck(permission, request) } as Pick<PersonCommunicationNeedsPermissions, P>
-}
-
-function editCheck<P extends keyof PersonCommunicationNeedsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonCommunicationNeedsPermissions, P> {
-  return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<PersonCommunicationNeedsPermissions, P>
 }

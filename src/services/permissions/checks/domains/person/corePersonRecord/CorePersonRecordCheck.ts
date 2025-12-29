@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import {
   CorePersonRecordPermission,
   CorePersonRecordPermissions,
@@ -9,71 +9,48 @@ import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerPro
 import photoReadCheck from './photo/PhotoReadCheck'
 import { Role } from '../../../../../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFrom'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
-export default function corePersonRecordCheck(request: PermissionsCheckRequest): CorePersonRecordPermissions {
+export default function corePersonRecordCheck(context: PrisonerPermissionsContext): CorePersonRecordPermissions {
+  const check = checkWith(context)
   return {
-    [CorePersonRecordPermission.read_photo]: photoReadCheck(request),
-    [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFrom(
-      [Role.PrisonerProfileSensitiveEdit, Role.PrisonerProfilePhotoUpload],
+    ...check(CorePersonRecordPermission.read_photo, photoReadCheck),
+    ...check(
       CorePersonRecordPermission.edit_photo,
-      request,
+      inActiveCaseLoadAndUserHasSomeRolesFrom([Role.PrisonerProfileSensitiveEdit, Role.PrisonerProfilePhotoUpload]),
     ),
 
-    ...readCheck(CorePersonRecordPermission.read_physical_characteristics, request),
-    ...editCheck(CorePersonRecordPermission.edit_physical_characteristics, request),
+    ...check(CorePersonRecordPermission.read_physical_characteristics, baseCheck),
+    ...check(CorePersonRecordPermission.edit_physical_characteristics, prisonerProfileEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_place_of_birth, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_place_of_birth, request),
+    ...check(CorePersonRecordPermission.read_place_of_birth, baseCheck),
+    ...check(CorePersonRecordPermission.edit_place_of_birth, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_military_history, request),
-    ...editCheck(CorePersonRecordPermission.edit_military_history, request),
+    ...check(CorePersonRecordPermission.read_military_history, baseCheck),
+    ...check(CorePersonRecordPermission.edit_military_history, prisonerProfileEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_name_and_aliases, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_name_and_aliases, request),
+    ...check(CorePersonRecordPermission.read_name_and_aliases, baseCheck),
+    ...check(CorePersonRecordPermission.edit_name_and_aliases, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_date_of_birth, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_date_of_birth, request),
+    ...check(CorePersonRecordPermission.read_date_of_birth, baseCheck),
+    ...check(CorePersonRecordPermission.edit_date_of_birth, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_address, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_address, request),
+    ...check(CorePersonRecordPermission.read_address, baseCheck),
+    ...check(CorePersonRecordPermission.edit_address, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_nationality, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_nationality, request),
+    ...check(CorePersonRecordPermission.read_nationality, baseCheck),
+    ...check(CorePersonRecordPermission.edit_nationality, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_identifiers, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_identifiers, request),
+    ...check(CorePersonRecordPermission.read_identifiers, baseCheck),
+    ...check(CorePersonRecordPermission.edit_identifiers, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_phone_numbers, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_phone_numbers, request),
+    ...check(CorePersonRecordPermission.read_phone_numbers, baseCheck),
+    ...check(CorePersonRecordPermission.edit_phone_numbers, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_email_addresses, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_email_addresses, request),
+    ...check(CorePersonRecordPermission.read_email_addresses, baseCheck),
+    ...check(CorePersonRecordPermission.edit_email_addresses, prisonerProfileSensitiveEditCheck),
 
-    ...readCheck(CorePersonRecordPermission.read_distinguishing_marks, request),
-    ...sensitiveEditCheck(CorePersonRecordPermission.edit_distinguishing_marks, request),
+    ...check(CorePersonRecordPermission.read_distinguishing_marks, baseCheck),
+    ...check(CorePersonRecordPermission.edit_distinguishing_marks, prisonerProfileSensitiveEditCheck),
   }
-}
-
-function readCheck<P extends keyof CorePersonRecordPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<CorePersonRecordPermissions, P> {
-  return { [permission]: baseCheck(permission, request) } as Pick<CorePersonRecordPermissions, P>
-}
-
-function editCheck<P extends keyof CorePersonRecordPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<CorePersonRecordPermissions, P> {
-  return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<CorePersonRecordPermissions, P>
-}
-
-function sensitiveEditCheck<P extends keyof CorePersonRecordPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<CorePersonRecordPermissions, P> {
-  return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
-    CorePersonRecordPermissions,
-    P
-  >
 }

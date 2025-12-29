@@ -1,6 +1,6 @@
 import { Role } from '../../../../../../../types/internal/user/Role'
 import { grantedCaseNotesReadAndEditScenarios } from '../CaseNotesReadAndEditScenarios'
-import { deniedSensitiveCaseNotesBaseScenarios } from '../../../../../../../contractTests/prisonerProfile/scenarios/domains/person/caseNotes/SensitiveCaseNotesBaseScenarios'
+import { deniedSensitiveCaseNotesBaseScenarios } from '../SensitiveCaseNotesBaseScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 
