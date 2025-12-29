@@ -1,8 +1,8 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheckAndUserHasSomeRolesFrom from '../../../../sharedChecks/baseCheckAndUserHasSomeRolesFrom/BaseCheckAndUserHasSomeRolesFrom'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import { SOCPermission } from '../../../../../../../types/public/permissions/domains/security/soc/SOCPermissions'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-export default function socReadCheck(request: PermissionsCheckRequest) {
-  return baseCheckAndUserHasSomeRolesFrom([Role.SocCommunity, Role.SocCustody], SOCPermission.read, request)
+export default function socReadCheck(permission: PrisonerPermission, context: PrisonerPermissionsContext) {
+  return baseCheckAndUserHasSomeRolesFrom([Role.SocCommunity, Role.SocCustody])(permission, context)
 }

@@ -1,10 +1,8 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PersonHealthAndMedicationPermission } from '../../../../../../../types/public/permissions/domains/person/personHealthAndMedication/PersonHealthAndMedicationPermissions'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasRole from '../../../../sharedChecks/inActiveCaseLoadAndUserHasRole/InActiveCaseLoadAndUserHasRole'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-const permission = PersonHealthAndMedicationPermission.edit_diet
-
-export default function dietEditCheck(request: PermissionsCheckRequest) {
-  return inActiveCaseLoadAndUserHasRole(Role.DietAndAllergiesEdit, permission, request)
+export default function dietEditCheck(permission: PrisonerPermission, context: PrisonerPermissionsContext) {
+  return inActiveCaseLoadAndUserHasRole(Role.DietAndAllergiesEdit)(permission, context)
 }

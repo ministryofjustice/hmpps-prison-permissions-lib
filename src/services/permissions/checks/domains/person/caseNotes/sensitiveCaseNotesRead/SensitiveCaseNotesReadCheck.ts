@@ -1,14 +1,15 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { CaseNotesPermission } from '../../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import caseNotesReadAndEditCheckAndUserHasRolesFrom from '../CaseNotesReadAndEditCheckAndUserHasSomeRolesFrom'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
+import { caseNotesReadAndEditConditions } from '../CaseNotesReadAndEditCheck'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-const permission = CaseNotesPermission.read_sensitive
-
-export default function sensitiveCaseNotesReadCheck(request: PermissionsCheckRequest) {
-  return caseNotesReadAndEditCheckAndUserHasRolesFrom(
-    [Role.PomUser, Role.ViewSensitiveCaseNotes, Role.AddSensitiveCaseNotes],
-    permission,
-    request,
-  )
+export default function sensitiveCaseNotesReadCheck(
+  permission: PrisonerPermission,
+  context: PrisonerPermissionsContext,
+) {
+  return matchBaseCheckAnd(permission, context, {
+    ...caseNotesReadAndEditConditions,
+    atLeastOneRoleRequiredFrom: [Role.PomUser, Role.ViewSensitiveCaseNotes, Role.AddSensitiveCaseNotes],
+  })
 }

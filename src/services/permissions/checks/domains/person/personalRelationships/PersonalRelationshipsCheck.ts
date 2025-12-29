@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import {
   PersonalRelationshipsPermission,
@@ -10,63 +10,36 @@ import inUsersCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inUser
 import { Role } from '../../../../../../types/internal/user/Role'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
-export default function personalRelationshipsCheck(request: PermissionsCheckRequest): PersonalRelationshipsPermissions {
+export default function personalRelationshipsCheck(
+  context: PrisonerPermissionsContext,
+): PersonalRelationshipsPermissions {
+  const check = checkWith(context)
   return {
-    ...readCheck(PersonalRelationshipsPermission.read_number_of_children, request),
-    ...editCheck(PersonalRelationshipsPermission.edit_number_of_children, request),
+    ...check(PersonalRelationshipsPermission.read_number_of_children, baseCheck),
+    ...check(PersonalRelationshipsPermission.edit_number_of_children, prisonerProfileEditCheck),
 
-    ...readCheck(PersonalRelationshipsPermission.read_domestic_status, request),
-    ...editCheck(PersonalRelationshipsPermission.edit_domestic_status, request),
+    ...check(PersonalRelationshipsPermission.read_domestic_status, baseCheck),
+    ...check(PersonalRelationshipsPermission.edit_domestic_status, prisonerProfileEditCheck),
 
-    ...readCheck(PersonalRelationshipsPermission.read_emergency_contacts, request),
-    ...sensitiveEditCheck(PersonalRelationshipsPermission.edit_emergency_contacts, request),
+    ...check(PersonalRelationshipsPermission.read_emergency_contacts, baseCheck),
+    ...check(PersonalRelationshipsPermission.edit_emergency_contacts, prisonerProfileSensitiveEditCheck),
 
-    [PersonalRelationshipsPermission.read_contacts]: inUsersCaseLoad(
-      PersonalRelationshipsPermission.read_contacts,
-      request,
-    ),
-
-    [PersonalRelationshipsPermission.edit_contacts]: inUsersCaseLoadAndUserHasSomeRolesFrom(
-      [Role.ContactsAdministrator, Role.ContactsAuthoriser],
+    ...check(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoad),
+    ...check(
       PersonalRelationshipsPermission.edit_contacts,
-      request,
+      inUsersCaseLoadAndUserHasSomeRolesFrom([Role.ContactsAdministrator, Role.ContactsAuthoriser]),
     ),
 
-    [PersonalRelationshipsPermission.edit_contact_restrictions]: inUsersCaseLoadAndUserHasRole(
-      Role.ContactsAuthoriser,
+    ...check(
       PersonalRelationshipsPermission.edit_contact_restrictions,
-      request,
+      inUsersCaseLoadAndUserHasRole(Role.ContactsAuthoriser),
     ),
 
-    [PersonalRelationshipsPermission.edit_contact_visit_approval]: inUsersCaseLoadAndUserHasRole(
-      Role.ContactsAuthoriser,
+    ...check(
       PersonalRelationshipsPermission.edit_contact_visit_approval,
-      request,
+      inUsersCaseLoadAndUserHasRole(Role.ContactsAuthoriser),
     ),
   }
-}
-
-function readCheck<P extends keyof PersonalRelationshipsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonalRelationshipsPermissions, P> {
-  return { [permission]: baseCheck(permission, request) } as Pick<PersonalRelationshipsPermissions, P>
-}
-
-function editCheck<P extends keyof PersonalRelationshipsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonalRelationshipsPermissions, P> {
-  return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<PersonalRelationshipsPermissions, P>
-}
-
-function sensitiveEditCheck<P extends keyof PersonalRelationshipsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonalRelationshipsPermissions, P> {
-  return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
-    PersonalRelationshipsPermissions,
-    P
-  >
 }

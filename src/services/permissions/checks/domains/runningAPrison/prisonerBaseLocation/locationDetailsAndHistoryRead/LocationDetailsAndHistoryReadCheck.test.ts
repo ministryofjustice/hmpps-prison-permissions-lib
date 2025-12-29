@@ -7,11 +7,13 @@ import { prisonUserMock } from '../../../../../../../testUtils/UserMocks'
 import { prisonerMock } from '../../../../../../../testUtils/PrisonerMocks'
 import { PrisonerBaseLocationPermission } from '../../../../../../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
 import locationDetailsAndHistoryReadCheck from './LocationDetailsAndHistoryReadCheck'
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../../../types/internal/user/Role'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
 const permission = PrisonerBaseLocationPermission.read_location_details
-const checkUnderTest = (request: PermissionsCheckRequest) => locationDetailsAndHistoryReadCheck(permission, request)
+const checkUnderTest = (perm: PrisonerPermission, context: PrisonerPermissionsContext) =>
+  locationDetailsAndHistoryReadCheck(perm, context)
 const baseCheckStatusPass = PermissionCheckStatus.OK
 const baseCheckStatusFail = PermissionCheckStatus.NOT_PERMITTED
 
@@ -54,6 +56,6 @@ describe('LocationDetailsAndHistoryReadCheck', () => {
   })
 
   describe(`when the request is NOT dependent on permission`, () => {
-    requestNotDependentOnPermissionTest(checkUnderTest)
+    requestNotDependentOnPermissionTest(permission, checkUnderTest)
   })
 })

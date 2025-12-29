@@ -1,12 +1,11 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasSomeRolesFrom from '../inUsersCaseLoadAndUserHasSomeRolesFrom/InUsersCaseLoadAndUserHasSomeRolesFrom'
 
-export default function inUsersCaseLoadAndUserHasRole(
-  role: Role,
-  permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
-) {
-  return inUsersCaseLoadAndUserHasSomeRolesFrom([role], permission, request)
-}
+const inUsersCaseLoadAndUserHasRole =
+  (role: Role) => (permission: PrisonerPermission, context: PrisonerPermissionsContext) => {
+    return inUsersCaseLoadAndUserHasSomeRolesFrom([role])(permission, context)
+  }
+
+export default inUsersCaseLoadAndUserHasRole

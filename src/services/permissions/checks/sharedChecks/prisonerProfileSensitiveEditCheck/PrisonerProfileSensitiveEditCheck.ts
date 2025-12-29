@@ -1,11 +1,11 @@
 import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasRole from '../inActiveCaseLoadAndUserHasRole/InActiveCaseLoadAndUserHasRole'
 
 export default function prisonerProfileSensitiveEditCheck(
   permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ) {
-  return inActiveCaseLoadAndUserHasRole(Role.PrisonerProfileSensitiveEdit, permission, request)
+  return inActiveCaseLoadAndUserHasRole(Role.PrisonerProfileSensitiveEdit)(permission, context)
 }

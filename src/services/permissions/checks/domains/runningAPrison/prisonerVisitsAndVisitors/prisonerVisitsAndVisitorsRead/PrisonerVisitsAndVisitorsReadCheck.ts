@@ -1,7 +1,10 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import inUsersCaseLoad from '../../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
-import { PrisonerVisitsAndVisitorsPermission } from '../../../../../../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-export default function prisonerVisitsAndVisitorsReadCheck(request: PermissionsCheckRequest) {
-  return inUsersCaseLoad(PrisonerVisitsAndVisitorsPermission.read, request)
+export default function prisonerVisitsAndVisitorsReadCheck(
+  permission: PrisonerPermission,
+  context: PrisonerPermissionsContext,
+) {
+  return inUsersCaseLoad(permission, context)
 }

@@ -1,27 +1,14 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { logDeniedPermissionCheck, userHasRole } from '../../../../../utils/PermissionUtils'
-import { checkLocationDetailsAndHistoryAccess } from '../locationDetailsAndHistoryRead/LocationDetailsAndHistoryReadCheck'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import { PrisonerBaseLocationPermission } from '../../../../../../../types/public/permissions/domains/runningAPrison/prisonerBaseLocation/PrisonerBaseLocationPermissions'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
 
-const permission = PrisonerBaseLocationPermission.move_cell
+export default function moveCellCheck(permission: PrisonerPermission, context: PrisonerPermissionsContext) {
+  return matchBaseCheckAnd(permission, context, {
+    atLeastOneRoleRequiredFrom: [Role.CellMove],
 
-export default function moveCellCheck(request: PermissionsCheckRequest) {
-  const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
-
-  const hasCellMoveRole = userHasRole(Role.CellMove, request.user)
-  const locationDetailsAndHistoryCheckStatus = checkLocationDetailsAndHistoryAccess(request)
-  const locationDetailsAndHistoryCheckPassed = locationDetailsAndHistoryCheckStatus === PermissionCheckStatus.OK
-
-  const check = baseCheckPassed && hasCellMoveRole && locationDetailsAndHistoryCheckPassed
-
-  if (!check)
-    logDeniedPermissionCheck(
-      permission,
-      request,
-      hasCellMoveRole ? locationDetailsAndHistoryCheckStatus : PermissionCheckStatus.ROLE_NOT_PRESENT,
-    )
-
-  return check
+    // Global search access is not allowed:
+    ifPrisonNotInCaseload: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+  })
 }

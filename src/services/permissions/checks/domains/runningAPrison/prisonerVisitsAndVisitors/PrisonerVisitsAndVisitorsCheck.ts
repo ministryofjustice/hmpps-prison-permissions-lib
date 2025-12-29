@@ -1,14 +1,16 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
-import prisonerVisitsAndVisitorsReadCheck from './prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadCheck'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import {
   PrisonerVisitsAndVisitorsPermission,
   PrisonerVisitsAndVisitorsPermissions,
 } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerVisitsAndVisitors/PrisonerVisitsAndVisitorsPermissions'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
+import prisonerVisitsAndVisitorsReadCheck from './prisonerVisitsAndVisitorsRead/PrisonerVisitsAndVisitorsReadCheck'
 
 export default function prisonerVisitsAndVisitorsCheck(
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ): PrisonerVisitsAndVisitorsPermissions {
+  const check = checkWith(context)
   return {
-    [PrisonerVisitsAndVisitorsPermission.read]: prisonerVisitsAndVisitorsReadCheck(request),
+    ...check(PrisonerVisitsAndVisitorsPermission.read, prisonerVisitsAndVisitorsReadCheck),
   }
 }

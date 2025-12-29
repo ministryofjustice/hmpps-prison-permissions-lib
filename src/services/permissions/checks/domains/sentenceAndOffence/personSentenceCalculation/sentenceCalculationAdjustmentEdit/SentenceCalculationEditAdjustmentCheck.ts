@@ -1,12 +1,11 @@
-import { PersonSentenceCalculationPermission } from '../../../../../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheckAndUserHasRole from '../../../../sharedChecks/baseCheckAndUserHasRole/BaseCheckAndUserHasRole'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-export default function sentenceCalculationEditAdjustmentCheck(request: PermissionsCheckRequest) {
-  return baseCheckAndUserHasRole(
-    Role.AdjustmentsMaintainer,
-    PersonSentenceCalculationPermission.edit_adjustments,
-    request,
-  )
+export default function sentenceCalculationEditAdjustmentCheck(
+  permission: PrisonerPermission,
+  context: PrisonerPermissionsContext,
+) {
+  return baseCheckAndUserHasRole(Role.AdjustmentsMaintainer)(permission, context)
 }

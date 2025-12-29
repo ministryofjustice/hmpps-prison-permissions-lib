@@ -1,31 +1,26 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import {
-  isInUsersCaseLoad,
-  isTransferring,
-  logDeniedPermissionCheck,
-  userHasRole,
-} from '../../../../../utils/PermissionUtils'
+import { userHasRole } from '../../../../../utils/PermissionUtils'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import { PrisonerSpecificRisksPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
+import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
+import { PrisonerPermissionConditions } from '../../../../../PrisonerPermissionConditions'
 
-const permission = PrisonerSpecificRisksPermission.read_csra_assessment_history
+export default function csraAssessmentHistoryReadCheck(
+  permission: PrisonerPermission,
+  context: PrisonerPermissionsContext,
+) {
+  const conditions: PrisonerPermissionConditions = {
+    ifRestrictedPatient: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+    ifReleasedPrisoner: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+    ifPrisonNotInCaseload: () => PermissionCheckStatus.NOT_IN_CASELOAD,
 
-export default function csraAssessmentHistoryReadCheck(request: PermissionsCheckRequest) {
-  const { user, prisoner } = request
+    // The Inactive Bookings role is NOT sufficient to access CSRA history for transferring prisoners:
+    ifTransferringPrisoner: user =>
+      userHasRole(Role.GlobalSearch, user) ? PermissionCheckStatus.OK : PermissionCheckStatus.PRISONER_IS_TRANSFERRING,
 
-  const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
-  const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
+    ifPrisonInCaseload: () => PermissionCheckStatus.OK,
+  }
 
-  const check =
-    baseCheckPassed && (inUsersCaseLoad || (isTransferring(prisoner) && userHasRole(Role.GlobalSearch, user)))
-
-  if (!check)
-    logDeniedPermissionCheck(
-      permission,
-      request,
-      isTransferring(prisoner) ? PermissionCheckStatus.PRISONER_IS_TRANSFERRING : PermissionCheckStatus.NOT_IN_CASELOAD,
-    )
-
-  return check
+  return matchBaseCheckAnd(permission, context, conditions)
 }
