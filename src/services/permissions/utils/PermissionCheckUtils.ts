@@ -5,25 +5,23 @@ import { PermissionCheckStatus } from '../../../types/internal/permissions/Permi
 import { baseCheckConditions } from '../checks/baseCheck/status/BaseCheckStatus'
 import { logDeniedPermissionCheck } from './PermissionUtils'
 
-export function matchBaseCheckAnd(
-  permission: PrisonerPermission,
-  context: PrisonerPermissionsContext,
-  permissionRules: Partial<PrisonerPermissionConditions>,
-) {
-  const { user, prisoner, baseCheckStatus } = context
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
+export const matchBaseCheckAnd =
+  (permissionRules: Partial<PrisonerPermissionConditions>) =>
+  (permission: PrisonerPermission, context: PrisonerPermissionsContext) => {
+    const { user, prisoner, baseCheckStatus } = context
+    const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
 
-  const permissionStatus = getPermissionStatus(user, prisoner, {
-    ...baseCheckConditions,
-    ...permissionRules,
-  })
+    const permissionStatus = getPermissionStatus(user, prisoner, {
+      ...baseCheckConditions,
+      ...permissionRules,
+    })
 
-  const permissionCheckPassed = baseCheckPassed && permissionStatus === PermissionCheckStatus.OK
+    const permissionCheckPassed = baseCheckPassed && permissionStatus === PermissionCheckStatus.OK
 
-  if (!permissionCheckPassed) logDeniedPermissionCheck(permission, context, permissionStatus)
+    if (!permissionCheckPassed) logDeniedPermissionCheck(permission, context, permissionStatus)
 
-  return permissionCheckPassed
-}
+    return permissionCheckPassed
+  }
 
 export const checkWith =
   (context: PrisonerPermissionsContext) =>

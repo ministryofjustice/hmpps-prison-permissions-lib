@@ -1,18 +1,16 @@
-import PrisonerPermissionsContext from '../../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheckAndUserHasSomeRolesFrom from '../../../../sharedChecks/baseCheckAndUserHasSomeRolesFrom/BaseCheckAndUserHasSomeRolesFrom'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import { PrisonerPermission } from '../../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
-export default function pathfinderReadCheck(permission: PrisonerPermission, context: PrisonerPermissionsContext) {
-  return baseCheckAndUserHasSomeRolesFrom([
-    Role.PathfinderApproval,
-    Role.PathfinderStdPrison,
-    Role.PathfinderStdProbation,
-    Role.PathfinderHQ,
-    Role.PathfinderUser,
-    Role.PathfinderLocalReader,
-    Role.PathfinderNationalReader,
-    Role.PathfinderPolice,
-    Role.PathfinderPsychologist,
-  ])(permission, context)
-}
+const pathfinderReadCheck = baseCheckAndUserHasSomeRolesFrom([
+  Role.PathfinderApproval,
+  Role.PathfinderStdPrison,
+  Role.PathfinderStdProbation,
+  Role.PathfinderHQ,
+  Role.PathfinderUser,
+  Role.PathfinderLocalReader,
+  Role.PathfinderNationalReader,
+  Role.PathfinderPolice,
+  Role.PathfinderPsychologist,
+])
+
+export default pathfinderReadCheck

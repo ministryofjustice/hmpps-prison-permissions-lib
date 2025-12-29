@@ -8,10 +8,14 @@ import { PermissionCheckStatus } from '../../../../../types/internal/permissions
 import restrictedPatientStatus from './RestrictedPatientStatus'
 import releasedPrisonerStatus from './ReleasedPrisonerStatus'
 import transferringPrisonerStatus from './TransferringPrisonerStatus'
-import { getPermissionStatus, PrisonerPermissionStatusFunction } from '../../../PrisonerPermissionConditions'
+import {
+  getPermissionStatus,
+  PrisonerPermissionConditions,
+  PrisonerPermissionStatusFunction,
+} from '../../../PrisonerPermissionConditions'
 import prisonNotInCaseloadStatus from './PrisonNotInCaseloadStatus'
 
-export const baseCheckConditions = {
+export const baseCheckConditions: PrisonerPermissionConditions = {
   ifRestrictedPatient: restrictedPatientStatus,
   ifReleasedPrisoner: releasedPrisonerStatus,
   ifTransferringPrisoner: transferringPrisonerStatus,

@@ -1,5 +1,4 @@
 import { PermissionCheckStatus } from '../../../../../../types/internal/permissions/PermissionCheckStatus'
-import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import { isInUsersCaseLoad, userHasAllRoles, userHasRole } from '../../../../utils/PermissionUtils'
 import { Role } from '../../../../../../types/internal/user/Role'
 import { HmppsUser } from '../../../../../../types/internal/user/HmppsUser'
@@ -7,7 +6,6 @@ import Prisoner from '../../../../../../data/hmppsPrisonerSearch/interfaces/Pris
 import { daysToMilliseconds, isDateWithinBounds } from '../../../../utils/DateUtils'
 import { matchBaseCheckAnd } from '../../../../utils/PermissionCheckUtils'
 import { PrisonerPermissionConditions } from '../../../../PrisonerPermissionConditions'
-import { PrisonerPermission } from '../../../../../../types/public/permissions/prisoner/PrisonerPermissions'
 
 const caseNotesAccessPeriodPostTransferInMs = daysToMilliseconds(90)
 
@@ -29,9 +27,9 @@ export const caseNotesReadAndEditConditions: Partial<PrisonerPermissionCondition
   },
 }
 
-export default function caseNotesReadAndEditCheck(permission: PrisonerPermission, context: PrisonerPermissionsContext) {
-  return matchBaseCheckAnd(permission, context, caseNotesReadAndEditConditions)
-}
+const caseNotesReadAndEditCheck = matchBaseCheckAnd(caseNotesReadAndEditConditions)
+
+export default caseNotesReadAndEditCheck
 
 function checkTimeBasedAccessToCaseNotesPostTransfer(
   user: HmppsUser,
