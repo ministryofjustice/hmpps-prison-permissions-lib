@@ -17,10 +17,12 @@ Adding a new permission involves the following:
 3) Add the permission path to the relevant path object,
    e.g. [PrisonerMoneyPermissionPaths.ts](../src/types/public/permissions/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyPermissionPaths.ts)
 4) Add a folder under `src/services/permissions/checks/domains/...` for the new permission check. This should include
-   the
-   check, a unit test and a scenarios file. The scenarios can be built up with the builders and help to verify
-   the end-to-end permission check works ok.
-5) Using the above scenarios for the permission, add a test
-   to [PermissionsService.test.ts](../src/services/permissions/PermissionsService.test.ts)
+   the check and a scenarios file. The scenarios can be built up with the builders and help to verify the end-to-end
+   permission check works ok.
+5) Using the above scenarios for the permissions, create a test for the domain level permission check in the relevant
+   domain test file,
+   e.g. [PrisonerMoneyPermissionChecks.test.ts](../src/services/permissions/checks/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyCheck.test.ts)
 6) Consider adding to a service's [contract tests](../src/contractTests) if the service is to start making use of the
    new permission.
+7) If creating a new domain or domain group, there will be some additional plumbing to do to wire it all up. It is all
+   strongly typed so the TypeScript compiler will help identify what needs to be done.

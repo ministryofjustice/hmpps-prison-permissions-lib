@@ -6,14 +6,14 @@ import { baseCheckConditions } from '../checks/baseCheck/status/BaseCheckStatus'
 import { logDeniedPermissionCheck } from './PermissionUtils'
 
 export const matchBaseCheckAnd =
-  (permissionRules: Partial<PrisonerPermissionConditions>) =>
+  (additionalConditions: Partial<PrisonerPermissionConditions>) =>
   (permission: PrisonerPermission, context: PrisonerPermissionsContext) => {
     const { user, prisoner, baseCheckStatus } = context
     const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
 
     const permissionStatus = getPermissionStatus(user, prisoner, {
       ...baseCheckConditions,
-      ...permissionRules,
+      ...additionalConditions,
     })
 
     const permissionCheckPassed = baseCheckPassed && permissionStatus === PermissionCheckStatus.OK

@@ -44,5 +44,5 @@ export function deniedSensitiveCaseNotesBaseScenarios(allPermissiveRoles: Role[]
     )
     .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
     .and(grantedCaseLoadCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
-    .and(deniedCaseNotesReadAndEditScenarios.withUserRoles(allPermissiveRoles.filter(role => role !== Role.PomUser)))
+    .and(deniedCaseNotesReadAndEditScenarios().withUserRoles(allPermissiveRoles.filter(role => role !== Role.PomUser)))
 }
