@@ -95,6 +95,7 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:person-prison-category:edit': false,
       },
       prisonerSchedule: {
+        'prisoner:schedule:read': false,
         'prisoner:appointment:edit': false,
         'prisoner:activity:edit': false,
       },
