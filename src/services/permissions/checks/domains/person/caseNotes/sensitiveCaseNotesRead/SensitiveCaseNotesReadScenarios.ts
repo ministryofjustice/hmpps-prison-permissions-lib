@@ -1,8 +1,8 @@
 import { Role } from '../../../../../../../types/internal/user/Role'
 import { grantedCaseNotesReadAndEditScenarios } from '../CaseNotesReadAndEditScenarios'
-import { deniedSensitiveCaseNotesBaseScenarios } from '../../../../../../../contractTests/prisonerProfile/scenarios/domains/person/caseNotes/SensitiveCaseNotesBaseScenarios'
 import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
+import { deniedSensitiveCaseNotesBaseScenarios } from '../SensitiveCaseNotesBaseScenarios'
 
 const allPermissiveRoles = [Role.PomUser, Role.ViewSensitiveCaseNotes, Role.AddSensitiveCaseNotes]
 

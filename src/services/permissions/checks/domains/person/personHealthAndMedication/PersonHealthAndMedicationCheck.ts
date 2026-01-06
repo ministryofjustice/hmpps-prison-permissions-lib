@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import {
@@ -6,35 +6,20 @@ import {
   PersonHealthAndMedicationPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personHealthAndMedication/PersonHealthAndMedicationPermissions'
 import dietEditCheck from './dietEdit/DietEditCheck'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
 export default function personHealthAndMedicationCheck(
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ): PersonHealthAndMedicationPermissions {
+  const check = checkWith(context)
   return {
-    ...readCheck(PersonHealthAndMedicationPermission.read_pregnancy, request),
-    ...editCheck(PersonHealthAndMedicationPermission.edit_pregnancy, request),
+    ...check(PersonHealthAndMedicationPermission.read_pregnancy, baseCheck),
+    ...check(PersonHealthAndMedicationPermission.edit_pregnancy, prisonerProfileEditCheck),
 
-    ...readCheck(PersonHealthAndMedicationPermission.read_smoker, request),
-    ...editCheck(PersonHealthAndMedicationPermission.edit_smoker, request),
+    ...check(PersonHealthAndMedicationPermission.read_smoker, baseCheck),
+    ...check(PersonHealthAndMedicationPermission.edit_smoker, prisonerProfileEditCheck),
 
-    ...readCheck(PersonHealthAndMedicationPermission.read_diet, request),
-    [PersonHealthAndMedicationPermission.edit_diet]: dietEditCheck(request),
+    ...check(PersonHealthAndMedicationPermission.read_diet, baseCheck),
+    ...check(PersonHealthAndMedicationPermission.edit_diet, dietEditCheck),
   }
-}
-
-function readCheck<P extends keyof PersonHealthAndMedicationPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonHealthAndMedicationPermissions, P> {
-  return { [permission]: baseCheck(permission, request) } as Pick<PersonHealthAndMedicationPermissions, P>
-}
-
-function editCheck<P extends keyof PersonHealthAndMedicationPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonHealthAndMedicationPermissions, P> {
-  return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<
-    PersonHealthAndMedicationPermissions,
-    P
-  >
 }

@@ -1,10 +1,10 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { CaseNotesPermission } from '../../../../../../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import caseNotesReadAndEditCheckAndUserHasRolesFrom from '../CaseNotesReadAndEditCheckAndUserHasSomeRolesFrom'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
+import { caseNotesReadAndEditConditions } from '../CaseNotesReadAndEditCheck'
 
-const permission = CaseNotesPermission.delete_sensitive
+const sensitiveCaseNotesDeleteCheck = matchBaseCheckAnd({
+  ...caseNotesReadAndEditConditions,
+  atLeastOneRoleRequiredFrom: [Role.DeleteSensitiveCaseNotes],
+})
 
-export default function sensitiveCaseNotesDeleteCheck(request: PermissionsCheckRequest) {
-  return caseNotesReadAndEditCheckAndUserHasRolesFrom([Role.DeleteSensitiveCaseNotes], permission, request)
-}
+export default sensitiveCaseNotesDeleteCheck

@@ -1,11 +1,11 @@
 import {
-  grantedCaseNotesReadAndEditScenarios,
   deniedCaseNotesReadAndEditScenarios,
+  grantedCaseNotesReadAndEditScenarios,
 } from '../CaseNotesReadAndEditScenarios'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
 
-const deniedScenarios = deniedCaseNotesReadAndEditScenarios.and(
+const deniedScenarios = deniedCaseNotesReadAndEditScenarios(PermissionCheckStatus.ROLE_NOT_PRESENT).and(
   grantedCaseNotesReadAndEditScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
 )
 

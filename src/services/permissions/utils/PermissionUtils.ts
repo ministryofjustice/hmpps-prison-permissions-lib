@@ -2,7 +2,7 @@ import { HmppsUser } from '../../../types/internal/user/HmppsUser'
 import { PrisonerPermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { Role } from '../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
-import PermissionsCheckRequest from '../checks/PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../types/internal/permissions/PrisonerPermissionsContext'
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 
 export function isRequiredPermission(
@@ -14,10 +14,10 @@ export function isRequiredPermission(
 
 export function logDeniedPermissionCheck(
   permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
   status: PermissionCheckStatus,
 ) {
-  const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = request
+  const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = context
 
   const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
 

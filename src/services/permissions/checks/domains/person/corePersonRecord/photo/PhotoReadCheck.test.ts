@@ -52,6 +52,6 @@ describe('photoReadCheck', () => {
   })
 
   describe(`when the request is NOT dependent on permission`, () => {
-    requestNotDependentOnPermissionTest(checkUnderTest)
+    requestNotDependentOnPermissionTest(permission, checkUnderTest)
   })
 })

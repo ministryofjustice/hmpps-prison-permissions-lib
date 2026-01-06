@@ -1,28 +1,17 @@
-import { PrisonerPermission } from '../../../../../types/public/permissions/prisoner/PrisonerPermissions'
-import PermissionsCheckRequest from '../../PermissionsCheckRequest'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
-import { isActiveCaseLoad, logDeniedPermissionCheck, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
+import { isActiveCaseLoad, userHasSomeRolesFrom } from '../../../utils/PermissionUtils'
 import { Role } from '../../../../../types/internal/user/Role'
+import { matchBaseCheckAnd } from '../../../utils/PermissionCheckUtils'
 
-export default function inActiveCaseLoadAndUserHasSomeRolesFrom(
-  roles: Role[],
-  permission: PrisonerPermission,
-  request: PermissionsCheckRequest,
-) {
-  const { user, prisoner, baseCheckStatus } = request
+const inActiveCaseLoadAndUserHasSomeRolesFrom = (roles: Role[]) =>
+  matchBaseCheckAnd({
+    overridingCondition: (user, prisoner) => {
+      if (!userHasSomeRolesFrom(roles, user)) return PermissionCheckStatus.ROLE_NOT_PRESENT
 
-  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-  const inActiveCaseLoad = isActiveCaseLoad(prisoner.prisonId, user)
-  const hasRole = userHasSomeRolesFrom(roles, user)
+      return isActiveCaseLoad(prisoner.prisonId, user)
+        ? PermissionCheckStatus.OK
+        : PermissionCheckStatus.NOT_ACTIVE_CASELOAD
+    },
+  })
 
-  const check = baseCheckPassed && inActiveCaseLoad && hasRole
-
-  if (!check)
-    logDeniedPermissionCheck(
-      permission,
-      request,
-      inActiveCaseLoad ? PermissionCheckStatus.ROLE_NOT_PRESENT : PermissionCheckStatus.NOT_ACTIVE_CASELOAD,
-    )
-
-  return check
-}
+export default inActiveCaseLoadAndUserHasSomeRolesFrom

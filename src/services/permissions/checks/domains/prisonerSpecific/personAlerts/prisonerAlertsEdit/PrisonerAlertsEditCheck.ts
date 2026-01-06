@@ -1,55 +1,20 @@
-import PermissionsCheckRequest from '../../../../PermissionsCheckRequest'
-import { PrisonerAlertsPermission } from '../../../../../../../types/public/permissions/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsPermissions'
 import { Role } from '../../../../../../../types/internal/user/Role'
-import {
-  isInUsersCaseLoad,
-  isReleased,
-  isTransferring,
-  logDeniedPermissionCheck,
-  userHasRole,
-} from '../../../../../utils/PermissionUtils'
+import { userHasRole } from '../../../../../utils/PermissionUtils'
 import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
-import releasedPrisonerStatus from '../../../../baseCheck/status/ReleasedPrisonerStatus'
-import restrictedPatientStatus from '../../../../baseCheck/status/RestrictedPatientStatus'
+import { matchBaseCheckAnd } from '../../../../../utils/PermissionCheckUtils'
 
-const permission = PrisonerAlertsPermission.edit
-
-export default function prisonerAlertsEditCheck(request: PermissionsCheckRequest) {
-  const baseCheckPassed = request.baseCheckStatus === PermissionCheckStatus.OK
-
-  const alertsEditCheck = checkAlertsEditAccess(request)
-  const alertsEditCheckPassed = alertsEditCheck === PermissionCheckStatus.OK
-
-  const check = baseCheckPassed && alertsEditCheckPassed
-
-  if (!check) logDeniedPermissionCheck(permission, request, alertsEditCheck)
-
-  return check
-}
-
-function checkAlertsEditAccess(request: PermissionsCheckRequest): PermissionCheckStatus {
-  const { user, prisoner } = request
-  const inUsersCaseLoad = isInUsersCaseLoad(prisoner.prisonId, user)
-
-  // User must have Update Alert role:
-  if (!userHasRole(Role.UpdateAlert, user)) return PermissionCheckStatus.ROLE_NOT_PRESENT
-
-  // Restricted patients follow the base check:
-  if (prisoner.restrictedPatient) return restrictedPatientStatus(user, prisoner)
-
-  // Released prisoners follow base check:
-  if (isReleased(prisoner)) return releasedPrisonerStatus(user)
+const prisonerAlertsEditCheck = matchBaseCheckAnd({
+  atLeastOneRoleRequiredFrom: [Role.UpdateAlert],
 
   // For transferring prisoners, only the Inactive Bookings role is acceptable,
   // Global Search role is not sufficient:
-  if (isTransferring(prisoner)) {
-    return userHasRole(Role.InactiveBookings, user)
+  ifTransferringPrisoner: user =>
+    userHasRole(Role.InactiveBookings, user)
       ? PermissionCheckStatus.OK
-      : PermissionCheckStatus.PRISONER_IS_TRANSFERRING
-  }
+      : PermissionCheckStatus.PRISONER_IS_TRANSFERRING,
 
-  if (inUsersCaseLoad) return PermissionCheckStatus.OK
+  // Global search does NOT allow edit access to alerts for prisoners outside of user's caseload:
+  ifPrisonNotInCaseload: () => PermissionCheckStatus.NOT_IN_CASELOAD,
+})
 
-  // Global Search role is not sufficient for prisoners outside of user's caseload:
-  return PermissionCheckStatus.NOT_IN_CASELOAD
-}
+export default prisonerAlertsEditCheck

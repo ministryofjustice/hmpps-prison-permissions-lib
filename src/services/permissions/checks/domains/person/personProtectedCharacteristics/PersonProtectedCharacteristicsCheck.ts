@@ -1,4 +1,4 @@
-import PermissionsCheckRequest from '../../../PermissionsCheckRequest'
+import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
 import baseCheck from '../../../baseCheck/BaseCheck'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
 import {
@@ -7,48 +7,20 @@ import {
 } from '../../../../../../types/public/permissions/domains/person/personProtectedCharacteristics/PersonProtectedCharacteristicsPermissions'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
+import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
 export default function personProtectedCharacteristicsCheck(
-  request: PermissionsCheckRequest,
+  context: PrisonerPermissionsContext,
 ): PersonProtectedCharacteristicsPermissions {
+  const check = checkWith(context)
   return {
-    ...readCheck(PersonProtectedCharacteristicsPermission.read_sexual_orientation, request),
-    ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, request),
+    ...check(PersonProtectedCharacteristicsPermission.read_sexual_orientation, baseCheck),
+    ...check(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, prisonerProfileSensitiveEditCheck),
 
-    [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoad(
-      PersonProtectedCharacteristicsPermission.read_religion_and_belief,
-      request,
-    ),
-    ...editCheck(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, request),
+    ...check(PersonProtectedCharacteristicsPermission.read_religion_and_belief, inUsersCaseLoad),
+    ...check(PersonProtectedCharacteristicsPermission.edit_religion_and_belief, prisonerProfileEditCheck),
 
-    ...readCheck(PersonProtectedCharacteristicsPermission.read_ethnicity, request),
-    ...sensitiveEditCheck(PersonProtectedCharacteristicsPermission.edit_ethnicity, request),
+    ...check(PersonProtectedCharacteristicsPermission.read_ethnicity, baseCheck),
+    ...check(PersonProtectedCharacteristicsPermission.edit_ethnicity, prisonerProfileSensitiveEditCheck),
   }
-}
-
-function readCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonProtectedCharacteristicsPermissions, P> {
-  return { [permission]: baseCheck(permission, request) } as Pick<PersonProtectedCharacteristicsPermissions, P>
-}
-
-function editCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonProtectedCharacteristicsPermissions, P> {
-  return { [permission]: prisonerProfileEditCheck(permission, request) } as Pick<
-    PersonProtectedCharacteristicsPermissions,
-    P
-  >
-}
-
-function sensitiveEditCheck<P extends keyof PersonProtectedCharacteristicsPermissions>(
-  permission: P,
-  request: PermissionsCheckRequest,
-): Pick<PersonProtectedCharacteristicsPermissions, P> {
-  return { [permission]: prisonerProfileSensitiveEditCheck(permission, request) } as Pick<
-    PersonProtectedCharacteristicsPermissions,
-    P
-  >
 }

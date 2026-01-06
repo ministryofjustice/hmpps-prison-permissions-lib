@@ -1,30 +1,10 @@
-import { TestScenarios } from '../../../../../../../testUtils/TestScenario'
-import { deniedBaseCheckScenarios, grantedBaseCheckScenarios } from '../../../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../../../types/internal/permissions/PermissionCheckStatus'
 import { Role } from '../../../../../../../types/internal/user/Role'
-
-const deniedScenarios: TestScenarios = grantedBaseCheckScenarios
-  .withoutUserRoles([
-    Role.CreateCategorisation,
-    Role.CreateRecategorisation,
-    Role.ApproveCategorisation,
-    Role.CategorisationSecurity,
-  ])
-  .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT)
-  .and(
-    deniedBaseCheckScenarios.withUserRoles([
-      Role.CreateCategorisation,
-      Role.CreateRecategorisation,
-      Role.ApproveCategorisation,
-      Role.CategorisationSecurity,
-    ]),
-  )
-
-const grantedScenarios = grantedBaseCheckScenarios
-  .withUserRoles([Role.CreateCategorisation])
-  .and(grantedBaseCheckScenarios.withUserRoles([Role.CreateRecategorisation]))
-  .and(grantedBaseCheckScenarios.withUserRoles([Role.ApproveCategorisation]))
-  .and(grantedBaseCheckScenarios.withUserRoles([Role.CategorisationSecurity]))
+import baseCheckAndUserHasSomeRolesFromScenarios from '../../../../sharedChecks/baseCheckAndUserHasSomeRolesFrom/BaseCheckAndUserHasSomeRolesFromScenarios'
 
 // eslint-disable-next-line import/prefer-default-export
-export const personPrisonCategoryEditScenarios = grantedScenarios.and(deniedScenarios)
+export const personPrisonCategoryEditScenarios = baseCheckAndUserHasSomeRolesFromScenarios([
+  Role.CreateCategorisation,
+  Role.CreateRecategorisation,
+  Role.ApproveCategorisation,
+  Role.CategorisationSecurity,
+])
