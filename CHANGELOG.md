@@ -2,6 +2,11 @@
 
 Please use this to capture reasoning behind changes:
 
+## 1.1.0
+
+Introducing `PrisonerSchedulePermission.read_schedule` to match and replace the existing logic in the Prisoner Profile
+for reading a prisoner's schedule. This permission requires the user to have the prisoner's prison in their caseload.
+
 ## 1.0.0
 
 ### Breaking changes:

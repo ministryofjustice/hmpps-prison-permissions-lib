@@ -186,6 +186,7 @@ describe('Prisoner Profile Contract Tests', () => {
 
       describe('Prisoner Schedule', () => {
         scenarioTests<PrisonerSchedulePermission>({
+          [PrisonerSchedulePermission.read_schedule]: inUsersCaseLoadScenarios,
           [PrisonerSchedulePermission.edit_appointment]: prisonerAppointmentEditScenarios,
           [PrisonerSchedulePermission.edit_activity]: prisonerActivityEditScenarios,
         })
