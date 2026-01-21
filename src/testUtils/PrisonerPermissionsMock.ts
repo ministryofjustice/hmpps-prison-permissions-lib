@@ -124,6 +124,10 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:location-details:read': false,
         'prisoner:location-history:read': false,
       },
+      prisonerMoves: {
+        'prisoner:temporary-absence:read': false,
+        'prisoner:temporary-absence:edit': false,
+      },
     },
     security: {
       pathfinder: {

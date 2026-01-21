@@ -2,6 +2,12 @@
 
 Please use this to capture reasoning behind changes:
 
+## 1.2.0
+
+Introduced permissions for the Prisoner Money domain. The first couple of permissions added are
+`PrisonerMovesPermission.read_temporary_absence` and `PrisonerMovesPermission.edit_temporary_absence`, both of which
+follow the base checks and just require additional roles.
+
 ## 1.1.1
 
 Updated `dev` dependencies; no client-facing changes.
