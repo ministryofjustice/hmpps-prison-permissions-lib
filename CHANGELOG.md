@@ -2,6 +2,11 @@
 
 Please use this to capture reasoning behind changes:
 
+## 1.1.2
+
+Moved `@ministryofjustice/hmpps-npm-script-allowlist` to be a `dev` dependency as it’s used when working on this package
+itself and not by clients.
+
 ## 1.1.1
 
 Updated `dev` dependencies; no client-facing changes.
