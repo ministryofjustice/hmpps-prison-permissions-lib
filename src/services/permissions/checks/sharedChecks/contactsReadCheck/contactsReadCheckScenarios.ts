@@ -1,6 +1,7 @@
 import { Role } from '../../../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../testUtils/TestScenario'
+import { grantedCaseLoadCheckScenarios, grantedGlobalSearchCheckScenarios, grantedReleasedPrisonerCheckScenarios, grantedTransferringPrisonerCheckScenarios } from '../../baseCheck/BaseCheckScenarios'
 
 const oldReleaseDate = new Date()
 oldReleaseDate.setFullYear(oldReleaseDate.getFullYear() - 4) // 4 years ago
@@ -36,6 +37,8 @@ export const deniedContactsReadScenarios: TestScenarios = new TestScenarios([])
       .accessingReleasedPrisoner('KMI', oldReleaseDate.toISOString())
       .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
   )
+  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
 
 export const grantedContactsReadScenarios: TestScenarios = new TestScenarios([])
   // In prison and in caseload
@@ -56,5 +59,6 @@ export const grantedContactsReadScenarios: TestScenarios = new TestScenarios([])
       .accessingReleasedPrisoner('KMI', recentReleaseDate.toISOString())
       .expectsStatus(PermissionCheckStatus.OK),
   )
+  .and(grantedCaseLoadCheckScenarios)
 
 export const contactsReadCheckScenarios = grantedContactsReadScenarios.and(deniedContactsReadScenarios)
