@@ -35,5 +35,4 @@ export enum Role {
   UpdateAlert = 'ROLE_UPDATE_ALERT',
   ViewProbationDocuments = 'ROLE_VIEW_PROBATION_DOCUMENTS',
   ViewSensitiveCaseNotes = 'ROLE_VIEW_SENSITIVE_CASE_NOTES',
-  ReleasedPrisonerViewing = 'ROLE_RELEASED_PRISONER_VIEWING',
 }
