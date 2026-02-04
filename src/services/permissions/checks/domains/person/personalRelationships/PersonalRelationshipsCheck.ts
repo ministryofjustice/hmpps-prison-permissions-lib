@@ -5,12 +5,12 @@ import {
   PersonalRelationshipsPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
 import prisonerProfileEditCheck from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheck'
-import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 import inUsersCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inUsersCaseLoadAndUserHasSomeRolesFrom/InUsersCaseLoadAndUserHasSomeRolesFrom'
 import { Role } from '../../../../../../types/internal/user/Role'
 import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheck'
 import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
 import { checkWith } from '../../../../utils/PermissionCheckUtils'
+import contactsReadCheck from '../../../sharedChecks/contactsReadCheck/contactsReadCheck'
 
 export default function personalRelationshipsCheck(
   context: PrisonerPermissionsContext,
@@ -26,7 +26,7 @@ export default function personalRelationshipsCheck(
     ...check(PersonalRelationshipsPermission.read_emergency_contacts, baseCheck),
     ...check(PersonalRelationshipsPermission.edit_emergency_contacts, prisonerProfileSensitiveEditCheck),
 
-    ...check(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoad),
+    ...check(PersonalRelationshipsPermission.read_contacts, contactsReadCheck),
     ...check(
       PersonalRelationshipsPermission.edit_contacts,
       inUsersCaseLoadAndUserHasSomeRolesFrom([Role.ContactsAdministrator, Role.ContactsAuthoriser]),
@@ -43,3 +43,4 @@ export default function personalRelationshipsCheck(
     ),
   }
 }
+

@@ -53,6 +53,7 @@ import { inUsersCaseLoadScenarios } from './scenarios/shared/InUsersCaseLoadScen
 import { PrisonerSpecificRisksPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 import { incentiveLevelHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerIncentives/IncentiveLevelHistoryReadScenarios'
 import { csraAssessmentHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerSpecificRisks/CsraAssessmentHistoryReadScenarios'
+import { contactsReadCheckScenarios } from '../../services/permissions/checks/sharedChecks/contactsReadCheck/contactsReadCheckScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -146,7 +147,7 @@ describe('Prisoner Profile Contract Tests', () => {
           PersonalRelationshipsPermission.edit_emergency_contacts,
           prisonerProfileSensitiveEditCheckScenarios,
         )
-        scenarioTest(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoadScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_contacts, contactsReadCheckScenarios)
       })
     })
 

@@ -4,13 +4,14 @@ import { inUsersCaseLoadScenarios } from '../../services/permissions/checks/shar
 import { Role } from '../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from './scenarios/InUsersCaseLoadAndUserHasSomeRolesFromScenarios'
 import inUsersCaseLoadAndUserHasRoleScenarios from './scenarios/InUsersCaseLoadAndUserHasRoleScenarios'
+import { contactsReadCheckScenarios } from '../../services/permissions/checks/sharedChecks/contactsReadCheck/contactsReadCheckScenarios'
 
 /**
  * Please contact #managing-contacts if any of these tests break
  * due to permissions changes since this will affect the Contacts UI.
  */
 describe('Contacts UI Contract Tests', () => {
-  scenarioTest(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoadScenarios)
+  scenarioTest(PersonalRelationshipsPermission.read_contacts, contactsReadCheckScenarios)
   scenarioTest(
     PersonalRelationshipsPermission.edit_contacts,
     inUsersCaseLoadAndUserHasSomeRolesFromScenarios([Role.ContactsAdministrator, Role.ContactsAuthoriser]),

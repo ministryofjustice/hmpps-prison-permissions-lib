@@ -7,6 +7,7 @@ import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/
 import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from '../../../sharedChecks/inUsersCaseLoadAndUserHasSomeRolesFrom/InUsersCaseLoadAndUserHasSomeRolesFromScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasRoleScenarios from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
+import { contactsReadCheckScenarios } from '../../../sharedChecks/contactsReadCheck/contactsReadCheckScenarios'
 
 describe('Personal Relationships', () => {
   scenarioTests<PersonalRelationshipsPermission>({
@@ -16,7 +17,7 @@ describe('Personal Relationships', () => {
     [PersonalRelationshipsPermission.edit_domestic_status]: prisonerProfileEditCheckScenarios,
     [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
     [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,
-    [PersonalRelationshipsPermission.read_contacts]: inUsersCaseLoadScenarios,
+    [PersonalRelationshipsPermission.read_contacts]: contactsReadCheckScenarios,
     [PersonalRelationshipsPermission.edit_contacts]: inUsersCaseLoadAndUserHasSomeRolesFromScenarios([
       Role.ContactsAdministrator,
       Role.ContactsAuthoriser,
