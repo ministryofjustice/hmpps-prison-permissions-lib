@@ -1,7 +1,11 @@
 import { Role } from '../../../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../testUtils/TestScenario'
-import { grantedCaseLoadCheckScenarios, grantedGlobalSearchCheckScenarios, grantedReleasedPrisonerCheckScenarios, grantedTransferringPrisonerCheckScenarios } from '../../baseCheck/BaseCheckScenarios'
+import {
+  grantedCaseLoadCheckScenarios,
+  grantedGlobalSearchCheckScenarios,
+  grantedTransferringPrisonerCheckScenarios,
+} from '../../baseCheck/BaseCheckScenarios'
 
 const oldReleaseDate = new Date()
 oldReleaseDate.setFullYear(oldReleaseDate.getFullYear() - 4) // 4 years ago
