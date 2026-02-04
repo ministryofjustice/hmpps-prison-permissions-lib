@@ -143,7 +143,10 @@ interface RolesBuilder {
 
 interface PrisonerBuilder {
   accessingTransferringPrisoner: () => ExpectedBaseStatusBuilder
-  accessingReleasedPrisoner: (previousPrisonId?: string, previousPrisonLeavingDate?: string) => ExpectedBaseStatusBuilder
+  accessingReleasedPrisoner: (
+    previousPrisonId?: string,
+    previousPrisonLeavingDate?: string,
+  ) => ExpectedBaseStatusBuilder
   accessingPrisonerAt: (prisonId: string) => ExpectedBaseStatusBuilder
   accessingRestrictedPatientSupportedBy: (prisonId: string) => ExpectedBaseStatusBuilder
   accessingPrisonerAtAfterTransferFrom: (
@@ -197,8 +200,8 @@ class TestScenarioBuilder implements RolesOrCaseLoadBuilder, RolesBuilder, Priso
 
   public accessingReleasedPrisoner(previousPrisonId?: string, previousPrisonLeavingDate?: string) {
     this.prisonId = 'OUT'
-    if(previousPrisonId) this.previousPrisonId = previousPrisonId
-    if(previousPrisonLeavingDate) this.previousPrisonLeavingDate = previousPrisonLeavingDate
+    if (previousPrisonId) this.previousPrisonId = previousPrisonId
+    if (previousPrisonLeavingDate) this.previousPrisonLeavingDate = previousPrisonLeavingDate
     return this
   }
 

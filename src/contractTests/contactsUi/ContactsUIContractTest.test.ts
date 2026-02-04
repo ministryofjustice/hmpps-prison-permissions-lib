@@ -1,6 +1,5 @@
 import { scenarioTest } from '../../testUtils/TestScenario'
 import { PersonalRelationshipsPermission } from '../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
-import { inUsersCaseLoadScenarios } from '../../services/permissions/checks/sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 import { Role } from '../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from './scenarios/InUsersCaseLoadAndUserHasSomeRolesFromScenarios'
 import inUsersCaseLoadAndUserHasRoleScenarios from './scenarios/InUsersCaseLoadAndUserHasRoleScenarios'
