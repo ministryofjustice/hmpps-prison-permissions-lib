@@ -2,8 +2,10 @@ import { Role } from '../../../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
 import { TestScenarios, userWithActiveCaseLoad } from '../../../../../testUtils/TestScenario'
 import {
+  deniedBaseCheckScenarios,
   grantedCaseLoadCheckScenarios,
   grantedGlobalSearchCheckScenarios,
+  grantedRestrictedPatientCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
 } from '../../baseCheck/BaseCheckScenarios'
 
@@ -12,7 +14,7 @@ oldReleaseDate.setFullYear(oldReleaseDate.getFullYear() - 4) // 4 years ago
 const recentReleaseDate = new Date()
 recentReleaseDate.setFullYear(recentReleaseDate.getFullYear() - 2) // 2 years ago
 
-export const deniedContactsReadScenarios: TestScenarios = new TestScenarios([])
+export const deniedContactsReadScenarios: TestScenarios = deniedBaseCheckScenarios
   // Unreleased and not in caseload
   .andScenarioWhere(
     userWithActiveCaseLoad('OTHER')
@@ -34,17 +36,26 @@ export const deniedContactsReadScenarios: TestScenarios = new TestScenarios([])
       .accessingReleasedPrisoner()
       .expectsStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
   )
-  // Released more than 3 years ago
+  // Released more than 3 years ago with matching caseload
   .andScenarioWhere(
     userWithActiveCaseLoad('KMI')
       .withRoles([Role.InactiveBookings, Role.ContactsAdministrator])
       .accessingReleasedPrisoner('KMI', oldReleaseDate.toISOString())
-      .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
+      .expectsStatus(PermissionCheckStatus.EXCEEDS_TIME_RESTRICTION),
+  )
+  // Released more than 3 years ago from a different caseload
+  // - time restriction takes precedence so user won't change caseload for no reason
+  .andScenarioWhere(
+    userWithActiveCaseLoad('MDI')
+      .withRoles([Role.InactiveBookings, Role.ContactsAdministrator])
+      .accessingReleasedPrisoner('KMI', oldReleaseDate.toISOString())
+      .expectsStatus(PermissionCheckStatus.EXCEEDS_TIME_RESTRICTION),
   )
   .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
   .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .and(grantedRestrictedPatientCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
 
-export const grantedContactsReadScenarios: TestScenarios = new TestScenarios([])
+export const grantedContactsReadScenarios: TestScenarios = grantedCaseLoadCheckScenarios
   // In prison and in caseload
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI').withRoles([]).accessingPrisonerAt('MDI').expectsStatus(PermissionCheckStatus.OK),
@@ -63,6 +74,5 @@ export const grantedContactsReadScenarios: TestScenarios = new TestScenarios([])
       .accessingReleasedPrisoner('KMI', recentReleaseDate.toISOString())
       .expectsStatus(PermissionCheckStatus.OK),
   )
-  .and(grantedCaseLoadCheckScenarios)
 
 export const contactsReadCheckScenarios = grantedContactsReadScenarios.and(deniedContactsReadScenarios)

@@ -13,8 +13,8 @@ const contactsReadCheck = matchBaseCheckAnd({
     if (isReleased(prisoner)) {
       if (!userHasSomeRolesFrom([Role.ContactsAdministrator, Role.ContactsAuthoriser], user))
         return PermissionCheckStatus.ROLE_NOT_PRESENT
+      if (!wasReleasedWithinThreeYears(prisoner)) return PermissionCheckStatus.EXCEEDS_TIME_RESTRICTION
       if (!isInUsersCaseLoad(prisoner.previousPrisonId, user)) return PermissionCheckStatus.NOT_IN_CASELOAD
-      if (!wasReleasedWithinThreeYears(prisoner)) return PermissionCheckStatus.NOT_PERMITTED
       return PermissionCheckStatus.OK
     }
 
