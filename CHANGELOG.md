@@ -2,6 +2,16 @@
 
 Please use this to capture reasoning behind changes:
 
+# 2.0.0
+Replaced contacts read permissions check with one that handles released prisoners differently. Checks for current prisoners are unaffected.
+
+To be permitted to read contacts for released prisoners:
+- the user's roles must include `InactiveBookings` and one or both of the following: `ContactsAdministrator, ContactsAuthoriser`
+- the prisoner must have been released within the last 3 years (`PermissionCheckStatus.EXCEEDS_TIME_RESTRICTION`)
+- the previous prison of the prisoner must match the user's caseload
+
+These changes were requested by the contacts team after noticing the 'External Contacts' widget was not showing on the prisoner profiles of released prisoners. This was due to a caseload mismatch, as the assigned caseload for released prisoners is 'OUT'.
+
 ## 1.1.2
 
 Moved `@ministryofjustice/hmpps-npm-script-allowlist` to be a `dev` dependency as it’s used when working on this package
