@@ -2,6 +2,9 @@
 
 Please use this to capture reasoning behind changes:
 
+# 2.0.1
+Fixes incorrect usage of `previousPrisonId` and `previousPrisonLeavingDate` when checking contacts read permissions. These are only used in the context of transfers, not releases. The correct ones now in use are `lastPrisonId` and `releaseDate`.
+
 # 2.0.0
 Replaced contacts read permissions check with one that handles released prisoners differently. Checks for current prisoners are unaffected.
 

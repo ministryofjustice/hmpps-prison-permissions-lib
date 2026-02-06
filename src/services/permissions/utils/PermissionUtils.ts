@@ -48,8 +48,8 @@ export function isReleasedOrTransferring(prisoner: Prisoner): boolean {
 export const wasReleasedWithinThreeYears = (prisoner: Prisoner): boolean => {
   return (
     isReleased(prisoner) &&
-    !!prisoner.previousPrisonLeavingDate &&
-    Date.parse(prisoner.previousPrisonLeavingDate) > Date.now() - 3 * 365 * 24 * 60 * 60 * 1000
+    !!prisoner.releaseDate &&
+    Date.parse(prisoner.releaseDate) > Date.now() - 3 * 365 * 24 * 60 * 60 * 1000
   )
 }
 
