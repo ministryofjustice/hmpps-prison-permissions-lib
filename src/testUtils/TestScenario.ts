@@ -145,10 +145,7 @@ interface RolesBuilder {
 
 interface PrisonerBuilder {
   accessingTransferringPrisoner: () => ExpectedBaseStatusBuilder
-  accessingReleasedPrisoner: (
-    lastPrisonId?: string,
-    releaseDate?: string,
-  ) => ExpectedBaseStatusBuilder
+  accessingReleasedPrisoner: (lastPrisonId?: string, releaseDate?: string) => ExpectedBaseStatusBuilder
   accessingPrisonerAt: (prisonId: string) => ExpectedBaseStatusBuilder
   accessingRestrictedPatientSupportedBy: (prisonId: string) => ExpectedBaseStatusBuilder
   accessingPrisonerAtAfterTransferFrom: (
