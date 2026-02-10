@@ -29,7 +29,7 @@ export default function personalRelationshipsCheck(
     ...check(PersonalRelationshipsPermission.read_contacts, contactsReadCheck),
     ...check(
       PersonalRelationshipsPermission.edit_contacts,
-      inUsersCaseLoadAndUserHasSomeRolesFrom([Role.ContactsAdministrator, Role.ContactsAuthoriser]),
+      inUsersCaseLoadAndUserHasSomeRolesFrom([Role.ContactsAdministrator, Role.ContactsAuthoriser, Role.PrisonerProfileSensitiveEdit]),
     ),
 
     ...check(
