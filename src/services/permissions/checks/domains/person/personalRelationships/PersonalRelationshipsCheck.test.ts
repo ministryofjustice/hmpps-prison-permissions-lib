@@ -20,6 +20,7 @@ describe('Personal Relationships', () => {
     [PersonalRelationshipsPermission.edit_contacts]: inUsersCaseLoadAndUserHasSomeRolesFromScenarios([
       Role.ContactsAdministrator,
       Role.ContactsAuthoriser,
+      Role.PrisonerProfileSensitiveEdit,
     ]),
     [PersonalRelationshipsPermission.edit_contact_restrictions]: inUsersCaseLoadAndUserHasRoleScenarios(
       Role.ContactsAuthoriser,

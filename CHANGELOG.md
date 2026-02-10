@@ -2,6 +2,9 @@
 
 Please use this to capture reasoning behind changes:
 
+# 2.1.0
+Adds the sensitive edits role to the edit_contacts permission so users can edit Next of Kin and Emergency contacts in the prisoner profile without requiring Contacts Administrator or Authoriser roles.
+
 # 2.0.1
 Fixes incorrect usage of `previousPrisonId` and `previousPrisonLeavingDate` when checking contacts read permissions. These are only used in the context of transfers, not releases. The correct ones now in use are `lastPrisonId` and `releaseDate`.
 
