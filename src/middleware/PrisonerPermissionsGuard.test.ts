@@ -191,5 +191,6 @@ function expectRequestDenied(failedPermissionChecks: PrisonerPermission[]) {
 function expectRequestDeniedWithoutError(failedPermissionChecks: PrisonerPermission[]) {
   expect(next).toHaveBeenCalledWith()
   expect(req.middleware?.prisonerData).toBeUndefined()
+  expect(req.middleware?.deniedPrisonerData).toEqual(prisonerMock)
   expect(res.locals.deniedPermissions).toEqual(failedPermissionChecks)
 }

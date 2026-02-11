@@ -39,8 +39,7 @@ export default function prisonerPermissionsGuard(
       }
       res.locals.deniedPermissions = deniedPermissions
       res.locals.prisonerPermissions = prisonerPermissions
-      const { prisonerData: _, ...middleware } = req.middleware ?? {}
-      req.middleware = middleware
+      req.middleware = { ...req.middleware, prisonerData: undefined, deniedPrisonerData: prisonerData }
       return next()
     }
 
