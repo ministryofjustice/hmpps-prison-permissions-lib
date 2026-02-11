@@ -116,6 +116,24 @@ describe('PrisonerPermissionsGuard', () => {
     })
   })
 
+  it('request succeeds when a permission check fails if throwErrorOnDeniedPermission=false', async () => {
+    const permissions = {
+      ...setPrisonerPermission(PersonSentenceCalculationPermission.read, false),
+      [PrisonerBasePermission.read]: true,
+    } as unknown as PrisonerPermissions
+
+    permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
+
+    permissionsGuard = prisonerPermissionsGuard(permissionsService, {
+      requestDependentOn: [PrisonerBasePermission.read, PersonSentenceCalculationPermission.read],
+      throwErrorOnDeniedPermission: false,
+    })
+
+    await permissionsGuard(req, res, next)
+
+    expectRequestDeniedWithoutError([PersonSentenceCalculationPermission.read])
+  })
+
   describe('prisoner data already available', () => {
     beforeEach(() => {
       req.middleware = { prisonerData: prisonerMock }
@@ -168,4 +186,10 @@ function expectRequestAllowed(expected: PrisonerPermissions) {
 
 function expectRequestDenied(failedPermissionChecks: PrisonerPermission[]) {
   expect(next).toHaveBeenCalledWith(new PrisonerPermissionError('Denied permissions', failedPermissionChecks))
+}
+
+function expectRequestDeniedWithoutError(failedPermissionChecks: PrisonerPermission[]) {
+  expect(next).toHaveBeenCalledWith()
+  expect(req.middleware?.prisonerData).toBeUndefined()
+  expect(res.locals.deniedPermissions).toEqual(failedPermissionChecks)
 }

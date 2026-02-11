@@ -10,9 +10,14 @@ export default function prisonerPermissionsGuard(
   options: {
     requestDependentOn: PrisonerPermission[]
     getPrisonerNumberFunction?: (req: Request) => string | undefined
+    throwErrorOnDeniedPermission?: boolean
   },
 ) {
-  const { requestDependentOn, getPrisonerNumberFunction = getPrisonerNumberFrom } = options
+  const {
+    requestDependentOn,
+    getPrisonerNumberFunction = getPrisonerNumberFrom,
+    throwErrorOnDeniedPermission = true,
+  } = options
 
   if (!requestDependentOn?.length) throw Error('Unprotected route, must provide at least one dependent permission')
 
@@ -28,7 +33,16 @@ export default function prisonerPermissionsGuard(
 
     const deniedPermissions = requestDependentOn.filter(permission => !isGranted(permission, prisonerPermissions))
 
-    if (deniedPermissions.length) return next(new PrisonerPermissionError('Denied permissions', deniedPermissions))
+    if (deniedPermissions.length) {
+      if (throwErrorOnDeniedPermission) {
+        return next(new PrisonerPermissionError('Denied permissions', deniedPermissions))
+      }
+      res.locals.deniedPermissions = deniedPermissions
+      res.locals.prisonerPermissions = prisonerPermissions
+      const { prisonerData: _, ...middleware } = req.middleware ?? {}
+      req.middleware = middleware
+      return next()
+    }
 
     req.middleware = { ...req.middleware, prisonerData }
     res.locals.prisonerPermissions = prisonerPermissions
