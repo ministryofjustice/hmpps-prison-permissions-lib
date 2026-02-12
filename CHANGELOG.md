@@ -2,6 +2,12 @@
 
 Please use this to capture reasoning behind changes:
 
+## 2.2.0
+
+Introduced permissions for the Prisoner Moves domain. The first couple of permissions added are
+`PrisonerMovesPermission.read_temporary_absence` and `PrisonerMovesPermission.edit_temporary_absence`, both of which
+follow the base checks and just require additional roles.
+
 # 2.1.0
 Adds the sensitive edits role to the edit_contacts permission so users can edit Next of Kin and Emergency contacts in the prisoner profile without requiring Contacts Administrator or Authoriser roles.
 
