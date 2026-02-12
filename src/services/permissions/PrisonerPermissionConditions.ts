@@ -15,6 +15,7 @@ export type PrisonerPermissionStatusFunction = (user: HmppsUser, prisoner: Priso
 export interface PrisonerPermissionConditions {
   allRolesRequired?: Role[]
   atLeastOneRoleRequiredFrom?: Role[]
+  // allowDuplicateRecordToGrantPermission: boolean
   overridingCondition?: PrisonerPermissionStatusFunction
   ifRestrictedPatient: PrisonerPermissionStatusFunction
   ifReleasedPrisoner: PrisonerPermissionStatusFunction
@@ -24,6 +25,21 @@ export interface PrisonerPermissionConditions {
 }
 
 export function getPermissionStatus(
+  user: HmppsUser,
+  prisoner: Prisoner,
+  // duplicatePrisonerPermissions: { [prisonerNumber: string]: PrisonerPermissions },
+  conditions: PrisonerPermissionConditions,
+): PermissionCheckStatus {
+  const status = getPermissionStatusDelegate(user, prisoner, conditions)
+
+  if (status !== PermissionCheckStatus.OK) {
+    // check if any duplicate records have granted permission, and check if the allowDuplicateRecordToGrantPermission allows
+    // us to use the duplicate record's permissions to override the status
+  }
+  return status
+}
+
+export function getPermissionStatusDelegate(
   user: HmppsUser,
   prisoner: Prisoner,
   conditions: PrisonerPermissionConditions,

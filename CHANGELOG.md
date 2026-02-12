@@ -2,28 +2,6 @@
 
 Please use this to capture reasoning behind changes:
 
-## 2.2.0
-
-Introduced permissions for the Prisoner Moves domain. The first couple of permissions added are
-`PrisonerMovesPermission.read_temporary_absence` and `PrisonerMovesPermission.edit_temporary_absence`, both of which
-follow the base checks and just require additional roles.
-
-# 2.1.0
-Adds the sensitive edits role to the edit_contacts permission so users can edit Next of Kin and Emergency contacts in the prisoner profile without requiring Contacts Administrator or Authoriser roles.
-
-# 2.0.1
-Fixes incorrect usage of `previousPrisonId` and `previousPrisonLeavingDate` when checking contacts read permissions. These are only used in the context of transfers, not releases. The correct ones now in use are `lastPrisonId` and `releaseDate`.
-
-# 2.0.0
-Replaced contacts read permissions check with one that handles released prisoners differently. Checks for current prisoners are unaffected.
-
-To be permitted to read contacts for released prisoners:
-- the user's roles must include `InactiveBookings` and one or both of the following: `ContactsAdministrator, ContactsAuthoriser`
-- the prisoner must have been released within the last 3 years (`PermissionCheckStatus.EXCEEDS_TIME_RESTRICTION`)
-- the previous prison of the prisoner must match the user's caseload
-
-These changes were requested by the contacts team after noticing the 'External Contacts' widget was not showing on the prisoner profiles of released prisoners. This was due to a caseload mismatch, as the assigned caseload for released prisoners is 'OUT'.
-
 ## 1.1.2
 
 Moved `@ministryofjustice/hmpps-npm-script-allowlist` to be a `dev` dependency as it’s used when working on this package

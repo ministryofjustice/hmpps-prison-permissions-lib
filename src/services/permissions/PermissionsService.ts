@@ -29,6 +29,7 @@ export default class PermissionsService {
 
   static create({
     prisonerSearchConfig,
+    // cprAPIConfig,
     authenticationClient,
     logger = console,
     telemetryClient,
@@ -52,6 +53,7 @@ export default class PermissionsService {
   public getPrisonerPermissions({
     user,
     prisoner,
+    // duplicatePrisonerRecords: { prisonerNumber: duplicatePrisoner },
     requestDependentOn,
   }: {
     user: HmppsUser
@@ -61,6 +63,7 @@ export default class PermissionsService {
     const context: PrisonerPermissionsContext = {
       user,
       prisoner,
+      // duplicatePrisonerRecords,
       baseCheckStatus: baseCheckStatus(user, prisoner),
       requestDependentOn,
       permissionsLogger: this.permissionsLogger,

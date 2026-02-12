@@ -12,8 +12,6 @@ export enum Role {
   CreateRecategorisation = 'ROLE_CREATE_RECATEGORISATION',
   DeleteSensitiveCaseNotes = 'ROLE_DELETE_SENSITIVE_CASE_NOTES',
   DietAndAllergiesEdit = 'ROLE_DIET_AND_FOOD_ALLERGIES_EDIT',
-  ExternalMovementsTemporaryAbsenceManagement = 'ROLE_EXTERNAL_MOVEMENTS_TAP_RW',
-  ExternalMovementsTemporaryAbsenceViewOnly = 'ROLE_EXTERNAL_MOVEMENTS_TAP_RO',
   GlobalSearch = 'ROLE_GLOBAL_SEARCH',
   InactiveBookings = 'ROLE_INACTIVE_BOOKINGS',
   PathfinderApproval = 'ROLE_PF_APPROVAL',

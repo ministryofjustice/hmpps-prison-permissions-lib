@@ -53,9 +53,6 @@ import { inUsersCaseLoadScenarios } from './scenarios/shared/InUsersCaseLoadScen
 import { PrisonerSpecificRisksPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 import { incentiveLevelHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerIncentives/IncentiveLevelHistoryReadScenarios'
 import { csraAssessmentHistoryReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerSpecificRisks/CsraAssessmentHistoryReadScenarios'
-import { PrisonerMovesPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerMoves/PrisonerMovesPermissions'
-import baseCheckAndUserHasRoleScenarios from './scenarios/shared/BaseCheckAndUserHasRoleScenarios'
-import { contactsReadCheckScenarios } from './scenarios/shared/contactsReadCheckScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -149,7 +146,7 @@ describe('Prisoner Profile Contract Tests', () => {
           PersonalRelationshipsPermission.edit_emergency_contacts,
           prisonerProfileSensitiveEditCheckScenarios,
         )
-        scenarioTest(PersonalRelationshipsPermission.read_contacts, contactsReadCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_contacts, inUsersCaseLoadScenarios)
       })
     })
 
@@ -232,13 +229,6 @@ describe('Prisoner Profile Contract Tests', () => {
           [PrisonerBaseLocationPermission.read_location_history]: locationDetailsAndHistoryReadScenarios,
           [PrisonerBaseLocationPermission.move_cell]: moveCellScenarios,
         })
-      })
-
-      describe('Prisoner Moves', () => {
-        scenarioTest(
-          PrisonerMovesPermission.edit_temporary_absence,
-          baseCheckAndUserHasRoleScenarios(Role.ExternalMovementsTemporaryAbsenceManagement),
-        )
       })
     })
 

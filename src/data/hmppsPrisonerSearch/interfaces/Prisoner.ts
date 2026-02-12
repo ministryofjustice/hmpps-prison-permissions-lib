@@ -5,6 +5,4 @@ export default interface Prisoner {
   supportingPrisonId?: string
   previousPrisonId?: string
   previousPrisonLeavingDate?: string
-  lastPrisonId?: string
-  releaseDate?: string
 }

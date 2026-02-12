@@ -16,6 +16,7 @@ import {
 import prisonNotInCaseloadStatus from './PrisonNotInCaseloadStatus'
 
 export const baseCheckConditions: PrisonerPermissionConditions = {
+  // allowDuplicateRecordToGrantPermission: true,
   ifRestrictedPatient: restrictedPatientStatus,
   ifReleasedPrisoner: releasedPrisonerStatus,
   ifTransferringPrisoner: transferringPrisonerStatus,
