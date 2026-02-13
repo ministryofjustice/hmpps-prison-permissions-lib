@@ -79,6 +79,7 @@ The permissions service should be created just like any other of your services. 
 * `logger`: Bunyan logger for logging permissions events. Defaults to using `console`.
 * `telemetryClient`: Optional but recommended. Instead of just logging permissions events, this provides richer metadata
   to Application Insights.
+* `readOnly`: Optional boolean (defaults to false) which, if set to true, will only grant read permissions.
 
 e.g.
 
