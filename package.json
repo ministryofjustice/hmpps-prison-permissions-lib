@@ -1,6 +1,6 @@
 {
   "name": "@ministryofjustice/hmpps-prison-permissions-lib",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A library to centralise the process of determining whether a user should have access to create/read/update/delete a prison resource, for example, accessing a prisoner's Prisoner Profile.",
   "keywords": [
     "hmpps",
