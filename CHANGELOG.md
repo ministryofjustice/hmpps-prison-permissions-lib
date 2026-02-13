@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 2.2.1
+
+Minor dependency update
+
 ## 2.2.0
 
 Introduced permissions for the Prisoner Moves domain. The first couple of permissions added are
