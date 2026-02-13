@@ -10,5 +10,6 @@ export default function personInterventionsCheck(context: PrisonerPermissionsCon
   const check = checkWith(context)
   return {
     ...check(PersonInterventionsPermission.read_csip, inUsersCaseLoad),
+    ...check(PersonInterventionsPermission.edit_csip, inUsersCaseLoad),
   }
 }

@@ -69,7 +69,10 @@ describe('Prisoner Profile Contract Tests', () => {
   describe('Domains', () => {
     describe('Interventions', () => {
       describe('Person Interventions', () => {
-        scenarioTests<PersonInterventionsPermission>({ [PersonInterventionsPermission.read_csip]: csipReadScenarios })
+        scenarioTests<PersonInterventionsPermission>({
+          [PersonInterventionsPermission.read_csip]: csipReadScenarios,
+          [PersonInterventionsPermission.edit_csip]: csipReadScenarios,
+        })
       })
     })
 

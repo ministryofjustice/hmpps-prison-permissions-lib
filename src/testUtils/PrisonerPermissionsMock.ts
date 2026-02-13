@@ -8,6 +8,7 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
     interventions: {
       personInterventions: {
         'prisoner:csip:read': false,
+        'prisoner:csip:edit': false,
       },
     },
     person: {
@@ -87,8 +88,8 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:prisoner-adjudications:read': false,
       },
       prisonerIncentives: {
-        'prisoner:prisoner-incentives:read_incentive_level': false,
-        'prisoner:prisoner-incentives:read_incentive_level_history': false,
+        'prisoner:incentives:incentive-level:read': false,
+        'prisoner:incentives:incentive-level-history:read': false,
       },
       personPrisonCategory: {
         'prisoner:person-prison-category:read': false,
