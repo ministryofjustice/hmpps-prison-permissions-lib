@@ -36,7 +36,6 @@ import { PersonProtectedCharacteristicsPermission } from '../../types/public/per
 import { PersonalRelationshipsPermission } from '../../types/public/permissions/domains/person/personalRelationships/PersonalRelationshipsPermissions'
 import { PersonCommunicationNeedsPermission } from '../../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
 import { prisonerProfileSensitiveEditCheckScenarios } from './scenarios/shared/PrisonerProfileSensitiveEditCheckScenarios'
-import { csipReadScenarios } from './scenarios/domains/interventions/personInterventions/CSIPReadScenarios'
 import { prisonerAlertsEditScenarios } from './scenarios/domains/prisonerSpecific/prisonerAlerts/PrisonerAlertsEditScenarios'
 import { probationDocumentsReadScenarios } from './scenarios/domains/probation/probationDocuments/ProbationDocumentsReadScenarios'
 import { locationDetailsAndHistoryReadScenarios } from './scenarios/domains/runningAPrison/prisonerBaseLocation/LocationDetailsAndHistoryReadScenarios'
@@ -70,8 +69,8 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Interventions', () => {
       describe('Person Interventions', () => {
         scenarioTests<PersonInterventionsPermission>({
-          [PersonInterventionsPermission.read_csip]: csipReadScenarios,
-          [PersonInterventionsPermission.edit_csip]: csipReadScenarios,
+          [PersonInterventionsPermission.read_csip]: inUsersCaseLoadScenarios,
+          [PersonInterventionsPermission.edit_csip]: inUsersCaseLoadScenarios,
         })
       })
     })
