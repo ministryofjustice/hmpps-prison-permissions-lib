@@ -21,6 +21,7 @@ describe('matchBaseCheckAnd', () => {
       baseCheckStatus: PermissionCheckStatus.OK,
       requestDependentOn: [permission],
       permissionsLogger,
+      readOnly: false,
     })
 
     expect(result).toBe(true)
@@ -34,6 +35,7 @@ describe('matchBaseCheckAnd', () => {
       baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,
       requestDependentOn: [permission],
       permissionsLogger,
+      readOnly: false,
     })
 
     expect(result).toBe(false)
@@ -53,6 +55,7 @@ describe('matchBaseCheckAnd', () => {
       baseCheckStatus: PermissionCheckStatus.OK,
       requestDependentOn: [permission],
       permissionsLogger,
+      readOnly: false,
     })
 
     expect(result).toBe(false)
@@ -74,6 +77,7 @@ describe('matchBaseCheckAnd', () => {
         baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,
         requestDependentOn: [permission],
         permissionsLogger,
+        readOnly: false,
       },
     )
 
@@ -96,6 +100,7 @@ describe('matchBaseCheckAnd', () => {
         baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,
         requestDependentOn: [],
         permissionsLogger,
+        readOnly: false,
       },
     )
 

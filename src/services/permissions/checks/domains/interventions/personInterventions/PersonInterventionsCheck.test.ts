@@ -5,5 +5,6 @@ import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/
 describe('Person Interventions', () => {
   scenarioTests<PersonInterventionsPermission>({
     [PersonInterventionsPermission.read_csip]: inUsersCaseLoadScenarios,
+    [PersonInterventionsPermission.edit_csip]: inUsersCaseLoadScenarios,
   })
 })

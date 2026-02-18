@@ -10,4 +10,5 @@ export default interface PrisonerPermissionsContext {
   baseCheckStatus: PermissionCheckStatus
   requestDependentOn: PrisonerPermission[]
   permissionsLogger: PermissionsLogger
+  readOnly: boolean
 }

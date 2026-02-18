@@ -27,26 +27,36 @@ export default class PermissionsService {
 
   readonly permissionsLogger: PermissionsLogger
 
+  private readonly readOnly: boolean
+
   static create({
     prisonerSearchConfig,
     authenticationClient,
     logger = console,
     telemetryClient,
+    readOnly = false,
   }: {
     prisonerSearchConfig: ApiConfig
     authenticationClient: AuthenticationClient
     logger?: bunyan | typeof console
     telemetryClient?: TelemetryClient
+    readOnly?: boolean
   }): PermissionsService {
     return new PermissionsService(
       new PrisonerSearchClient(logger, prisonerSearchConfig, authenticationClient),
       new PermissionsLogger(logger, telemetryClient),
+      readOnly,
     )
   }
 
-  private constructor(prisonerSearchClient: PrisonerSearchClient, permissionsLogger: PermissionsLogger) {
+  private constructor(
+    prisonerSearchClient: PrisonerSearchClient,
+    permissionsLogger: PermissionsLogger,
+    readOnly: boolean,
+  ) {
     this.prisonerSearchClient = prisonerSearchClient
     this.permissionsLogger = permissionsLogger
+    this.readOnly = readOnly
   }
 
   public getPrisonerPermissions({
@@ -64,6 +74,7 @@ export default class PermissionsService {
       baseCheckStatus: baseCheckStatus(user, prisoner),
       requestDependentOn,
       permissionsLogger: this.permissionsLogger,
+      readOnly: this.readOnly,
     }
 
     return {
