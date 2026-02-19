@@ -1,9 +1,11 @@
 import { HmppsUser } from '../../../types/internal/user/HmppsUser'
-import { PrisonerPermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
+import { PrisonerPermission, PrisonerPermissions } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { Role } from '../../../types/internal/user/Role'
 import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
 import PrisonerPermissionsContext from '../../../types/internal/permissions/PrisonerPermissionsContext'
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import { prisonerPermissionPaths } from '../../../types/public/permissions/prisoner/PrisonerPermissionPaths'
+import { isGranted } from '../../../types/public/permissions/prisoner/PrisonerPermissionsUtils'
 
 export function isRequiredPermission(
   permission: PrisonerPermission,
@@ -69,3 +71,34 @@ export const userHasRole = (roleToCheck: Role, user: HmppsUser): boolean => {
 }
 
 const normaliseRoleText = (role: string): string => role.replace(/ROLE_/, '')
+
+export function setPrisonerPermission(
+  permission: PrisonerPermission,
+  permitted: boolean,
+  permissions: PrisonerPermissions,
+): PrisonerPermissions {
+  const result = structuredClone(permissions)
+  const keys = prisonerPermissionPaths[permission].split('.')
+  const lastKey = keys.pop() as string
+  // @ts-expect-error TS cannot determine object type
+  // eslint-disable-next-line no-return-assign,no-param-reassign
+  const lastObj = keys.reduce((obj: object, key: string) => (obj[key] = obj[key] || {}), result)
+
+  // @ts-expect-error TS cannot determine object type
+  lastObj[lastKey] = permitted
+  return result
+}
+
+export function upgradePermissions(
+  basePermissions: PrisonerPermissions,
+  additionalPermissions: PrisonerPermissions,
+): PrisonerPermissions {
+  return Object.keys(prisonerPermissionPaths).reduce((updatedPermissions, key) => {
+    const permission = key as PrisonerPermission
+    if (!isGranted(permission, basePermissions)) {
+      const additionalPermissionGranted = isGranted(permission, additionalPermissions)
+      return setPrisonerPermission(permission, additionalPermissionGranted, updatedPermissions)
+    }
+    return updatedPermissions
+  }, structuredClone(basePermissions))
+}

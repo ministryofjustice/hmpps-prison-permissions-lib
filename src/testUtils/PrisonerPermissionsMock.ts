@@ -1,6 +1,6 @@
-import { PrisonerPermission, PrisonerPermissions } from '../types/public/permissions/prisoner/PrisonerPermissions'
-import { prisonerPermissionPaths } from '../types/public/permissions/prisoner/PrisonerPermissionPaths'
+import { PrisonerPermissions } from '../types/public/permissions/prisoner/PrisonerPermissions'
 
+// eslint-disable-next-line import/prefer-default-export
 export const prisonerPermissionsMock: PrisonerPermissions = {
   'prisoner:base-record:read': false,
 
@@ -147,31 +147,4 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
       },
     },
   },
-}
-
-export function setPrisonerPermission(
-  permission: PrisonerPermission,
-  permitted: boolean,
-  permissions: PrisonerPermissions = prisonerPermissionsMock,
-): PrisonerPermissions {
-  const result = structuredClone(permissions)
-  const keys = prisonerPermissionPaths[permission].split('.')
-  const lastKey = keys.pop() as string
-  // @ts-expect-error TS cannot determine object type
-  // eslint-disable-next-line no-return-assign,no-param-reassign
-  const lastObj = keys.reduce((obj: object, key: string) => (obj[key] = obj[key] || {}), result)
-
-  // @ts-expect-error TS cannot determine object type
-  lastObj[lastKey] = permitted
-  return result
-}
-
-export function setPrisonerPermissions(
-  permissionsToSet: { [key in PrisonerPermission]?: boolean },
-  permissions: PrisonerPermissions = prisonerPermissionsMock,
-): PrisonerPermissions {
-  return Object.entries(permissionsToSet).reduce(
-    (acc, [permission, permitted]) => setPrisonerPermission(permission as PrisonerPermission, permitted, acc),
-    permissions,
-  )
 }

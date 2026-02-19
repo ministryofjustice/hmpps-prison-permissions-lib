@@ -34,4 +34,26 @@ export default class PermissionsLogger {
       this.logger.info(`Prisoner permission denied: ${permission} (${permissionCheckStatus}) for user ${user.username}`)
     }
   }
+
+  logPermissionGrantedByDuplicate(
+    user: HmppsUser,
+    prisoner: Prisoner,
+    duplicateRecords: Prisoner[],
+    permission: PrisonerPermission,
+  ) {
+    if (this.telemetryClient) {
+      this.telemetryClient.trackEvent({
+        name: 'prisoner-permission-requirement-upgraded-by-duplicate',
+        properties: {
+          username: user.username,
+          prisonerNumber: prisoner.prisonerNumber,
+          duplicatePrisonerNumbers: duplicateRecords.map(record => record.prisonerNumber).join(','),
+          activeCaseLoad: user.authSource === 'nomis' && user.activeCaseLoadId,
+          permissionChecked: permission,
+        },
+      })
+    } else {
+      this.logger.info(`Required prisoner permission upgraded by duplicate: ${permission} for user ${user.username}`)
+    }
+  }
 }

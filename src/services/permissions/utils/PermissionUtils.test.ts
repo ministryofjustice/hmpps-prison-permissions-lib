@@ -5,16 +5,23 @@ import {
   isReleasedOrTransferring,
   isRequiredPermission,
   isTransferring,
+  setPrisonerPermission,
+  upgradePermissions,
   userHasAllRoles,
   userHasRole,
   userHasSomeRolesFrom,
 } from './PermissionUtils'
 import { ExternalUser, HmppsUser, PrisonUser, ProbationUser } from '../../../types/internal/user/HmppsUser'
 import CaseLoad from '../../../types/internal/user/CaseLoad'
-import { PrisonerBasePermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
+import {
+  PrisonerBasePermission,
+  PrisonerPermissions,
+} from '../../../types/public/permissions/prisoner/PrisonerPermissions'
 import { PersonSentenceCalculationPermission } from '../../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { Role } from '../../../types/internal/user/Role'
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
+import { isGranted } from '../../../types/public/permissions/prisoner/PrisonerPermissionsUtils'
+import { prisonerPermissionsMock } from '../../../testUtils/PrisonerPermissionsMock'
 
 describe('PermissionUtils', () => {
   describe('isRequiredPermission', () => {
@@ -161,6 +168,147 @@ describe('PermissionUtils', () => {
       ['LEI', false],
     ])('', (prisonId: string, result: boolean) => {
       expect(isReleasedOrTransferring({ prisonId } as Prisoner)).toEqual(result)
+    })
+  })
+
+  describe('setPrisonerPermission', () => {
+    it('should set a top-level permission to true', () => {
+      const result = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+    })
+
+    it('should set a top-level permission to false', () => {
+      const permissionsWithRead: PrisonerPermissions = {
+        ...prisonerPermissionsMock,
+        [PrisonerBasePermission.read]: true,
+      }
+
+      const result = setPrisonerPermission(PrisonerBasePermission.read, false, permissionsWithRead)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(false)
+    })
+
+    it('should set a nested domain permission to true', () => {
+      const result = setPrisonerPermission(PersonSentenceCalculationPermission.read, true, prisonerPermissionsMock)
+
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(true)
+    })
+
+    it('should set a nested domain permission to false', () => {
+      const result = setPrisonerPermission(PersonSentenceCalculationPermission.read, false, prisonerPermissionsMock)
+
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(false)
+    })
+
+    it('should not mutate the original permissions object', () => {
+      const originalPermissions = structuredClone(prisonerPermissionsMock)
+
+      setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+
+      expect(prisonerPermissionsMock).toEqual(originalPermissions)
+    })
+
+    it('should preserve other permissions when setting a single permission', () => {
+      const permissionsWithRead: PrisonerPermissions = {
+        ...prisonerPermissionsMock,
+        [PrisonerBasePermission.read]: true,
+      }
+
+      const result = setPrisonerPermission(PersonSentenceCalculationPermission.read, true, permissionsWithRead)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(true)
+    })
+  })
+
+  describe('upgradePermissions', () => {
+    it('should upgrade a permission that is false in base but true in additional', () => {
+      const basePermissions = structuredClone(prisonerPermissionsMock)
+      const additionalPermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+    })
+
+    it('should not downgrade a permission that is true in base but false in additional', () => {
+      const basePermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+      const additionalPermissions = structuredClone(prisonerPermissionsMock)
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+    })
+
+    it('should preserve permissions that are true in both base and additional', () => {
+      const basePermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+      const additionalPermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+    })
+
+    it('should keep permissions false when false in both base and additional', () => {
+      const basePermissions = structuredClone(prisonerPermissionsMock)
+      const additionalPermissions = structuredClone(prisonerPermissionsMock)
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(false)
+    })
+
+    it('should upgrade nested domain permissions', () => {
+      const basePermissions = structuredClone(prisonerPermissionsMock)
+      const additionalPermissions = setPrisonerPermission(
+        PersonSentenceCalculationPermission.read,
+        true,
+        prisonerPermissionsMock,
+      )
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(true)
+    })
+
+    it('should not mutate the original base permissions object', () => {
+      const basePermissions = structuredClone(prisonerPermissionsMock)
+      const originalBasePermissions = structuredClone(basePermissions)
+      const additionalPermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+
+      upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(basePermissions).toEqual(originalBasePermissions)
+    })
+
+    it('should upgrade multiple permissions from additional', () => {
+      const basePermissions = structuredClone(prisonerPermissionsMock)
+      let additionalPermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+      additionalPermissions = setPrisonerPermission(
+        PersonSentenceCalculationPermission.read,
+        true,
+        additionalPermissions,
+      )
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(true)
+    })
+
+    it('should preserve existing base permissions while adding new ones from additional', () => {
+      const basePermissions = setPrisonerPermission(PrisonerBasePermission.read, true, prisonerPermissionsMock)
+      const additionalPermissions = setPrisonerPermission(
+        PersonSentenceCalculationPermission.read,
+        true,
+        prisonerPermissionsMock,
+      )
+
+      const result = upgradePermissions(basePermissions, additionalPermissions)
+
+      expect(isGranted(PrisonerBasePermission.read, result)).toBe(true)
+      expect(isGranted(PersonSentenceCalculationPermission.read, result)).toBe(true)
     })
   })
 })
