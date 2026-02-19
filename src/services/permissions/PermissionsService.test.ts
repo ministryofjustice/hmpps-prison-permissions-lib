@@ -151,6 +151,141 @@ describe('PermissionsService', () => {
         ).toBe(true)
       })
     })
+
+    describe('duplicate records', () => {
+      const userWithPermission: HmppsUser = {
+        ...prisonUserMock,
+        userRoles: [Role.ReleaseDatesCalculator, Role.AdjustmentsMaintainer],
+      }
+
+      const prisonerInCaseload: Prisoner = {
+        ...prisonerMock,
+        prisonId: prisonUserMock.activeCaseLoadId,
+      }
+
+      const prisonerNotInCaseload: Prisoner = {
+        ...prisonerMock,
+        prisonId: 'OTHER',
+      }
+
+      it('upgrades read permissions from duplicate records', () => {
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerNotInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+          duplicateRecords: [prisonerInCaseload],
+        })
+
+        expect(isGranted(PrisonerBasePermission.read, permissions)).toBe(true)
+        expect(isGranted(PersonSentenceCalculationPermission.read, permissions)).toBe(true)
+      })
+
+      it('logs when a required permission is upgraded by a duplicate record', () => {
+        service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerNotInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+          duplicateRecords: [prisonerInCaseload],
+        })
+
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).toHaveBeenCalledWith(
+          userWithPermission,
+          prisonerNotInCaseload,
+          [prisonerInCaseload],
+          PrisonerBasePermission.read,
+        )
+      })
+
+      it('does not log when permission is not in requestDependentOn', () => {
+        service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerNotInCaseload,
+          requestDependentOn: [],
+          duplicateRecords: [prisonerInCaseload],
+        })
+
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).not.toHaveBeenCalled()
+      })
+
+      it('does not log when permission was already granted on base record', () => {
+        service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+          duplicateRecords: [prisonerNotInCaseload],
+        })
+
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).not.toHaveBeenCalled()
+      })
+
+      it('does not grant write permissions from duplicate records', () => {
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerNotInCaseload,
+          requestDependentOn: [PersonSentenceCalculationPermission.edit_adjustments],
+          duplicateRecords: [prisonerInCaseload],
+        })
+
+        expect(isGranted(PersonSentenceCalculationPermission.edit_adjustments, permissions)).toBe(false)
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).not.toHaveBeenCalled()
+      })
+
+      it('preserves write permissions from primary record when duplicate has no access', () => {
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerInCaseload,
+          requestDependentOn: [PersonSentenceCalculationPermission.edit_adjustments],
+          duplicateRecords: [prisonerNotInCaseload],
+        })
+
+        expect(isGranted(PersonSentenceCalculationPermission.edit_adjustments, permissions)).toBe(true)
+      })
+
+      it('combines read permissions from multiple duplicate records', () => {
+        const anotherPrisonerInCaseload: Prisoner = {
+          ...prisonerMock,
+          prisonId: prisonUserMock.activeCaseLoadId,
+        }
+
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerNotInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+          duplicateRecords: [prisonerNotInCaseload, anotherPrisonerInCaseload],
+        })
+
+        expect(isGranted(PrisonerBasePermission.read, permissions)).toBe(true)
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).toHaveBeenCalledWith(
+          userWithPermission,
+          prisonerNotInCaseload,
+          [prisonerNotInCaseload, anotherPrisonerInCaseload],
+          PrisonerBasePermission.read,
+        )
+      })
+
+      it('returns base permissions when no duplicate records provided', () => {
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+          duplicateRecords: [],
+        })
+
+        expect(isGranted(PrisonerBasePermission.read, permissions)).toBe(true)
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).not.toHaveBeenCalled()
+      })
+
+      it('returns base permissions when duplicateRecords is undefined', () => {
+        const permissions = service.getPrisonerPermissions({
+          user: userWithPermission,
+          prisoner: prisonerInCaseload,
+          requestDependentOn: [PrisonerBasePermission.read],
+        })
+
+        expect(isGranted(PrisonerBasePermission.read, permissions)).toBe(true)
+        expect(permissionsLogger.logPermissionGrantedByDuplicate).not.toHaveBeenCalled()
+      })
+    })
   })
 
   describe('getPrisonerDetails', () => {
