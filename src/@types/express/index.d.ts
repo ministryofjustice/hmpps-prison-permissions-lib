@@ -8,6 +8,7 @@ export declare global {
     interface Request {
       middleware?: {
         prisonerData?: Prisoner
+        duplicatePrisonerData?: Prisoner[]
       }
     }
 

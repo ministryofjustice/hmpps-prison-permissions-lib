@@ -20,10 +20,18 @@ export default function prisonerPermissionsGuard(
     const prisonerData = await getPrisonerData(req, permissionsService, getPrisonerNumberFunction)
     if (!prisonerData) return next(Error('Could not retrieve prisoner data'))
 
+    /*
+     * Currently avoiding adding a dependency on the hmpps-person-record API and will just check to
+     * see if any duplicate prisoner records are present in the request middleware, which is up to the implementing
+     * service to provide if they wish to support permission upgrades based on duplicate records.
+     */
+    const duplicateRecords = req.middleware?.duplicatePrisonerData || []
+
     const prisonerPermissions = permissionsService.getPrisonerPermissions({
       user: res.locals.user,
       prisoner: prisonerData,
       requestDependentOn,
+      duplicateRecords,
     })
 
     const deniedPermissions = requestDependentOn.filter(permission => !isGranted(permission, prisonerPermissions))
