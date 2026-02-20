@@ -2,6 +2,22 @@
 
 Please use this to capture reasoning behind changes:
 
+## 2.4.0
+
+The Connect DPS team have been supporting a request to make duplicate prisoner records more visible to users.
+The policy is that if a prisoner record is a duplicate of a record that a user has access to, then the user should
+have read-only access to the duplicate record if they wouldn't otherwise have had access. This allows users to see if
+there is any relevant information in the duplicate record that they may need to be aware of when working with the
+prisoner.
+
+This release introduces support for this policy in the permissions library. The client currently needs to supply
+a list of prisoner search results for the duplicate prisoner records by placing them in
+`req.middleware.duplicatePrisonerData`. Duplicate prison numbers are found by making a request to the
+`hmpps-person-record` API. This is optional, if the client does not provide this data then the
+library will continue to function as before but without any additional access to duplicate records.
+
+When a required permission is upgraded by a duplicate record, this is logged for audit purposes.
+
 ## 2.3.0
 
 Adding an extra option `readOnly` to the `PermissionsService` which defaults to `false`. When set to `true`, this
