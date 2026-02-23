@@ -79,17 +79,13 @@ export default class PermissionsService {
       requestDependentOn,
     })
 
-    if (requestDependentOn.length > 0) {
-      return this.upgradePermissionsFromDuplicateRecords(
-        prisoner,
-        prisonerPermissions,
-        duplicateRecords,
-        user,
-        requestDependentOn,
-      )
-    }
-
-    return prisonerPermissions
+    return this.upgradePermissionsFromDuplicateRecords(
+      prisoner,
+      prisonerPermissions,
+      duplicateRecords,
+      user,
+      requestDependentOn,
+    )
   }
 
   private calculatePrisonerPermissions({
