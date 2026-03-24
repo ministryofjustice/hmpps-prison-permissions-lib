@@ -11,17 +11,11 @@ import { Role } from '../../../../../../../types/internal/user/Role'
 
 const deniedDietReadScenarios: TestScenarios = deniedBaseCheckScenarios
   // Released prisoners denied (overrides InactiveBookings role from base check)
-  .and(
-    grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.PRISONER_IS_RELEASED),
-  )
+  .and(grantedReleasedPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.PRISONER_IS_RELEASED))
   // Transferring prisoners denied (overrides GlobalSearch and InactiveBookings roles from base check)
-  .and(
-    grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
-  )
+  .and(grantedTransferringPrisonerCheckScenarios.withExpectedStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING))
   // Global search outside caseload denied (overrides GlobalSearch role from base check)
-  .and(
-    grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
-  )
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
   // Restricted patients without supporting prison in caseload denied
   .andScenarioWhere(
     userWithActiveCaseLoad('MDI')
