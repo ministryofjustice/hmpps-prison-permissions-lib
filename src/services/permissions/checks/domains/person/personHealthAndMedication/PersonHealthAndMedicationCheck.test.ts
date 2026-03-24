@@ -2,6 +2,7 @@ import { PersonHealthAndMedicationPermission } from '../../../../../../types/pub
 import { scenarioTests } from '../../../../../../testUtils/TestScenario'
 import { baseCheckScenarios } from '../../../baseCheck/BaseCheckScenarios'
 import { prisonerProfileEditCheckScenarios } from '../../../sharedChecks/prisonerProfileEditCheck/PrisonerProfileEditCheckScenarios'
+import { dietReadScenarios } from './dietRead/DietReadScenarios'
 import { dietEditScenarios } from './dietEdit/DietEditScenarios'
 
 describe('Person Health And Medication', () => {
@@ -10,7 +11,7 @@ describe('Person Health And Medication', () => {
     [PersonHealthAndMedicationPermission.edit_pregnancy]: prisonerProfileEditCheckScenarios,
     [PersonHealthAndMedicationPermission.read_smoker]: baseCheckScenarios,
     [PersonHealthAndMedicationPermission.edit_smoker]: prisonerProfileEditCheckScenarios,
-    [PersonHealthAndMedicationPermission.read_diet]: baseCheckScenarios,
+    [PersonHealthAndMedicationPermission.read_diet]: dietReadScenarios,
     [PersonHealthAndMedicationPermission.edit_diet]: dietEditScenarios,
   })
 })

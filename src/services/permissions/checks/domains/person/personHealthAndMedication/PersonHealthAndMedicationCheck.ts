@@ -5,6 +5,7 @@ import {
   PersonHealthAndMedicationPermission,
   PersonHealthAndMedicationPermissions,
 } from '../../../../../../types/public/permissions/domains/person/personHealthAndMedication/PersonHealthAndMedicationPermissions'
+import dietReadCheck from './dietRead/DietReadCheck'
 import dietEditCheck from './dietEdit/DietEditCheck'
 import { checkWith } from '../../../../utils/PermissionCheckUtils'
 
@@ -19,7 +20,7 @@ export default function personHealthAndMedicationCheck(
     ...check(PersonHealthAndMedicationPermission.read_smoker, baseCheck),
     ...check(PersonHealthAndMedicationPermission.edit_smoker, prisonerProfileEditCheck),
 
-    ...check(PersonHealthAndMedicationPermission.read_diet, baseCheck),
+    ...check(PersonHealthAndMedicationPermission.read_diet, dietReadCheck),
     ...check(PersonHealthAndMedicationPermission.edit_diet, dietEditCheck),
   }
 }

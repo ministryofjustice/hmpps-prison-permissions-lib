@@ -44,6 +44,7 @@ import { pathfinderReadScenarios } from './scenarios/domains/security/pathfinder
 import { pathfinderEditScenarios } from './scenarios/domains/security/pathfinder/PathfinderEditScenarios'
 import { socReadScenarios } from './scenarios/domains/security/soc/SOCReadScenarios'
 import { socEditScenarios } from './scenarios/domains/security/soc/SOCEditScenarios'
+import { dietReadScenarios } from './scenarios/domains/person/personHealthAndMedication/dietRead/DietReadScenarios'
 import { dietEditScenarios } from './scenarios/domains/person/personHealthAndMedication/dietEdit/DietEditScenarios'
 import { photoReadScenarios } from './scenarios/domains/person/corePersonRecord/PhotoReadScenarios'
 import { Role } from '../../types/internal/user/Role'
@@ -136,7 +137,7 @@ describe('Prisoner Profile Contract Tests', () => {
           [PersonHealthAndMedicationPermission.edit_pregnancy]: prisonerProfileEditCheckScenarios,
           [PersonHealthAndMedicationPermission.read_smoker]: baseCheckScenarios,
           [PersonHealthAndMedicationPermission.edit_smoker]: prisonerProfileEditCheckScenarios,
-          [PersonHealthAndMedicationPermission.read_diet]: baseCheckScenarios,
+          [PersonHealthAndMedicationPermission.read_diet]: dietReadScenarios,
           [PersonHealthAndMedicationPermission.edit_diet]: dietEditScenarios,
         })
       })
