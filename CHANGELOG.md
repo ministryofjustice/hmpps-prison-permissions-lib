@@ -2,9 +2,9 @@
 
 Please use this to capture reasoning behind changes:
 
-## 2.4.2
+## 2.5.0
 
-Updated dependencies.
+Restricted diet and allergy read access for global search and updated dependencies.
 
 ## 2.4.1
 
