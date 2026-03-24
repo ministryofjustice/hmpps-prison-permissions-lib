@@ -2,6 +2,14 @@
 
 Please use this to capture reasoning behind changes:
 
+## 2.4.2
+
+Updated dependencies.
+
+## 2.4.1
+
+Fixed duplicate record conditional upgrade and updated dependencies.
+
 ## 2.4.0
 
 The Connect DPS team have been supporting a request to make duplicate prisoner records more visible to users.

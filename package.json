@@ -1,6 +1,6 @@
 {
   "name": "@ministryofjustice/hmpps-prison-permissions-lib",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "A library to centralise the process of determining whether a user should have access to create/read/update/delete a prison resource, for example, accessing a prisoner's Prisoner Profile.",
   "keywords": [
     "hmpps",
@@ -64,13 +64,13 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "lint-staged": "^16.3.1",
-    "rollup": "^4.59.0",
-    "rollup-plugin-dts": "^6.3.0",
+    "rollup": "4.60.0",
+    "rollup-plugin-dts": "6.4.1",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "^1.1.0",
+    "@ministryofjustice/hmpps-rest-client": "1.2.0",
     "applicationinsights": "^2.9.8"
   }
 }
