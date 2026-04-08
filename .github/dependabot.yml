@@ -9,6 +9,13 @@ updates:
       - dependency-name: "applicationinsights"
         versions:
           - ">=3"
+      - dependency-name: "typescript"
+        versions:
+          - ">=6"
+    cooldown:
+      default-days: 5
+      exclude:
+        - "@ministryofjustice/*"
     schedule:
       interval: weekly
       day: wednesday
@@ -18,6 +25,18 @@ updates:
 
   - package-ecosystem: github-actions
     directory: /
+    cooldown:
+      default-days: 5
+      exclude:
+        - "ministryofjustice/*"
+    schedule:
+      interval: weekly
+      day: wednesday
+
+  - package-ecosystem: pre-commit
+    directory: /
+    cooldown:
+      default-days: 5
     schedule:
       interval: weekly
       day: wednesday
