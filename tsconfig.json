@@ -11,8 +11,10 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
+    "noEmit": true,
     "module": "ESNext",
-    "moduleResolution": "node"
+    "moduleResolution": "bundler",
+    "types": ["node", "jest"]
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts"]
 }
