@@ -8,6 +8,7 @@ import {
 import dietReadCheck from './dietRead/DietReadCheck'
 import dietEditCheck from './dietEdit/DietEditCheck'
 import { checkWith } from '../../../../utils/PermissionCheckUtils'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function personHealthAndMedicationCheck(
   context: PrisonerPermissionsContext,
@@ -17,7 +18,7 @@ export default function personHealthAndMedicationCheck(
     ...check(PersonHealthAndMedicationPermission.read_pregnancy, baseCheck),
     ...check(PersonHealthAndMedicationPermission.edit_pregnancy, prisonerProfileEditCheck),
 
-    ...check(PersonHealthAndMedicationPermission.read_smoker, baseCheck),
+    ...check(PersonHealthAndMedicationPermission.read_smoker, inUsersCaseLoad),
     ...check(PersonHealthAndMedicationPermission.edit_smoker, prisonerProfileEditCheck),
 
     ...check(PersonHealthAndMedicationPermission.read_diet, dietReadCheck),

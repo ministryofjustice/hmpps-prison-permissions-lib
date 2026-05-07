@@ -2,6 +2,21 @@
 
 Please use this to capture reasoning behind changes:
 
+## 2.6.0
+
+The following permissions now use the `inUsersCaseLoad` check rather than `baseCheck` only.
+
+```
+CorePersonRecordPermission.read_place_of_birth
+CorePersonRecordPermission.read_nationality
+PersonProtectedCharacteristicsPermission.read_sexual_orientation
+PersonHealthAndMedicationPermission.read_smoker
+PersonalRelationshipsPermission.read_number_of_children
+PersonalRelationshipsPermission.read_domestic_status
+```
+
+In line with these updates, the prisoner profile contract has changed.
+
 ## 2.5.1
 
 Updated dependencies

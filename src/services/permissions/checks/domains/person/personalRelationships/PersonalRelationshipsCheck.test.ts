@@ -7,12 +7,13 @@ import inUsersCaseLoadAndUserHasSomeRolesFromScenarios from '../../../sharedChec
 import { Role } from '../../../../../../types/internal/user/Role'
 import inUsersCaseLoadAndUserHasRoleScenarios from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
 import { contactsReadCheckScenarios } from '../../../sharedChecks/contactsReadCheck/contactsReadCheckScenarios'
+import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 
 describe('Personal Relationships', () => {
   scenarioTests<PersonalRelationshipsPermission>({
-    [PersonalRelationshipsPermission.read_number_of_children]: baseCheckScenarios,
+    [PersonalRelationshipsPermission.read_number_of_children]: inUsersCaseLoadScenarios,
     [PersonalRelationshipsPermission.edit_number_of_children]: prisonerProfileEditCheckScenarios,
-    [PersonalRelationshipsPermission.read_domestic_status]: baseCheckScenarios,
+    [PersonalRelationshipsPermission.read_domestic_status]: inUsersCaseLoadScenarios,
     [PersonalRelationshipsPermission.edit_domestic_status]: prisonerProfileEditCheckScenarios,
     [PersonalRelationshipsPermission.read_emergency_contacts]: baseCheckScenarios,
     [PersonalRelationshipsPermission.edit_emergency_contacts]: prisonerProfileSensitiveEditCheckScenarios,

@@ -6,6 +6,7 @@ import { photoReadScenarios } from './photo/PhotoReadScenarios'
 import inActiveCaseLoadAndUserHasSomeRolesFromScenarios from '../../../sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFromScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
 import { prisonerProfileSensitiveEditCheckScenarios } from '../../../sharedChecks/prisonerProfileSensitiveEditCheck/PrisonerProfileSensitiveEditCheckScenarios'
+import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
 
 describe('Core Person Record', () => {
   scenarioTests<CorePersonRecordPermission>({
@@ -16,7 +17,7 @@ describe('Core Person Record', () => {
       Role.PrisonerProfileSensitiveEdit,
       Role.PrisonerProfilePhotoUpload,
     ]),
-    [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_place_of_birth]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
     [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,
     [CorePersonRecordPermission.edit_military_history]: prisonerProfileEditCheckScenarios,
@@ -26,7 +27,7 @@ describe('Core Person Record', () => {
     [CorePersonRecordPermission.edit_date_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
     [CorePersonRecordPermission.read_address]: baseCheckScenarios,
     [CorePersonRecordPermission.edit_address]: prisonerProfileSensitiveEditCheckScenarios,
-    [CorePersonRecordPermission.read_nationality]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_nationality]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_nationality]: prisonerProfileSensitiveEditCheckScenarios,
     [CorePersonRecordPermission.read_identifiers]: baseCheckScenarios,
     [CorePersonRecordPermission.edit_identifiers]: prisonerProfileSensitiveEditCheckScenarios,

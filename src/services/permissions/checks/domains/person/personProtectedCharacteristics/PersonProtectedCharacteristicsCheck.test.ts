@@ -7,7 +7,7 @@ import { prisonerProfileEditCheckScenarios } from '../../../sharedChecks/prisone
 
 describe('Person Protected Characteristics', () => {
   scenarioTests<PersonProtectedCharacteristicsPermission>({
-    [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: baseCheckScenarios,
+    [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: inUsersCaseLoadScenarios,
     [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]: prisonerProfileSensitiveEditCheckScenarios,
     [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoadScenarios,
     [PersonProtectedCharacteristicsPermission.edit_religion_and_belief]: prisonerProfileEditCheckScenarios,

@@ -96,7 +96,7 @@ describe('Prisoner Profile Contract Tests', () => {
             Role.PrisonerProfileSensitiveEdit,
             Role.PrisonerProfilePhotoUpload,
           ]),
-          [CorePersonRecordPermission.read_place_of_birth]: baseCheckScenarios,
+          [CorePersonRecordPermission.read_place_of_birth]: inUsersCaseLoadScenarios,
           [CorePersonRecordPermission.edit_place_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_military_history]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_military_history]: prisonerProfileEditCheckScenarios,
@@ -106,7 +106,7 @@ describe('Prisoner Profile Contract Tests', () => {
           [CorePersonRecordPermission.edit_date_of_birth]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_address]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_address]: prisonerProfileSensitiveEditCheckScenarios,
-          [CorePersonRecordPermission.read_nationality]: baseCheckScenarios,
+          [CorePersonRecordPermission.read_nationality]: inUsersCaseLoadScenarios,
           [CorePersonRecordPermission.edit_nationality]: prisonerProfileSensitiveEditCheckScenarios,
           [CorePersonRecordPermission.read_identifiers]: baseCheckScenarios,
           [CorePersonRecordPermission.edit_identifiers]: prisonerProfileSensitiveEditCheckScenarios,
@@ -121,7 +121,7 @@ describe('Prisoner Profile Contract Tests', () => {
 
       describe('Person Protected Characteristics', () => {
         scenarioTests<PersonProtectedCharacteristicsPermission>({
-          [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: baseCheckScenarios,
+          [PersonProtectedCharacteristicsPermission.read_sexual_orientation]: inUsersCaseLoadScenarios,
           [PersonProtectedCharacteristicsPermission.edit_sexual_orientation]:
             prisonerProfileSensitiveEditCheckScenarios,
           [PersonProtectedCharacteristicsPermission.read_religion_and_belief]: inUsersCaseLoadScenarios,
@@ -135,7 +135,7 @@ describe('Prisoner Profile Contract Tests', () => {
         scenarioTests<PersonHealthAndMedicationPermission>({
           [PersonHealthAndMedicationPermission.read_pregnancy]: baseCheckScenarios,
           [PersonHealthAndMedicationPermission.edit_pregnancy]: prisonerProfileEditCheckScenarios,
-          [PersonHealthAndMedicationPermission.read_smoker]: baseCheckScenarios,
+          [PersonHealthAndMedicationPermission.read_smoker]: inUsersCaseLoadScenarios,
           [PersonHealthAndMedicationPermission.edit_smoker]: prisonerProfileEditCheckScenarios,
           [PersonHealthAndMedicationPermission.read_diet]: dietReadScenarios,
           [PersonHealthAndMedicationPermission.edit_diet]: dietEditScenarios,
@@ -143,9 +143,9 @@ describe('Prisoner Profile Contract Tests', () => {
       })
 
       describe('Personal Relationships', () => {
-        scenarioTest(PersonalRelationshipsPermission.read_number_of_children, baseCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_number_of_children, inUsersCaseLoadScenarios)
         scenarioTest(PersonalRelationshipsPermission.edit_number_of_children, prisonerProfileEditCheckScenarios)
-        scenarioTest(PersonalRelationshipsPermission.read_domestic_status, baseCheckScenarios)
+        scenarioTest(PersonalRelationshipsPermission.read_domestic_status, inUsersCaseLoadScenarios)
         scenarioTest(PersonalRelationshipsPermission.edit_domestic_status, prisonerProfileEditCheckScenarios)
         scenarioTest(PersonalRelationshipsPermission.read_emergency_contacts, baseCheckScenarios)
         scenarioTest(
