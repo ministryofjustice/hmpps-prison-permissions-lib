@@ -14,7 +14,7 @@ export default function personProtectedCharacteristicsCheck(
 ): PersonProtectedCharacteristicsPermissions {
   const check = checkWith(context)
   return {
-    ...check(PersonProtectedCharacteristicsPermission.read_sexual_orientation, baseCheck),
+    ...check(PersonProtectedCharacteristicsPermission.read_sexual_orientation, inUsersCaseLoad),
     ...check(PersonProtectedCharacteristicsPermission.edit_sexual_orientation, prisonerProfileSensitiveEditCheck),
 
     ...check(PersonProtectedCharacteristicsPermission.read_religion_and_belief, inUsersCaseLoad),

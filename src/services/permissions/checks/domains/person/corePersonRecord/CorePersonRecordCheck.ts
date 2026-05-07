@@ -10,6 +10,7 @@ import photoReadCheck from './photo/PhotoReadCheck'
 import { Role } from '../../../../../../types/internal/user/Role'
 import inActiveCaseLoadAndUserHasSomeRolesFrom from '../../../sharedChecks/inActiveCaseLoadAndUserHasSomeRolesFrom/InActiveCaseLoadAndUserHasSomeRolesFrom'
 import { checkWith } from '../../../../utils/PermissionCheckUtils'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function corePersonRecordCheck(context: PrisonerPermissionsContext): CorePersonRecordPermissions {
   const check = checkWith(context)
@@ -23,7 +24,7 @@ export default function corePersonRecordCheck(context: PrisonerPermissionsContex
     ...check(CorePersonRecordPermission.read_physical_characteristics, baseCheck),
     ...check(CorePersonRecordPermission.edit_physical_characteristics, prisonerProfileEditCheck),
 
-    ...check(CorePersonRecordPermission.read_place_of_birth, baseCheck),
+    ...check(CorePersonRecordPermission.read_place_of_birth, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_place_of_birth, prisonerProfileSensitiveEditCheck),
 
     ...check(CorePersonRecordPermission.read_military_history, baseCheck),
@@ -38,7 +39,7 @@ export default function corePersonRecordCheck(context: PrisonerPermissionsContex
     ...check(CorePersonRecordPermission.read_address, baseCheck),
     ...check(CorePersonRecordPermission.edit_address, prisonerProfileSensitiveEditCheck),
 
-    ...check(CorePersonRecordPermission.read_nationality, baseCheck),
+    ...check(CorePersonRecordPermission.read_nationality, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_nationality, prisonerProfileSensitiveEditCheck),
 
     ...check(CorePersonRecordPermission.read_identifiers, baseCheck),

@@ -11,16 +11,17 @@ import prisonerProfileSensitiveEditCheck from '../../../sharedChecks/prisonerPro
 import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
 import { checkWith } from '../../../../utils/PermissionCheckUtils'
 import contactsReadCheck from '../../../sharedChecks/contactsReadCheck/contactsReadCheck'
+import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
 
 export default function personalRelationshipsCheck(
   context: PrisonerPermissionsContext,
 ): PersonalRelationshipsPermissions {
   const check = checkWith(context)
   return {
-    ...check(PersonalRelationshipsPermission.read_number_of_children, baseCheck),
+    ...check(PersonalRelationshipsPermission.read_number_of_children, inUsersCaseLoad),
     ...check(PersonalRelationshipsPermission.edit_number_of_children, prisonerProfileEditCheck),
 
-    ...check(PersonalRelationshipsPermission.read_domestic_status, baseCheck),
+    ...check(PersonalRelationshipsPermission.read_domestic_status, inUsersCaseLoad),
     ...check(PersonalRelationshipsPermission.edit_domestic_status, prisonerProfileEditCheck),
 
     ...check(PersonalRelationshipsPermission.read_emergency_contacts, baseCheck),
