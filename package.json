@@ -51,8 +51,8 @@
   },
   "devDependencies": {
     "@ministryofjustice/eslint-config-hmpps": "1.0.3",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
-    "@ministryofjustice/hmpps-precommit-hooks": "2.0.2",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "@ministryofjustice/hmpps-precommit-hooks": "3.0.1",
     "@rollup/plugin-commonjs": "29.0.2",
     "@rollup/plugin-multi-entry": "7.1.0",
     "@rollup/plugin-node-resolve": "16.0.3",
@@ -62,9 +62,9 @@
     "@types/express": "5.0.6",
     "@types/express-session": "1.19.0",
     "@types/jest": "30.0.0",
-    "jest": "30.3.0",
-    "lint-staged": "16.4.0",
-    "rollup": "4.60.2",
+    "jest": "30.4.2",
+    "lint-staged": "17.0.4",
+    "rollup": "4.60.3",
     "rollup-plugin-dts": "6.4.1",
     "ts-jest": "29.4.9",
     "typescript": "6.0.3"
