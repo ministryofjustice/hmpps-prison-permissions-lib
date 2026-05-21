@@ -70,7 +70,7 @@
     "typescript": "6.0.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "1.2.1",
+    "@ministryofjustice/hmpps-rest-client": "2.1.0",
     "applicationinsights": "^2.9.8"
   }
 }
