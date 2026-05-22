@@ -1,6 +1,6 @@
 {
   "name": "@ministryofjustice/hmpps-prison-permissions-lib",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "A library to centralise the process of determining whether a user should have access to create/read/update/delete a prison resource, for example, accessing a prisoner's Prisoner Profile.",
   "keywords": [
     "hmpps",
@@ -25,7 +25,7 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": "20 || 22 || 24"
+    "node": "22 || 24 || 26"
   },
   "scripts": {
     "prepare": "hmpps-precommit-hooks-prepare",
@@ -50,8 +50,8 @@
     ]
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "1.0.3",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "@ministryofjustice/eslint-config-hmpps": "2.0.0-alpha.2",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.5",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.1",
     "@rollup/plugin-commonjs": "29.0.2",
     "@rollup/plugin-multi-entry": "7.1.0",
@@ -64,13 +64,13 @@
     "@types/jest": "30.0.0",
     "jest": "30.4.2",
     "lint-staged": "17.0.4",
-    "rollup": "4.60.3",
+    "rollup": "4.60.4",
     "rollup-plugin-dts": "6.4.1",
     "ts-jest": "29.4.9",
     "typescript": "6.0.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "1.2.1",
+    "@ministryofjustice/hmpps-rest-client": "2.1.0",
     "applicationinsights": "^2.9.8"
   }
 }

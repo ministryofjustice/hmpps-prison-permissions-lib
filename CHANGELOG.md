@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 3.0.0
+
+Drops support for node 20 (which is no longer maintained) and adds support for node 26.
+
 ## 2.6.0
 
 The following permissions now use the `inUsersCaseLoad` check rather than `baseCheck` only.
