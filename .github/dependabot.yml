@@ -1,7 +1,28 @@
 version: 2
+
+multi-ecosystem-groups:
+  infrastructure:
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "10:00"
+      timezone: "Europe/London"
+
 updates:
-  - package-ecosystem: npm
-    directory: /
+  # main dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "10:10"
+      timezone: "Europe/London"
+    cooldown:
+      default-days: 7
+      exclude:
+        - "@ministryofjustice/*"
+    groups:
+      development:
+        dependency-type: "development"
     ignore:
       - dependency-name: "@types/node"
         versions:
@@ -9,31 +30,21 @@ updates:
       - dependency-name: "applicationinsights"
         versions:
           - ">=3"
-    cooldown:
-      default-days: 7
-      exclude:
-        - "@ministryofjustice/*"
-    schedule:
-      interval: weekly
-      day: wednesday
-    groups:
-      development:
-        dependency-type: "development"
 
-  - package-ecosystem: github-actions
-    directory: /
+  # infrastructure dependencies
+  - package-ecosystem: "github-actions"
+    multi-ecosystem-group: "infrastructure"
+    directory: "/"
+    patterns:
+      - "*"
     cooldown:
       default-days: 7
       exclude:
         - "ministryofjustice/*"
-    schedule:
-      interval: weekly
-      day: wednesday
-
-  - package-ecosystem: pre-commit
-    directory: /
+  - package-ecosystem: "pre-commit"
+    multi-ecosystem-group: "infrastructure"
+    directory: "/"
+    patterns:
+      - "*"
     cooldown:
       default-days: 7
-    schedule:
-      interval: weekly
-      day: wednesday
