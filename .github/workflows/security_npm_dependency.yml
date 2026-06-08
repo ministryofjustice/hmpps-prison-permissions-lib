@@ -2,7 +2,8 @@ name: Security npm dependency check
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 6 * * MON-FRI" # Every weekday
+    - cron: "24 6 * * MON-FRI"
+      timezone: "Europe/London"
 jobs:
   security-npm-dependency-check:
     permissions:

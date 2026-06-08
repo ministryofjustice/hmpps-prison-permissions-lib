@@ -3,7 +3,8 @@ name: Security CodeQL javascript/typescript scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: "14 9 * * MON-FRI" # Every weekday at ~9
+    - cron: "14 9 * * MON-FRI"
+      timezone: "Europe/London"
 
 jobs:
   security-codeql-check:
