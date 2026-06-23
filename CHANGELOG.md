@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 3.0.1
+
+Updated dependencies
+
 ## 3.0.0
 
 Drops support for node 20 (which is no longer maintained) and adds support for node 26.
