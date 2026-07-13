@@ -2,6 +2,37 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.0.0
+
+`applicationinsights` has been removed as a dependency.
+
+Previously, `PermissionsService.create()` accepted a `TelemetryClient` imported from `applicationinsights`.
+It now accepts anything satisfying a simple `TelemetryClient` interface which this library exports.
+
+### Upgrading
+
+The `TelemetryClient` interface has this signature:
+
+```typescript
+trackEvent(name: string, attributes?: Record<string, string | number | boolean>): void
+```
+
+It's recommended to use `@ministryofjustice/hmpps-azure-telemetry` because the telemetry client it provides matches the interface directly:
+
+```typescript
+import { telemetry } from '@ministryofjustice/hmpps-azure-telemetry'
+
+const prisonPermissionsService = PermissionsService.create({
+  ...
+  telemetryClient: telemetry,
+})
+```
+
+If using the `applicationinsights` package, please note:
+The `applicationinsights` `TelemetryClient` uses a very similar yet slightly different `trackEvent` signature, so you will need to wrap it.
+
+If you are not passing a telemetry client (not recommended), no changes are needed.
+
 ## 3.0.1
 
 Updated dependencies

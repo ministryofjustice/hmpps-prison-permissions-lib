@@ -1,6 +1,6 @@
 import type bunyan from 'bunyan'
 import { ApiConfig, AuthenticationClient } from '@ministryofjustice/hmpps-rest-client'
-import { TelemetryClient } from 'applicationinsights'
+import { TelemetryClient } from '../../types/public/telemetry/TelemetryClient'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { HmppsUser } from '../../types/internal/user/HmppsUser'
 import PermissionsLogger from './PermissionsLogger'
