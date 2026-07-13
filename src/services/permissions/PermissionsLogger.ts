@@ -23,7 +23,7 @@ export default class PermissionsLogger {
       this.telemetryClient.trackEvent('prisoner-permission-denied', {
         username: user.username,
         prisonerNumber: prisoner.prisonerNumber,
-        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : 'false',
+        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : '',
         permissionChecked: permission,
         status: permissionCheckStatus,
       })
@@ -43,7 +43,7 @@ export default class PermissionsLogger {
         username: user.username,
         prisonerNumber: prisoner.prisonerNumber,
         duplicatePrisonerNumbers: duplicateRecords.map(record => record.prisonerNumber).join(','),
-        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : 'false',
+        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : '',
         permissionChecked: permission,
       })
     } else {
