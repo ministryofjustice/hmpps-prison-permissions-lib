@@ -1,5 +1,5 @@
 import Logger from 'bunyan'
-import { TelemetryClient } from 'applicationinsights'
+import { TelemetryClient } from '../../types/public/telemetry/TelemetryClient'
 import PermissionsLogger from './PermissionsLogger'
 import { PrisonUser } from '../../types/internal/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
@@ -40,15 +40,12 @@ describe('PermissionsLogger', () => {
 
       permissionsLogger.logPermissionCheckStatus(user, prisoner, permission, permissionCheckStatus)
 
-      expect(telemetryClient.trackEvent).toHaveBeenCalledWith({
-        name: 'prisoner-permission-denied',
-        properties: {
-          username: user.username,
-          prisonerNumber: prisoner.prisonerNumber,
-          activeCaseLoad: user.activeCaseLoadId,
-          permissionChecked: permission,
-          status: permissionCheckStatus,
-        },
+      expect(telemetryClient.trackEvent).toHaveBeenCalledWith('prisoner-permission-denied', {
+        username: user.username,
+        prisonerNumber: prisoner.prisonerNumber,
+        activeCaseLoad: user.activeCaseLoadId,
+        permissionChecked: permission,
+        status: permissionCheckStatus,
       })
 
       expect(logger.info).not.toHaveBeenCalled()

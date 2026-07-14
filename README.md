@@ -78,7 +78,8 @@ The permissions service should be created just like any other of your services. 
   in order to make authorized client credentials calls to Prisoner Search.
 * `logger`: Bunyan logger for logging permissions events. Defaults to using `console`.
 * `telemetryClient`: Optional but recommended. Instead of just logging permissions events, this provides richer metadata
-  to Application Insights.
+  to a telemetry provider. Provide a client satisfying the `TelemetryClient` interface that this library exports (requires only a `trackEvent` method). 
+  Compatible with `@ministryofjustice/hmpps-azure-telemetry` as-is. Compatible with `applicationinsights` if a wrapper is made to match the interface.
 * `readOnly`: Optional boolean (defaults to false) which, if set to true, will only grant read permissions.
 
 e.g.

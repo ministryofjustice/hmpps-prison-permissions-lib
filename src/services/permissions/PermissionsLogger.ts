@@ -1,5 +1,5 @@
-import { TelemetryClient } from 'applicationinsights'
 import type Logger from 'bunyan'
+import { TelemetryClient } from '../../types/public/telemetry/TelemetryClient'
 import { PermissionCheckStatus } from '../../types/internal/permissions/PermissionCheckStatus'
 import { HmppsUser } from '../../types/internal/user/HmppsUser'
 import Prisoner from '../../data/hmppsPrisonerSearch/interfaces/Prisoner'
@@ -20,15 +20,12 @@ export default class PermissionsLogger {
     if (permissionCheckStatus === PermissionCheckStatus.OK) return
 
     if (this.telemetryClient) {
-      this.telemetryClient.trackEvent({
-        name: 'prisoner-permission-denied',
-        properties: {
-          username: user.username,
-          prisonerNumber: prisoner.prisonerNumber,
-          activeCaseLoad: user.authSource === 'nomis' && user.activeCaseLoadId,
-          permissionChecked: permission,
-          status: permissionCheckStatus,
-        },
+      this.telemetryClient.trackEvent('prisoner-permission-denied', {
+        username: user.username,
+        prisonerNumber: prisoner.prisonerNumber,
+        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : '',
+        permissionChecked: permission,
+        status: permissionCheckStatus,
       })
     } else {
       this.logger.info(`Prisoner permission denied: ${permission} (${permissionCheckStatus}) for user ${user.username}`)
@@ -42,15 +39,12 @@ export default class PermissionsLogger {
     permission: PrisonerPermission,
   ) {
     if (this.telemetryClient) {
-      this.telemetryClient.trackEvent({
-        name: 'prisoner-permission-requirement-upgraded-by-duplicate',
-        properties: {
-          username: user.username,
-          prisonerNumber: prisoner.prisonerNumber,
-          duplicatePrisonerNumbers: duplicateRecords.map(record => record.prisonerNumber).join(','),
-          activeCaseLoad: user.authSource === 'nomis' && user.activeCaseLoadId,
-          permissionChecked: permission,
-        },
+      this.telemetryClient.trackEvent('prisoner-permission-requirement-upgraded-by-duplicate', {
+        username: user.username,
+        prisonerNumber: prisoner.prisonerNumber,
+        duplicatePrisonerNumbers: duplicateRecords.map(record => record.prisonerNumber).join(','),
+        activeCaseLoad: user.authSource === 'nomis' ? user.activeCaseLoadId : '',
+        permissionChecked: permission,
       })
     } else {
       this.logger.info(`Required prisoner permission upgraded by duplicate: ${permission} for user ${user.username}`)
