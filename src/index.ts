@@ -6,3 +6,6 @@ export { default as prisonerPermissionsGuard } from './middleware/PrisonerPermis
 
 // View:
 export { default as setupNunjucksPermissions } from './view/SetupNunjucksPermissions'
+
+// Telemetry:
+export type { TelemetryClient } from './types/public/telemetry/TelemetryClient'
