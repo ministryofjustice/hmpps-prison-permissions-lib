@@ -159,7 +159,7 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Person Plan and Needs', () => {
       describe('Person Communication Needs', () => {
         scenarioTests<PersonCommunicationNeedsPermission>({
-          [PersonCommunicationNeedsPermission.read_language]: baseCheckScenarios,
+          [PersonCommunicationNeedsPermission.read_language]: inUsersCaseLoadScenarios,
           [PersonCommunicationNeedsPermission.edit_language]: prisonerProfileEditCheckScenarios,
         })
       })
