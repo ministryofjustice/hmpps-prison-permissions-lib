@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.1.0
+
+Strengthened `PersonCommunicationNeedsPermission.read_language` to check for whether the prisoner is in the user's caseload.
+
 ## 4.0.0
 
 `applicationinsights` has been removed as a dependency.
