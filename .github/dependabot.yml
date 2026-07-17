@@ -27,9 +27,10 @@ updates:
       - dependency-name: "@types/node"
         versions:
           - ">=25"
-      - dependency-name: "applicationinsights"
+      - dependency-name: "typescript"
+        # TODO: remove once dependent libs are updated for v7
         versions:
-          - ">=3"
+          - ">=7"
 
   # infrastructure dependencies
   - package-ecosystem: "github-actions"
