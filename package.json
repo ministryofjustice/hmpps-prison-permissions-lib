@@ -74,6 +74,6 @@
     "@ministryofjustice/hmpps-rest-client": "2.2.0"
   },
   "overrides": {
-    "js-yaml": "^5.1.0"
+    "js-yaml": "^5.2.1"
   }
 }
