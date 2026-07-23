@@ -148,7 +148,7 @@ setupNunjucksPermissions(njkEnv)
 * Using the permissions check in the template, for example:
 
 ```nunjucks
-{% if isGranted(PrisonerMoneyPermission.read, res.locals.prisonerPermissions) %}
+{% if isGranted(PrisonerMoneyPermission.read, prisonerPermissions) %}
  ...
 {% endif %}
 ```
