@@ -2,6 +2,29 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.2.0
+
+### Person Sentence Calculation permissions
+
+`PersonSentenceCalculationPermission.read` is redefined to be the base check only. This is the permission for reading
+Court Cases and Release Dates data (e.g. CCARD readonly overview).
+
+The previous calculator-role behaviour of `.read` (`ROLE_RELEASE_DATES_CALCULATOR`) moves to a new permission:
+
+```
+PersonSentenceCalculationPermission.edit = 'prisoner:person-sentence-calculation:edit'
+```
+
+`PersonSentenceCalculationPermission.edit_adjustments` is unchanged.
+
+In line with these updates, the prisoner profile contract has changed.
+
+### Upgrading
+
+Prisoner Profile currently uses `.read` to decide whether to show the Court cases and release dates card. After this
+change, that card must be gated with `.edit` instead. Use `.read` for readonly Court Cases and Release Dates access
+(base check).
+
 ## 4.1.0
 
 Strengthened `PersonCommunicationNeedsPermission.read_language` to check for whether the prisoner is in the user's caseload.
