@@ -1,6 +1,6 @@
 import { Role } from '../../../../../../../types/internal/user/Role'
 import baseCheckAndUserHasRole from '../../../../sharedChecks/baseCheckAndUserHasRole/BaseCheckAndUserHasRole'
 
-const sentenceCalculationReadCheck = baseCheckAndUserHasRole(Role.ReleaseDatesCalculator)
+const sentenceCalculationEditCheck = baseCheckAndUserHasRole(Role.ReleaseDatesCalculator)
 
-export default sentenceCalculationReadCheck
+export default sentenceCalculationEditCheck

@@ -2,7 +2,7 @@ import { PrisonerBasePermission } from '../../types/public/permissions/prisoner/
 import { scenarioTest, scenarioTests } from '../../testUtils/TestScenario'
 import { PersonSentenceCalculationPermission } from '../../types/public/permissions/domains/sentenceAndOffence/personSentenceCalculation/PersonSentenceCalculationPermissions'
 import { baseCheckScenarios } from './scenarios/baseCheck/BaseCheckScenarios'
-import { sentenceCalculationReadScenarios } from './scenarios/domains/sentenceAndOffence/personSentenceCalculation/SentenceCalculationReadScenarios'
+import { sentenceCalculationEditScenarios } from './scenarios/domains/sentenceAndOffence/personSentenceCalculation/SentenceCalculationEditScenarios'
 import { sentenceCalculationEditAdjustmentScenarios } from './scenarios/domains/sentenceAndOffence/personSentenceCalculation/SentenceCalculationEditAdjustmentScenarios'
 import { prisonerMoneyReadScenarios } from './scenarios/domains/prisonerSpecific/prisonerMoney/PrisonerMoneyReadScenarios'
 import { prisonerAdjudicationsReadPrisonerProfileScenarios } from './scenarios/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsReadScenarios'
@@ -261,7 +261,8 @@ describe('Prisoner Profile Contract Tests', () => {
     describe('Sentence / Offence', () => {
       describe('Person Sentence Calculation', () => {
         scenarioTests<PersonSentenceCalculationPermission>({
-          [PersonSentenceCalculationPermission.read]: sentenceCalculationReadScenarios,
+          [PersonSentenceCalculationPermission.read]: baseCheckScenarios,
+          [PersonSentenceCalculationPermission.edit]: sentenceCalculationEditScenarios,
           [PersonSentenceCalculationPermission.edit_adjustments]: sentenceCalculationEditAdjustmentScenarios,
         })
       })
