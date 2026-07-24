@@ -119,6 +119,7 @@ describe('PermissionsService', () => {
           requestDependentOn: [],
         })
 
+        expect(isGranted(PersonSentenceCalculationPermission.edit, permissions)).toBe(false)
         expect(isGranted(PersonSentenceCalculationPermission.edit_adjustments, permissions)).toBe(false)
       })
 

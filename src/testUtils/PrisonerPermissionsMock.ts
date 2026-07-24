@@ -143,6 +143,7 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
     sentenceAndOffence: {
       personSentenceCalculation: {
         'prisoner:person-sentence-calculation:read': false,
+        'prisoner:person-sentence-calculation:edit': false,
         'prisoner:person-sentence-calculation:adjustments:edit': false,
       },
     },
