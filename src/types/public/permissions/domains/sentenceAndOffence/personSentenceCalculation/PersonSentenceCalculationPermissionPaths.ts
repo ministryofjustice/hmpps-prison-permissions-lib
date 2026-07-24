@@ -8,5 +8,6 @@ export const personSentenceCalculationPermissionPaths: Record<
   Path<PrisonerPermissions>
 > = {
   [PersonSentenceCalculationPermission.read]: `domainGroups.sentenceAndOffence.personSentenceCalculation.${PersonSentenceCalculationPermission.read}`,
+  [PersonSentenceCalculationPermission.edit]: `domainGroups.sentenceAndOffence.personSentenceCalculation.${PersonSentenceCalculationPermission.edit}`,
   [PersonSentenceCalculationPermission.edit_adjustments]: `domainGroups.sentenceAndOffence.personSentenceCalculation.${PersonSentenceCalculationPermission.edit_adjustments}`,
 }

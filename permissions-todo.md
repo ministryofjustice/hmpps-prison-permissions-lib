@@ -40,7 +40,7 @@ category.edit = prisoner:person-prison-category:edit
 
 ---
 
-calculateReleaseDates.edit = prisoner:person-sentence-calculation:read ✅ (same as courtCases.view above)
+calculateReleaseDates.edit = prisoner:person-sentence-calculation:edit ✅
 
 ---
 
