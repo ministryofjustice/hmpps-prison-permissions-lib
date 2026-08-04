@@ -13,6 +13,7 @@ import PermissionsService from '../services/permissions/PermissionsService'
 import { prisonerPermissionPaths } from '../types/public/permissions/prisoner/PrisonerPermissionPaths'
 import { setPrisonerPermission } from '../services/permissions/utils/PermissionUtils'
 import { prisonerPermissionsMock } from '../testUtils/PrisonerPermissionsMock'
+import { PrisonerMovesPermission } from '../types/public/permissions/domains/runningAPrison/prisonerMoves/PrisonerMovesPermissions'
 
 const examplePermissions = {
   [PrisonerBasePermission.read]: true,
@@ -97,6 +98,42 @@ describe('PrisonerPermissionsGuard', () => {
       await permissionsGuard(req, res, next)
 
       expectRequestDenied([PersonSentenceCalculationPermission.read])
+    })
+
+    it('request succeeds with matchAll false when one permission check passes', async () => {
+      const permissions = {
+        ...setPrisonerPermission(PersonSentenceCalculationPermission.read, false, prisonerPermissionsMock),
+        [PrisonerBasePermission.read]: true,
+      } as unknown as PrisonerPermissions
+
+      permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
+
+      permissionsGuard = prisonerPermissionsGuard(permissionsService, {
+        requestDependentOn: [PrisonerBasePermission.read, PersonSentenceCalculationPermission.read],
+        matchAll: false,
+      })
+
+      await permissionsGuard(req, res, next)
+
+      expectRequestAllowed(permissions)
+    })
+
+    it('request fails with matchAll false when all permission checks fail', async () => {
+      const permissions = {
+        ...setPrisonerPermission(PersonSentenceCalculationPermission.read, false, prisonerPermissionsMock),
+        [PrisonerBasePermission.read]: true,
+      } as unknown as PrisonerPermissions
+
+      permissionsService.getPrisonerPermissions = jest.fn(() => permissions)
+
+      permissionsGuard = prisonerPermissionsGuard(permissionsService, {
+        requestDependentOn: [PrisonerMovesPermission.read_temporary_absence, PersonSentenceCalculationPermission.read],
+        matchAll: false,
+      })
+
+      await permissionsGuard(req, res, next)
+
+      expectRequestDenied([PrisonerBasePermission.read, PersonSentenceCalculationPermission.read])
     })
 
     it('request fails when multiple permission checks fail', async () => {
