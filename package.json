@@ -63,7 +63,7 @@
     "@types/express-session": "1.19.0",
     "@types/jest": "30.0.0",
     "jest": "30.4.2",
-    "lint-staged": "17.2.0",
+    "lint-staged": "17.3.0",
     "rollup": "4.62.3",
     "rollup-plugin-dts": "6.4.1",
     "tslib": "2.8.1",
