@@ -22,6 +22,7 @@ import { isGranted } from '../types/public/permissions/prisoner/PrisonerPermissi
 import { PersonCommunicationNeedsPermission } from '../types/public/permissions/domains/personPlanAndNeeds/personCommunicationNeeds/PersonCommunicationNeedsPermissions'
 import { PrisonerSpecificRisksPermission } from '../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 import { PrisonerMovesPermission } from '../types/public/permissions/domains/runningAPrison/prisonerMoves/PrisonerMovesPermissions'
+import { XRayBodyScansPermission } from '../types/public/permissions/domains/person/xRayBodyScans/XRayBodyScansPermissions'
 
 // Add all permissions enums here to enable them to be referenced in
 // nunjucks templates:
@@ -49,6 +50,7 @@ const nunjucksEnums: Record<PrisonerPermission, object> = {
   ...nunjucksEnum({ ProbationDocumentsPermission }),
   ...nunjucksEnum({ SOCPermission }),
   ...nunjucksEnum({ UseOfForcePermission }),
+  ...nunjucksEnum({ XRayBodyScansPermission }),
 }
 
 interface NunjucksEnvironment {

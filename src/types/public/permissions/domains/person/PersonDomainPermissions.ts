@@ -12,6 +12,7 @@ import {
   PersonalRelationshipsPermission,
   PersonalRelationshipsPermissions,
 } from './personalRelationships/PersonalRelationshipsPermissions'
+import { XRayBodyScansPermission, XRayBodyScansPermissions } from './xRayBodyScans/XRayBodyScansPermissions'
 
 export interface PersonDomainPermissions {
   caseNotes: CaseNotesPermissions
@@ -19,6 +20,7 @@ export interface PersonDomainPermissions {
   personProtectedCharacteristics: PersonProtectedCharacteristicsPermissions
   personHealthAndMedication: PersonHealthAndMedicationPermissions
   personalRelationships: PersonalRelationshipsPermissions
+  xRayBodyScans: XRayBodyScansPermissions
 }
 
 export type PersonDomainPermission =
@@ -27,3 +29,4 @@ export type PersonDomainPermission =
   | PersonProtectedCharacteristicsPermission
   | PersonHealthAndMedicationPermission
   | PersonalRelationshipsPermission
+  | XRayBodyScansPermission

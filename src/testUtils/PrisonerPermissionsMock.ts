@@ -73,6 +73,10 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:contact-restrictions:edit': false,
         'prisoner:contact-visit-approval:edit': false,
       },
+      xRayBodyScans: {
+        'prisoner:x-ray-body-scans:read': false,
+        'prisoner:x-ray-body-scans:edit': false,
+      },
     },
     personPlanAndNeeds: {
       personCommunicationNeeds: {
