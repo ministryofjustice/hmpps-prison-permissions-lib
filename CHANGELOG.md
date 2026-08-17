@@ -2,6 +2,12 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.3.0
+
+### X-ray body scan initial permissions
+
+Added simple permissions guarding XRBS read/edit. Performs a base check and looks for `ROLE_PRISON` and `DPS_APPLICATION_DEVELOPER` for now.
+
 ## 4.2.0
 
 ### Person Sentence Calculation permissions
