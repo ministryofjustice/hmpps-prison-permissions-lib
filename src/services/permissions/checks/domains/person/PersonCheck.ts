@@ -5,6 +5,7 @@ import corePersonRecordCheck from './corePersonRecord/CorePersonRecordCheck'
 import personProtectedCharacteristicsCheck from './personProtectedCharacteristics/PersonProtectedCharacteristicsCheck'
 import personHealthAndMedicationCheck from './personHealthAndMedication/PersonHealthAndMedicationCheck'
 import personalRelationshipsCheck from './personalRelationships/PersonalRelationshipsCheck'
+import xRayBodyScansCheck from './xRayBodyScans/XRayBodyScansCheck'
 
 export default function personCheck(context: PrisonerPermissionsContext): PersonDomainPermissions {
   return {
@@ -13,5 +14,6 @@ export default function personCheck(context: PrisonerPermissionsContext): Person
     personProtectedCharacteristics: personProtectedCharacteristicsCheck(context),
     personHealthAndMedication: personHealthAndMedicationCheck(context),
     personalRelationships: personalRelationshipsCheck(context),
+    xRayBodyScans: xRayBodyScansCheck(context),
   }
 }

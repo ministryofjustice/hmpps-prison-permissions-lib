@@ -8,6 +8,9 @@ import { prisonerMoneyReadScenarios } from './scenarios/domains/prisonerSpecific
 import { prisonerAdjudicationsReadPrisonerProfileScenarios } from './scenarios/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsReadScenarios'
 import { PrisonerAdjudicationsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 import { CaseNotesPermission } from '../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
+import { XRayBodyScansPermission } from '../../types/public/permissions/domains/person/xRayBodyScans/XRayBodyScansPermissions'
+import { xrbsReadScenarios } from './scenarios/domains/person/xRayBodyScans/XRBSReadScenarios'
+import { xrbsEditScenarios } from './scenarios/domains/person/xRayBodyScans/XRBSEditScenarios'
 import { personPrisonCategoryEditScenarios } from './scenarios/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
 import { PrisonerIncentivesPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
@@ -84,6 +87,13 @@ describe('Prisoner Profile Contract Tests', () => {
           [CaseNotesPermission.read_sensitive]: sensitiveCaseNotesReadScenarios,
           [CaseNotesPermission.delete_sensitive]: sensitiveCaseNotesDeleteScenarios,
           [CaseNotesPermission.edit_sensitive]: sensitiveCaseNotesEditScenarios,
+        })
+      })
+
+      describe('X-ray Body Scans', () => {
+        scenarioTests<XRayBodyScansPermission>({
+          [XRayBodyScansPermission.read_scans]: xrbsReadScenarios,
+          [XRayBodyScansPermission.edit_scans]: xrbsEditScenarios,
         })
       })
 
