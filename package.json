@@ -57,7 +57,7 @@
     "@rollup/plugin-multi-entry": "7.1.0",
     "@rollup/plugin-node-resolve": "16.0.3",
     "@rollup/plugin-typescript": "12.3.0",
-    "@tsconfig/node24": "24.0.4",
+    "@tsconfig/node24": "24.0.5",
     "@types/bunyan": "1.8.11",
     "@types/express": "5.0.6",
     "@types/express-session": "1.19.0",
