@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "noEmit": true,
+    "noUnusedParameters": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "types": ["node", "jest"]
