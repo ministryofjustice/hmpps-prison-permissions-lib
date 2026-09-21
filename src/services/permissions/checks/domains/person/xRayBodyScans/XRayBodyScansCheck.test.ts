@@ -1,11 +1,10 @@
 import { XRayBodyScansPermission } from '../../../../../../types/public/permissions/domains/person/xRayBodyScans/XRayBodyScansPermissions'
 import { scenarioTests } from '../../../../../../testUtils/TestScenario'
-import { xrbsReadScenarios } from './xrbsRead/XRBSReadScenarios'
-import { xrbsEditScenarios } from './xrbsEdit/XRBSEditScenarios'
+import { xrbsReadAndEditScenarios } from './XRBSReadAndEditScenarios'
 
 describe('XRayBodyScans', () => {
   scenarioTests<XRayBodyScansPermission>({
-    [XRayBodyScansPermission.read_scans]: xrbsReadScenarios,
-    [XRayBodyScansPermission.edit_scans]: xrbsEditScenarios,
+    [XRayBodyScansPermission.read_scans]: xrbsReadAndEditScenarios,
+    [XRayBodyScansPermission.edit_scans]: xrbsReadAndEditScenarios,
   })
 })
