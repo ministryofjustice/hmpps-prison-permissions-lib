@@ -1,3 +1,4 @@
+/** User roles */
 // eslint-disable-next-line import/prefer-default-export
 export enum Role {
   ActivityHub = 'ROLE_ACTIVITY_HUB',

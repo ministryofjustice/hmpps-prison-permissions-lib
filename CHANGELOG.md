@@ -2,6 +2,11 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.4.0
+
+Updated x-ray body scan read & edit permissions to match and permit access to a prisoner who has moved out of
+the user’s case loads within the last 31 days.
+
 ## 4.3.0
 
 ### X-ray body scan initial permissions

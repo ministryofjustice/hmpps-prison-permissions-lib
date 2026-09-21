@@ -9,8 +9,7 @@ import { prisonerAdjudicationsReadPrisonerProfileScenarios } from './scenarios/d
 import { PrisonerAdjudicationsPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerAdjudications/PrisonerAdjudicationsPermissions'
 import { CaseNotesPermission } from '../../types/public/permissions/domains/person/caseNotes/CaseNotesPermissions'
 import { XRayBodyScansPermission } from '../../types/public/permissions/domains/person/xRayBodyScans/XRayBodyScansPermissions'
-import { xrbsReadScenarios } from './scenarios/domains/person/xRayBodyScans/XRBSReadScenarios'
-import { xrbsEditScenarios } from './scenarios/domains/person/xRayBodyScans/XRBSEditScenarios'
+import { xrbsReadAndEditScenarios } from './scenarios/domains/person/xRayBodyScans/XRBSReadAndEditScenarios'
 import { personPrisonCategoryEditScenarios } from './scenarios/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryEditScenarios'
 import { PersonPrisonCategoryPermission } from '../../types/public/permissions/domains/prisonerSpecific/personPrisonCategory/PersonPrisonCategoryPermissions'
 import { PrisonerIncentivesPermission } from '../../types/public/permissions/domains/prisonerSpecific/prisonerIncentives/PrisonerIncentivesPermissions'
@@ -92,8 +91,8 @@ describe('Prisoner Profile Contract Tests', () => {
 
       describe('X-ray Body Scans', () => {
         scenarioTests<XRayBodyScansPermission>({
-          [XRayBodyScansPermission.read_scans]: xrbsReadScenarios,
-          [XRayBodyScansPermission.edit_scans]: xrbsEditScenarios,
+          [XRayBodyScansPermission.read_scans]: xrbsReadAndEditScenarios,
+          [XRayBodyScansPermission.edit_scans]: xrbsReadAndEditScenarios,
         })
       })
 

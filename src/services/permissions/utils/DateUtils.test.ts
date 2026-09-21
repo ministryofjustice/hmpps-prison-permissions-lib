@@ -18,6 +18,15 @@ describe('getCurrentDateMinusDaysAsString', () => {
     [1735689600000, 30, '2024-12-02'],
     [1735689600000, -1, '2025-01-02'],
     [1735689600000, 0.5, '2024-12-31'],
+    // UTC+1
+    [Date.parse('2026-07-31T00:00:00+01:00'), 0, '2026-07-31'],
+    // near DST switch
+    [Date.parse('2021-10-30T23:59:59Z'), 0, '2021-10-31'],
+    [Date.parse('2021-10-31T00:00:00Z'), 0, '2021-10-31'],
+    [Date.parse('2021-10-31T00:00:01Z'), 0, '2021-10-31'],
+    [Date.parse('2021-10-31T00:59:59Z'), 0, '2021-10-31'],
+    [Date.parse('2021-10-31T01:00:00Z'), 0, '2021-10-31'],
+    [Date.parse('2021-10-31T01:00:01Z'), 0, '2021-10-31'],
   ])("when current date is '%s' and days to subtract is '%s'", (currentDateInMs, daysToSubtract, expectedOutput) => {
     expect(getCurrentDateMinusDaysAsString(currentDateInMs, daysToSubtract)).toBe(expectedOutput)
   })

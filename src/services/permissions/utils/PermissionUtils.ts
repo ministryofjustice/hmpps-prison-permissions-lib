@@ -6,6 +6,7 @@ import PrisonerPermissionsContext from '../../../types/internal/permissions/Pris
 import Prisoner from '../../../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { prisonerPermissionPaths } from '../../../types/public/permissions/prisoner/PrisonerPermissionPaths'
 import { isGranted } from '../../../types/public/permissions/prisoner/PrisonerPermissionsUtils'
+import { isDateWithinBounds } from './DateUtils'
 
 export function isRequiredPermission(
   permission: PrisonerPermission,
@@ -71,6 +72,21 @@ export const userHasRole = (roleToCheck: Role, user: HmppsUser): boolean => {
 }
 
 const normaliseRoleText = (role: string): string => role.replace(/ROLE_/, '')
+
+export function checkTimeBasedAccessPostTransfer(
+  user: HmppsUser,
+  prisoner: Prisoner,
+  timePeriodForAccessPostTransferInMilliseconds: number,
+): boolean {
+  // NB: current prison is not considered
+  if (!isInUsersCaseLoad(prisoner.previousPrisonId, user) || !prisoner.previousPrisonLeavingDate) {
+    return false
+  }
+
+  const previousPrisonLeavingDate = Date.parse(prisoner.previousPrisonLeavingDate)
+  const today = Date.now()
+  return isDateWithinBounds(previousPrisonLeavingDate, today, today - timePeriodForAccessPostTransferInMilliseconds)
+}
 
 export function setPrisonerPermission(
   permission: PrisonerPermission,
