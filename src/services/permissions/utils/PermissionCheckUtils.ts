@@ -6,34 +6,23 @@ import { baseCheckConditions } from '../checks/baseCheck/status/BaseCheckStatus'
 import { logDeniedPermissionCheck } from './PermissionUtils'
 
 export const matchBaseCheckAnd =
-  (
-    additionalConditions: Partial<PrisonerPermissionConditions>,
-    baseCheckConditionsOverride?: PrisonerPermissionConditions,
-  ) =>
+  (additionalConditions: Partial<PrisonerPermissionConditions>) =>
   (permission: PrisonerPermission, context: PrisonerPermissionsContext) => {
-    const { user, prisoner, baseCheckStatus: defaultBaseCheckStatus, readOnly } = context
-
-    let baseCheckStatus: PermissionCheckStatus
-    if (baseCheckConditionsOverride) {
-      baseCheckStatus = getPermissionStatus(user, prisoner, baseCheckConditionsOverride)
-    } else {
-      baseCheckStatus = defaultBaseCheckStatus
-    }
+    const { user, prisoner, baseCheckStatus, readOnly } = context
 
     const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
-
     const readOnlyCheckPassed = readOnly ? permission.endsWith(':read') : true
 
     const permissionStatus = readOnlyCheckPassed
       ? getPermissionStatus(user, prisoner, {
-          ...(baseCheckConditionsOverride ?? baseCheckConditions),
+          ...baseCheckConditions,
           ...additionalConditions,
         })
       : PermissionCheckStatus.READ_ONLY
 
     const permissionCheckPassed = baseCheckPassed && permissionStatus === PermissionCheckStatus.OK
 
-    if (!permissionCheckPassed) logDeniedPermissionCheck(permission, context, permissionStatus, baseCheckStatus)
+    if (!permissionCheckPassed) logDeniedPermissionCheck(permission, context, permissionStatus)
 
     return permissionCheckPassed
   }

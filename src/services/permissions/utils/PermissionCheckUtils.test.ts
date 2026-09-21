@@ -4,7 +4,6 @@ import { PermissionCheckStatus } from '../../../types/internal/permissions/Permi
 import PermissionsLogger from '../PermissionsLogger'
 import { matchBaseCheckAnd } from './PermissionCheckUtils'
 import { PrisonerBasePermission } from '../../../types/public/permissions/prisoner/PrisonerPermissions'
-import { PrisonerPermissionConditions } from '../PrisonerPermissionConditions'
 
 const permission = PrisonerBasePermission.read
 
@@ -106,27 +105,6 @@ describe('matchBaseCheckAnd', () => {
     )
 
     expect(result).toBe(false)
-    expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
-  })
-
-  it('should allow overriding base checks', () => {
-    const baseCheckConditionsOverride: PrisonerPermissionConditions = {
-      ifRestrictedPatient: () => PermissionCheckStatus.OK,
-      ifReleasedPrisoner: () => PermissionCheckStatus.OK,
-      ifTransferringPrisoner: () => PermissionCheckStatus.OK,
-      ifPrisonNotInCaseload: () => PermissionCheckStatus.OK,
-      ifPrisonInCaseload: () => PermissionCheckStatus.OK,
-    }
-    const result = matchBaseCheckAnd({}, baseCheckConditionsOverride)(permission, {
-      user: prisonUserMock,
-      prisoner: prisonerMock,
-      baseCheckStatus: PermissionCheckStatus.NOT_PERMITTED,
-      requestDependentOn: [],
-      permissionsLogger,
-      readOnly: false,
-    })
-
-    expect(result).toBe(true)
     expect(permissionsLogger.logPermissionCheckStatus).not.toHaveBeenCalled()
   })
 })

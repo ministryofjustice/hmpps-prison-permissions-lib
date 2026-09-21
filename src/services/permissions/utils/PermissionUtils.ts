@@ -19,19 +19,13 @@ export function logDeniedPermissionCheck(
   permission: PrisonerPermission,
   context: PrisonerPermissionsContext,
   status: PermissionCheckStatus,
-  baseCheckStatusOverride?: PermissionCheckStatus,
 ) {
   const { user, prisoner, baseCheckStatus, requestDependentOn, permissionsLogger } = context
 
-  const baseCheckPassed = (baseCheckStatusOverride ?? baseCheckStatus) === PermissionCheckStatus.OK
+  const baseCheckPassed = baseCheckStatus === PermissionCheckStatus.OK
 
   if (isRequiredPermission(permission, requestDependentOn)) {
-    permissionsLogger.logPermissionCheckStatus(
-      user,
-      prisoner,
-      permission,
-      baseCheckPassed ? status : (baseCheckStatusOverride ?? baseCheckStatus),
-    )
+    permissionsLogger.logPermissionCheckStatus(user, prisoner, permission, baseCheckPassed ? status : baseCheckStatus)
   }
 }
 
