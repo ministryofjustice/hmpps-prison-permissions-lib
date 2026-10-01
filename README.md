@@ -1,8 +1,8 @@
 # hmpps-prison-permissions-lib
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-prison-permissions-lib/badge)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-prison-permissions-lib)
-
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-prison-permissions-lib/badge?style=flat)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-prison-permissions-lib)
 [![Test, lint & publish](https://github.com/ministryofjustice/hmpps-prison-permissions-lib/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/ministryofjustice/hmpps-prison-permissions-lib/actions/workflows/pipeline.yml)
+![NPM version](https://img.shields.io/npm/v/%40ministryofjustice%2Fhmpps-prison-permissions-lib)
 
 A Node.js client library to centralise the process of determining user permissions for prison services and data.
 
@@ -78,7 +78,7 @@ The permissions service should be created just like any other of your services. 
   in order to make authorized client credentials calls to Prisoner Search.
 * `logger`: Bunyan logger for logging permissions events. Defaults to using `console`.
 * `telemetryClient`: Optional but recommended. Instead of just logging permissions events, this provides richer metadata
-  to a telemetry provider. Provide a client satisfying the `TelemetryClient` interface that this library exports (requires only a `trackEvent` method). 
+  to a telemetry provider. Provide a client satisfying the `TelemetryClient` interface that this library exports (requires only a `trackEvent` method).
   Compatible with `@ministryofjustice/hmpps-azure-telemetry` as-is. Compatible with `applicationinsights` if a wrapper is made to match the interface.
 * `readOnly`: Optional boolean (defaults to false) which, if set to true, will only grant read permissions.
 
