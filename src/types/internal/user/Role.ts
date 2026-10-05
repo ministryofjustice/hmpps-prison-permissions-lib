@@ -31,6 +31,7 @@ export enum Role {
   Prison = 'ROLE_PRISON',
   PrisonerProfilePhotoUpload = 'ROLE_PRISONER_PROFILE_PHOTO_UPLOAD',
   PrisonerProfileSensitiveEdit = 'ROLE_PRISONER_PROFILE_SENSITIVE_RW',
+  PrisonerPropertyManage = 'ROLE_PRISONERPROP__MANAGE',
   ReceptionUser = 'ROLE_PRISON_RECEPTION',
   ReleaseDatesCalculator = 'ROLE_RELEASE_DATES_CALCULATOR',
   SocCommunity = 'ROLE_SOC_COMMUNITY',

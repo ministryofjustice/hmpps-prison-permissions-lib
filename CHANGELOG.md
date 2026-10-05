@@ -2,16 +2,25 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.5.0
+
+Adding Prisoner Property domain permissions to the library:
+
+* `PrisonerPropertyPermission.read_property` - requiring the user to have the prisoner's prison in their caseload
+* `PrisonerPropertyPermission.edit_property` - in order to add/modify/delete prisoner property, in addition to the user
+  having the prisoner's prison in their caseload, they must also have the `ROLE_PRISONERPROP__MANAGE` role.
+
 ## 4.4.0
 
-Updated x-ray body scan read & edit permissions to match and permit access to a prisoner who has moved out of
-the user’s case loads within the last 31 days.
+Updated x-ray body scan read & edit permissions to match and permit access to a prisoner who has moved out of the user’s
+case loads within the last 31 days.
 
 ## 4.3.0
 
 ### X-ray body scan initial permissions
 
-Added simple permissions guarding XRBS read/edit. Performs a base check and looks for `ROLE_PRISON` and `DPS_APPLICATION_DEVELOPER` for now.
+Added simple permissions guarding XRBS read/edit. Performs a base check and looks for `ROLE_PRISON` and
+`DPS_APPLICATION_DEVELOPER` for now.
 
 ## 4.2.0
 
@@ -38,36 +47,45 @@ change, that card must be gated with `.edit` instead. Use `.read` for readonly C
 
 ## 4.1.0
 
-Strengthened `PersonCommunicationNeedsPermission.read_language` to check for whether the prisoner is in the user's caseload.
+Strengthened `PersonCommunicationNeedsPermission.read_language` to check for whether the prisoner is in the user's
+caseload.
 
 ## 4.0.0
 
 `applicationinsights` has been removed as a dependency.
 
-Previously, `PermissionsService.create()` accepted a `TelemetryClient` imported from `applicationinsights`.
-It now accepts anything satisfying a simple `TelemetryClient` interface which this library exports.
+Previously, `PermissionsService.create()` accepted a `TelemetryClient` imported from `applicationinsights`. It now
+accepts anything satisfying a simple `TelemetryClient` interface which this library exports.
 
 ### Upgrading
 
 The `TelemetryClient` interface has this signature:
 
 ```typescript
-trackEvent(name: string, attributes?: Record<string, string | number | boolean>): void
+trackEvent(name
+:
+string, attributes ? : Record<string, string | number | boolean>
+):
+void
 ```
 
-It's recommended to use `@ministryofjustice/hmpps-azure-telemetry` because the telemetry client it provides matches the interface directly:
+It's recommended to use `@ministryofjustice/hmpps-azure-telemetry` because the telemetry client it provides matches the
+interface directly:
 
 ```typescript
 import { telemetry } from '@ministryofjustice/hmpps-azure-telemetry'
 
 const prisonPermissionsService = PermissionsService.create({
   ...
-  telemetryClient: telemetry,
+    telemetryClient
+:
+telemetry,
 })
 ```
 
 If using the `applicationinsights` package, please note:
-The `applicationinsights` `TelemetryClient` uses a very similar yet slightly different `trackEvent` signature, so you will need to wrap it.
+The `applicationinsights` `TelemetryClient` uses a very similar yet slightly different `trackEvent` signature, so you
+will need to wrap it.
 
 If you are not passing a telemetry client (not recommended), no changes are needed.
 
@@ -108,24 +126,23 @@ Fixed duplicate record conditional upgrade and updated dependencies.
 
 ## 2.4.0
 
-The Connect DPS team have been supporting a request to make duplicate prisoner records more visible to users.
-The policy is that if a prisoner record is a duplicate of a record that a user has access to, then the user should
-have read-only access to the duplicate record if they wouldn't otherwise have had access. This allows users to see if
-there is any relevant information in the duplicate record that they may need to be aware of when working with the
-prisoner.
+The Connect DPS team have been supporting a request to make duplicate prisoner records more visible to users. The policy
+is that if a prisoner record is a duplicate of a record that a user has access to, then the user should have read-only
+access to the duplicate record if they wouldn't otherwise have had access. This allows users to see if there is any
+relevant information in the duplicate record that they may need to be aware of when working with the prisoner.
 
-This release introduces support for this policy in the permissions library. The client currently needs to supply
-a list of prisoner search results for the duplicate prisoner records by placing them in
+This release introduces support for this policy in the permissions library. The client currently needs to supply a list
+of prisoner search results for the duplicate prisoner records by placing them in
 `req.middleware.duplicatePrisonerData`. Duplicate prison numbers are found by making a request to the
-`hmpps-person-record` API. This is optional, if the client does not provide this data then the
-library will continue to function as before but without any additional access to duplicate records.
+`hmpps-person-record` API. This is optional, if the client does not provide this data then the library will continue to
+function as before but without any additional access to duplicate records.
 
 When a required permission is upgraded by a duplicate record, this is logged for audit purposes.
 
 ## 2.3.0
 
-Adding an extra option `readOnly` to the `PermissionsService` which defaults to `false`. When set to `true`, this
-will only grant read permissions. This allows a service to configure itself as read-only if required. This was initially
+Adding an extra option `readOnly` to the `PermissionsService` which defaults to `false`. When set to `true`, this will
+only grant read permissions. This allows a service to configure itself as read-only if required. This was initially
 required by the Prisoner Profile to display a read-only view of duplicate prisoner profiles.
 
 ## 2.2.1
@@ -191,16 +208,16 @@ for reading a prisoner's schedule. This permission requires the user to have the
 
 * Introduction of `PrisonerIncentivesPermission.read_incentive_level_history`.
 
-  We reviewed the permissions around incentives and found that there were conflicting permissions between
-  displaying the incentive level in the Prisoner Profile banner, the incentives card in the Prisoner Profile overview
-  and the incentives service itself. Connect DPS and the Incentives team agreed that just reading the incentive level
-  should follow the base checks for the profile, whilst reading the incentives history and comments should not
-  be allowed for prisoners in a prison outside the user's caseload.
+  We reviewed the permissions around incentives and found that there were conflicting permissions between displaying the
+  incentive level in the Prisoner Profile banner, the incentives card in the Prisoner Profile overview and the
+  incentives service itself. Connect DPS and the Incentives team agreed that just reading the incentive level should
+  follow the base checks for the profile, whilst reading the incentives history and comments should not be allowed for
+  prisoners in a prison outside the user's caseload.
 
   We have therefore introduced a new permission to capture the incentive level history permission.
 
-* Introduction of CSRA permissions for reading the CSRA rating of a prisoner and also the history and details of
-  CSRA assessments.
+* Introduction of CSRA permissions for reading the CSRA rating of a prisoner and also the history and details of CSRA
+  assessments.
 
   It was decided (see Slack #hmpps-data-domains on 17/11/25) that CSRA should sit in the 'Prisoner Specific Risks'
   domain, `as it is solely an assessment of their suitability to share a cell and who with`
@@ -265,13 +282,12 @@ Profile edit.
 ## 0.1.0
 
 Additional personal relationships (contacts) permissions introduced to enable hmpps-contacts-ui to make use of the
-library and for the Prisoner Profile and the Contacts UI to align on whether a user has access to a prisoner's
-contacts.
+library and for the Prisoner Profile and the Contacts UI to align on whether a user has access to a prisoner's contacts.
 
-Connect DPS and the Contacts team have agreed to allow contacts read permission for anyone with the prisoner's
-prison in their caseload (rather than requiring an active caseload match as was initially implemented in the
-Contacts UI). Contacts, restrictions and visit approval edits adopt the same role checks as were implemented
-in the Contacts UI codebase.
+Connect DPS and the Contacts team have agreed to allow contacts read permission for anyone with the prisoner's prison in
+their caseload (rather than requiring an active caseload match as was initially implemented in the Contacts UI).
+Contacts, restrictions and visit approval edits adopt the same role checks as were implemented in the Contacts UI
+codebase.
 
 We are keeping the divergence between the rules around editing Next of Kin and Emergency Contacts via the prisoner
 profile for now to enable the Profile Edit and Contacts to role out to users independently, but we will aim to unify
@@ -283,5 +299,4 @@ Initial release supporting the Prisoner Profile permissions.
 
 ## 0.0.1-alpha.1 to 0.0.1-alpha.15
 
-Pre-releases used to incrementally replace the prisoner profile
-permissions logic.
+Pre-releases used to incrementally replace the prisoner profile permissions logic.
