@@ -1,13 +1,13 @@
-import { TestScenarios } from '../../../../../testUtils/TestScenario'
+import { Role } from '../../../types/internal/user/Role'
+import { TestScenarios } from '../../../testUtils/TestScenario'
 import {
   deniedBaseCheckScenarios,
   grantedCaseLoadCheckScenarios,
   grantedGlobalSearchCheckScenarios,
   grantedReleasedPrisonerCheckScenarios,
   grantedTransferringPrisonerCheckScenarios,
-} from '../../baseCheck/BaseCheckScenarios'
-import { PermissionCheckStatus } from '../../../../../types/internal/permissions/PermissionCheckStatus'
-import { Role } from '../../../../../types/internal/user/Role'
+} from './baseCheck/BaseCheckScenarios'
+import { PermissionCheckStatus } from '../../../types/internal/permissions/PermissionCheckStatus'
 
 export default function inUsersCaseLoadAndUserHasSomeRolesFromScenarios(roles: Role[]) {
   const deniedScenarios: TestScenarios = deniedBaseCheckScenarios

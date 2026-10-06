@@ -23,6 +23,7 @@ import { PersonCommunicationNeedsPermission } from '../types/public/permissions/
 import { PrisonerSpecificRisksPermission } from '../types/public/permissions/domains/prisonerSpecific/prisonerSpecificRisks/PrisonerSpecificRisksPermissions'
 import { PrisonerMovesPermission } from '../types/public/permissions/domains/runningAPrison/prisonerMoves/PrisonerMovesPermissions'
 import { XRayBodyScansPermission } from '../types/public/permissions/domains/person/xRayBodyScans/XRayBodyScansPermissions'
+import { PrisonerPropertyPermission } from '../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions' // Add all permissions enums here to enable them to be referenced in
 
 // Add all permissions enums here to enable them to be referenced in
 // nunjucks templates:
@@ -44,6 +45,7 @@ const nunjucksEnums: Record<PrisonerPermission, object> = {
   ...nunjucksEnum({ PrisonerIncentivesPermission }),
   ...nunjucksEnum({ PrisonerMoneyPermission }),
   ...nunjucksEnum({ PrisonerMovesPermission }),
+  ...nunjucksEnum({ PrisonerPropertyPermission }),
   ...nunjucksEnum({ PrisonerSchedulePermission }),
   ...nunjucksEnum({ PrisonerSpecificRisksPermission }),
   ...nunjucksEnum({ PrisonerVisitsAndVisitorsPermission }),

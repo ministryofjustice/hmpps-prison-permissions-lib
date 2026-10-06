@@ -58,6 +58,7 @@ import { csraAssessmentHistoryReadScenarios } from './scenarios/domains/prisoner
 import { PrisonerMovesPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerMoves/PrisonerMovesPermissions'
 import baseCheckAndUserHasRoleScenarios from './scenarios/shared/BaseCheckAndUserHasRoleScenarios'
 import { contactsReadCheckScenarios } from './scenarios/shared/contactsReadCheckScenarios'
+import { PrisonerPropertyPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -251,6 +252,10 @@ describe('Prisoner Profile Contract Tests', () => {
           PrisonerMovesPermission.edit_temporary_absence,
           baseCheckAndUserHasRoleScenarios(Role.ExternalMovementsTemporaryAbsenceManagement),
         )
+      })
+
+      describe('Prisoner Property', () => {
+        scenarioTest(PrisonerPropertyPermission.read_property, inUsersCaseLoadScenarios)
       })
     })
 

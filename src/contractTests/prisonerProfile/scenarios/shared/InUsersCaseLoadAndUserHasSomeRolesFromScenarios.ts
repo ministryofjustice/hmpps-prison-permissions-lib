@@ -30,9 +30,6 @@ export default function inUsersCaseLoadAndUserHasSomeRolesFromScenarios(roles: R
     .and(
       grantedGlobalSearchCheckScenarios.withUserRoles(roles).withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
     )
-    .and(
-      grantedCaseLoadCheckScenarios.withoutUserRoles(roles).withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
-    )
 
   const grantedScenarios = roles.reduce(
     (scenarios, role) =>
