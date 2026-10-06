@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 4.5.1
+
+Fix to deployment pipeline should stop `npm` incorrectly becoming a direct dependency.
+
 ## 4.5.0
 
 Adding Prisoner Property domain permissions to the library:
