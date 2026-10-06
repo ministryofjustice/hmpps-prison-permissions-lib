@@ -40,7 +40,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Update npm
         # TODO: remove step once npm v12 is the default throughout
-        run: npm install 'npm@>=12'
+        run: npm install --global 'npm@>=12'
       - name: Install dependencies
         run: npm run setup
       - name: Test build step
@@ -60,7 +60,7 @@ jobs:
           node-version-file: .nvmrc
       - name: Update npm
         # TODO: remove step once npm v12 is the default throughout
-        run: npm install 'npm@>=12'
+        run: npm install --global 'npm@>=12'
       - name: Install dependencies
         run: npm run setup
       - name: Clean build step
@@ -91,7 +91,7 @@ jobs:
           scope: '@ministryofjustice'
       - name: Update npm
         # TODO: remove step once npm v12 is the default throughout
-        run: npm install 'npm@>=12'
+        run: npm install --global 'npm@>=12'
       - name: Install dependencies
         run: npm run setup
       - name: Build all packages
