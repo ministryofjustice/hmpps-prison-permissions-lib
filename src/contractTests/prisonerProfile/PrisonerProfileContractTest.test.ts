@@ -59,6 +59,8 @@ import { PrisonerMovesPermission } from '../../types/public/permissions/domains/
 import baseCheckAndUserHasRoleScenarios from './scenarios/shared/BaseCheckAndUserHasRoleScenarios'
 import { contactsReadCheckScenarios } from './scenarios/shared/contactsReadCheckScenarios'
 import { PrisonerPropertyPermission } from '../../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions'
+import { readPropertyOverviewScenarios } from './scenarios/domains/runningAPrison/prisonerProperty/ReadPropertyOverviewScenarios'
+import { readPropertyDetailsScenarios } from './scenarios/domains/runningAPrison/prisonerProperty/ReadPropertyDetailsScenarios'
 
 /**
  * Please contact #connect-dps-devs if any of these tests break
@@ -255,7 +257,8 @@ describe('Prisoner Profile Contract Tests', () => {
       })
 
       describe('Prisoner Property', () => {
-        scenarioTest(PrisonerPropertyPermission.read_property, inUsersCaseLoadScenarios)
+        scenarioTest(PrisonerPropertyPermission.read_property_overview, readPropertyOverviewScenarios)
+        scenarioTest(PrisonerPropertyPermission.read_property_details, readPropertyDetailsScenarios)
       })
     })
 

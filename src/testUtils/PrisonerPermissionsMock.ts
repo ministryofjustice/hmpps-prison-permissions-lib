@@ -134,8 +134,9 @@ export const prisonerPermissionsMock: PrisonerPermissions = {
         'prisoner:temporary-absence:edit': false,
       },
       prisonerProperty: {
-        'prisoner:property:read': false,
-        'prisoner:property:edit': false,
+        'prisoner:property:overview:read': false,
+        'prisoner:property:details:read': false,
+        'prisoner:property:details:edit': false,
       },
     },
     security: {
