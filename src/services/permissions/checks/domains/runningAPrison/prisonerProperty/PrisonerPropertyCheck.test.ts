@@ -1,12 +1,13 @@
 import { scenarioTests } from '../../../../../../testUtils/TestScenario'
-import { Role } from '../../../../../../types/internal/user/Role'
 import { PrisonerPropertyPermission } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions'
-import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoadScenarios'
-import inUsersCaseLoadAndUserHasRoleScenarios from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRoleScenarios'
+import { readPropertyDetailsScenarios } from './readPropertyDetails/ReadPropertyDetailsScenarios'
+import { readPropertyOverviewScenarios } from './readPropertyOverview/ReadPropertyOverviewScenarios'
+import { editPropertyDetailsScenarios } from './editPropertyDetails/EditPropertyDetailsScenarios'
 
 describe('Prisoner Property', () => {
   scenarioTests<PrisonerPropertyPermission>({
-    [PrisonerPropertyPermission.read_property]: inUsersCaseLoadScenarios,
-    [PrisonerPropertyPermission.edit_property]: inUsersCaseLoadAndUserHasRoleScenarios(Role.PrisonerPropertyManage),
+    [PrisonerPropertyPermission.read_property_overview]: readPropertyOverviewScenarios,
+    [PrisonerPropertyPermission.read_property_details]: readPropertyDetailsScenarios,
+    [PrisonerPropertyPermission.edit_property_details]: editPropertyDetailsScenarios,
   })
 })

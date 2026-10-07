@@ -4,14 +4,15 @@ import {
   PrisonerPropertyPermission,
   PrisonerPropertyPermissions,
 } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions'
-import { Role } from '../../../../../../types/internal/user/Role'
-import inUsersCaseLoad from '../../../sharedChecks/inUsersCaseLoad/InUsersCaseLoad'
-import inUsersCaseLoadAndUserHasRole from '../../../sharedChecks/inUsersCaseLoadAndUserHasRole/InUsersCaseLoadAndUserHasRole'
+import { readPropertyOverviewCheck } from './readPropertyOverview/ReadPropertyOverviewCheck'
+import { readPropertyDetailsCheck } from './readPropertyDetails/ReadPropertyDetailsCheck'
+import editPropertyDetailsCheck from './editPropertyDetails/EditPropertyDetailsCheck'
 
 export default function prisonerPropertyCheck(context: PrisonerPermissionsContext): PrisonerPropertyPermissions {
   const check = checkWith(context)
   return {
-    ...check(PrisonerPropertyPermission.read_property, inUsersCaseLoad),
-    ...check(PrisonerPropertyPermission.edit_property, inUsersCaseLoadAndUserHasRole(Role.PrisonerPropertyManage)),
+    ...check(PrisonerPropertyPermission.read_property_overview, readPropertyOverviewCheck),
+    ...check(PrisonerPropertyPermission.read_property_details, readPropertyDetailsCheck),
+    ...check(PrisonerPropertyPermission.edit_property_details, editPropertyDetailsCheck),
   }
 }
