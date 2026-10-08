@@ -31,8 +31,14 @@ export const grantedReadPropertyDetailsScenarios: TestScenarios = grantedCaseLoa
       .expectsStatus(PermissionCheckStatus.OK),
   )
 
-export const deniedReadPropertyDetailsScenarios: TestScenarios = deniedReadPropertyOverviewScenarios.and(
-  grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD),
-)
+export const deniedReadPropertyDetailsScenarios: TestScenarios = deniedReadPropertyOverviewScenarios
+  .and(grantedGlobalSearchCheckScenarios.withExpectedStatus(PermissionCheckStatus.NOT_IN_CASELOAD))
+  .andScenarioWhere(
+    // Global Search role is not sufficient to access transferring prisoner property overview:
+    userWithActiveCaseLoad('MDI')
+      .withRoles([Role.GlobalSearch])
+      .accessingTransferringPrisoner()
+      .expectsStatus(PermissionCheckStatus.PRISONER_IS_TRANSFERRING),
+  )
 
 export const readPropertyDetailsScenarios = grantedReadPropertyDetailsScenarios.and(deniedReadPropertyDetailsScenarios)
