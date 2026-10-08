@@ -2,24 +2,30 @@
 
 Please use this to capture reasoning behind changes:
 
+## 5.1.0
+
+A further change to prisoner property permissions allowing users with only Global Search role to view the prisoner
+property overview but not see the link to view further prisoner property details in the Prisoner Property service unless
+they have the Released Prisoner Viewing role.
+
 ## 5.0.0
 
-This is technically a breaking change, but it is not expected to affect any clients since the permissions
-involved were not being consumed yet.  This change distinguishes subtle differences between being able to
-see a prisoner's property 'overview' (simple statistics about property counts) and being able to see further
-details about that property via the Prisoner Property service.  The updated set of permissions are now:
+This is technically a breaking change, but it is not expected to affect any clients since the permissions involved were
+not being consumed yet. This change distinguishes subtle differences between being able to see a prisoner's property
+'overview' (simple statistics about property counts) and being able to see further details about that property via the
+Prisoner Property service. The updated set of permissions are now:
 
 * `PrisonerPropertyPermission.read_property_overview` - this follows the base check apart from requiring the 'Inactive
   Bookings (Released Prisoner Viewing)' role to be able to see the property overview for
   released/transferring/restricted patient prisoners.
-* `PrisonerPropertyPermission.read_property_details` - in addition to the requirements for `read_property_overview`,
-  if a prisoner is in prison the user must have caseload access to view the property details.
+* `PrisonerPropertyPermission.read_property_details` - in addition to the requirements for `read_property_overview`, if
+  a prisoner is in prison the user must have caseload access to view the property details.
 * `PrisonerPropertyPermission.edit_property` - in addition to the requirements for `read_property_details`, the user
   must also have the `Prisoner Property Manage` role.
 
-There are further considerations that we need to make for the Prisoner Property service to adopt the library for
-these permissions to enable it to add the context of the prisoner's property being in another prison to the prisoner
-which will be addressed in a future release.
+There are further considerations that we need to make for the Prisoner Property service to adopt the library for these
+permissions to enable it to add the context of the prisoner's property being in another prison to the prisoner which
+will be addressed in a future release.
 
 ## 4.5.1
 

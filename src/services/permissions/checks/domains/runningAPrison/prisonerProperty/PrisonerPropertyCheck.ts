@@ -4,7 +4,7 @@ import {
   PrisonerPropertyPermission,
   PrisonerPropertyPermissions,
 } from '../../../../../../types/public/permissions/domains/runningAPrison/prisonerProperty/PrisonerPropertyPermissions'
-import { readPropertyOverviewCheck } from './readPropertyOverview/ReadPropertyOverviewCheck'
+import readPropertyOverviewCheck from './readPropertyOverview/ReadPropertyOverviewCheck'
 import { readPropertyDetailsCheck } from './readPropertyDetails/ReadPropertyDetailsCheck'
 import editPropertyDetailsCheck from './editPropertyDetails/EditPropertyDetailsCheck'
 
