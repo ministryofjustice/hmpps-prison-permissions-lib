@@ -9,6 +9,8 @@ When a new version needs to be released, these steps should be followed as part 
 1) Make necessary changes, ensuring that tests are up-to-date.
 2) Ensure the README.md and CHANGELOG.md files are correct.
 3) Update version in package.json.
+   Run `npm version <patch|minor|major> --no-git-tag-version` to bump the version number appropriately,
+   see [versioning information](./versioning.md).
 4) Create pull request and review as usual.
 5) Create a tag on the `main` branch for the pull request’s squashed merge commit.
    The tag name should match the version (e.g. '0.0.1-alpha.3'), but automation does not rely on this.

@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 5.2.0
+
+Updated x-ray body scan read & edit permissions to no longer require DPS app developer role.
+
 ## 5.1.0
 
 A further change to prisoner property permissions allowing users with only Global Search role to view the prisoner

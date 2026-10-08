@@ -17,38 +17,33 @@ const longAgo = getCurrentDateMinusDaysAsString(today, 32)
 
 const deniedAfterTransferScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
-    .withRoles([Role.Prison, Role.GlobalSearch, Role.DpsApplicationDeveloper])
+    .withRoles([Role.Prison, Role.GlobalSearch])
     .accessingPrisonerAtAfterTransferFrom('LEI', 'MDI', longAgo)
     .expectsStatus(PermissionCheckStatus.NOT_PERMITTED),
 ])
 const grantedAfterTransferScenarios = new TestScenarios([
   userWithActiveCaseLoad('MDI')
-    .withRoles([Role.Prison, Role.GlobalSearch, Role.DpsApplicationDeveloper])
+    .withRoles([Role.Prison, Role.GlobalSearch])
     .accessingPrisonerAtAfterTransferFrom('LEI', 'MDI', recently)
     .expectsStatus(PermissionCheckStatus.OK),
 ])
 
-const deniedScenarios = deniedAfterTransferScenarios
-  .and(grantedAfterTransferScenarios.withUserRoles([Role.Prison]))
-  .and(deniedBaseCheckScenarios.withUserRoles([Role.Prison, Role.DpsApplicationDeveloper]))
-  .and(grantedBaseCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
+const deniedScenarios = new TestScenarios([])
   .and(
-    grantedBaseCheckScenarios.withUserRoles([Role.Prison]).withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
+    grantedAfterTransferScenarios
+      .withoutUserRoles([Role.Prison])
+      .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
   )
+  .and(deniedBaseCheckScenarios.withUserRoles([Role.Prison]))
+  .and(grantedBaseCheckScenarios.withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT))
   .and(deniedAfterTransferScenarios)
 
-const grantedScenarios = grantedAfterTransferScenarios
+const grantedScenarios = new TestScenarios([])
   .and(grantedCaseLoadCheckScenarios)
   .and(grantedRestrictedPatientCheckScenarios)
   .and(grantedReleasedPrisonerCheckScenarios)
-  .withUserRoles([Role.Prison, Role.DpsApplicationDeveloper])
-  .and(
-    grantedTransferringPrisonerCheckScenarios.withUserRoles([
-      Role.Prison,
-      Role.InactiveBookings,
-      Role.DpsApplicationDeveloper,
-    ]),
-  )
+  .and(grantedTransferringPrisonerCheckScenarios)
+  .withUserRoles([Role.Prison])
   .and(grantedAfterTransferScenarios)
 
 // eslint-disable-next-line import/prefer-default-export

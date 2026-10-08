@@ -7,7 +7,7 @@ import { PermissionCheckStatus } from '../../../../../../types/internal/permissi
 const xrbsAccessPeriodPostTransferInMs = daysToMilliseconds(31)
 
 const xrbsReadAndEditCheck = matchBaseCheckAnd({
-  allRolesRequired: [Role.Prison, Role.DpsApplicationDeveloper], // TODO: remove DpsApplicationDeveloper
+  allRolesRequired: [Role.Prison],
 
   ifPrisonNotInCaseload: (user, prisoner) => {
     // Scans for prisoners outside the user’s caseload are only accessible
