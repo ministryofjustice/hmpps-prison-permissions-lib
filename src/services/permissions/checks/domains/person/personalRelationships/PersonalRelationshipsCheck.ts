@@ -1,5 +1,4 @@
 import PrisonerPermissionsContext from '../../../../../../types/internal/permissions/PrisonerPermissionsContext'
-import baseCheck from '../../../baseCheck/BaseCheck'
 import {
   PersonalRelationshipsPermission,
   PersonalRelationshipsPermissions,
@@ -24,7 +23,7 @@ export default function personalRelationshipsCheck(
     ...check(PersonalRelationshipsPermission.read_domestic_status, inUsersCaseLoad),
     ...check(PersonalRelationshipsPermission.edit_domestic_status, prisonerProfileEditCheck),
 
-    ...check(PersonalRelationshipsPermission.read_emergency_contacts, baseCheck),
+    ...check(PersonalRelationshipsPermission.read_emergency_contacts, inUsersCaseLoad),
     ...check(PersonalRelationshipsPermission.edit_emergency_contacts, prisonerProfileSensitiveEditCheck),
 
     ...check(PersonalRelationshipsPermission.read_contacts, contactsReadCheck),

@@ -21,7 +21,7 @@ export default function corePersonRecordCheck(context: PrisonerPermissionsContex
       inActiveCaseLoadAndUserHasSomeRolesFrom([Role.PrisonerProfileSensitiveEdit, Role.PrisonerProfilePhotoUpload]),
     ),
 
-    ...check(CorePersonRecordPermission.read_physical_characteristics, baseCheck),
+    ...check(CorePersonRecordPermission.read_physical_characteristics, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_physical_characteristics, prisonerProfileEditCheck),
 
     ...check(CorePersonRecordPermission.read_place_of_birth, inUsersCaseLoad),
@@ -45,13 +45,13 @@ export default function corePersonRecordCheck(context: PrisonerPermissionsContex
     ...check(CorePersonRecordPermission.read_identifiers, baseCheck),
     ...check(CorePersonRecordPermission.edit_identifiers, prisonerProfileSensitiveEditCheck),
 
-    ...check(CorePersonRecordPermission.read_phone_numbers, baseCheck),
+    ...check(CorePersonRecordPermission.read_phone_numbers, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_phone_numbers, prisonerProfileSensitiveEditCheck),
 
-    ...check(CorePersonRecordPermission.read_email_addresses, baseCheck),
+    ...check(CorePersonRecordPermission.read_email_addresses, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_email_addresses, prisonerProfileSensitiveEditCheck),
 
-    ...check(CorePersonRecordPermission.read_distinguishing_marks, baseCheck),
+    ...check(CorePersonRecordPermission.read_distinguishing_marks, inUsersCaseLoad),
     ...check(CorePersonRecordPermission.edit_distinguishing_marks, prisonerProfileSensitiveEditCheck),
   }
 }
