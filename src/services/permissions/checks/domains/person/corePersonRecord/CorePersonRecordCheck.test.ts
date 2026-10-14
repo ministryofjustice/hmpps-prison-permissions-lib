@@ -10,7 +10,7 @@ import { inUsersCaseLoadScenarios } from '../../../sharedChecks/inUsersCaseLoad/
 
 describe('Core Person Record', () => {
   scenarioTests<CorePersonRecordPermission>({
-    [CorePersonRecordPermission.read_physical_characteristics]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_physical_characteristics]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_physical_characteristics]: prisonerProfileEditCheckScenarios,
     [CorePersonRecordPermission.read_photo]: photoReadScenarios,
     [CorePersonRecordPermission.edit_photo]: inActiveCaseLoadAndUserHasSomeRolesFromScenarios([
@@ -31,11 +31,11 @@ describe('Core Person Record', () => {
     [CorePersonRecordPermission.edit_nationality]: prisonerProfileSensitiveEditCheckScenarios,
     [CorePersonRecordPermission.read_identifiers]: baseCheckScenarios,
     [CorePersonRecordPermission.edit_identifiers]: prisonerProfileSensitiveEditCheckScenarios,
-    [CorePersonRecordPermission.read_phone_numbers]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_phone_numbers]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_phone_numbers]: prisonerProfileSensitiveEditCheckScenarios,
-    [CorePersonRecordPermission.read_email_addresses]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_email_addresses]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_email_addresses]: prisonerProfileSensitiveEditCheckScenarios,
-    [CorePersonRecordPermission.read_distinguishing_marks]: baseCheckScenarios,
+    [CorePersonRecordPermission.read_distinguishing_marks]: inUsersCaseLoadScenarios,
     [CorePersonRecordPermission.edit_distinguishing_marks]: prisonerProfileSensitiveEditCheckScenarios,
   })
 })

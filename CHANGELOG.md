@@ -2,6 +2,13 @@
 
 Please use this to capture reasoning behind changes:
 
+## 5.3.0
+
+Updated select Core Person Record and Personal Relationships permissions to use the `inUsersCaseLoad` check rather
+than `baseCheck` only.  This is to match current behaviour in the Prisoner Profile so there is no change
+to what users can access but it means that the permissions library is now faithful to the current behaviour
+in the Prisoner Profile.  The Prisoner Profile will be updated to use the permissions library for these checks.
+
 ## 5.2.0
 
 Updated x-ray body scan read & edit permissions to no longer require DPS app developer role.
