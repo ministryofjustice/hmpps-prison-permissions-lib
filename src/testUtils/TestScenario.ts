@@ -1,4 +1,4 @@
-// eslint-disable-next-line max-classes-per-file
+/* eslint-disable max-classes-per-file */
 import { HmppsUser, PrisonUser } from '../types/internal/user/HmppsUser'
 import Prisoner from '../data/hmppsPrisonerSearch/interfaces/Prisoner'
 import { Role } from '../types/internal/user/Role'
