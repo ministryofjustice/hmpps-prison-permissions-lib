@@ -1,7 +1,6 @@
 import baseCheckAndUserHasSomeRolesFromScenarios from '../../../shared/BaseCheckAndUserHasSomeRolesFromScenarios'
 import { Role } from '../../../../../../types/internal/user/Role'
 
-// eslint-disable-next-line import/prefer-default-export
 export const pathfinderEditScenarios = baseCheckAndUserHasSomeRolesFromScenarios([
   Role.PathfinderApproval,
   Role.PathfinderStdPrison,

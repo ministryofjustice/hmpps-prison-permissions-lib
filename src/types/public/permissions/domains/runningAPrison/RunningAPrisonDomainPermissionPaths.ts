@@ -6,7 +6,6 @@ import { prisonerBaseLocationPermissionPaths } from './prisonerBaseLocation/Pris
 import { prisonerMovesPermissionPaths } from './prisonerMoves/PrisonerMovesPermissionPaths'
 import { prisonerPropertyPermissionPaths } from './prisonerProperty/PrisonerPropertyPermissionPaths'
 
-// eslint-disable-next-line import/prefer-default-export
 export const runningAPrisonDomainPermissionPaths: Record<RunningAPrisonDomainPermission, Path<PrisonerPermissions>> = {
   ...prisonerVisitsAndVisitorsPermissionPaths,
   ...prisonerBaseLocationPermissionPaths,

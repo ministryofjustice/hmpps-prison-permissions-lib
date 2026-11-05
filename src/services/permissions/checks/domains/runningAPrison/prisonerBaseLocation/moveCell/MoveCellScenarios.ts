@@ -30,5 +30,4 @@ const grantedScenarios = grantedRestrictedPatientCheckScenarios
   .and(grantedCaseLoadCheckScenarios)
   .withUserRoles([Role.CellMove])
 
-// eslint-disable-next-line import/prefer-default-export
 export const moveCellScenarios = grantedScenarios.and(deniedScenarios)

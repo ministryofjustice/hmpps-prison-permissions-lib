@@ -59,5 +59,4 @@ const grantedDietReadScenarios: TestScenarios = grantedCaseLoadCheckScenarios.an
   grantedRestrictedPatientDietReadScenarios,
 )
 
-// eslint-disable-next-line import/prefer-default-export
 export const dietReadScenarios = grantedDietReadScenarios.and(deniedDietReadScenarios)

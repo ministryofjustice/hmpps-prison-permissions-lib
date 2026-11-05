@@ -46,5 +46,4 @@ const grantedScenarios = new TestScenarios([])
   .withUserRoles([Role.Prison])
   .and(grantedAfterTransferScenarios)
 
-// eslint-disable-next-line import/prefer-default-export
 export const xrbsReadAndEditScenarios = deniedScenarios.and(grantedScenarios)

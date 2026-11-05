@@ -10,7 +10,6 @@ import { useOfForcePermissionPaths } from './useOfForce/UseOfForcePermissionPath
 import { prisonerAlertsPermissionPaths } from './prisonerAlerts/PrisonerAlertsPermissionPaths'
 import { prisonerSpecificRisksPermissionPaths } from './prisonerSpecificRisks/PrisonerSpecificRisksPermissionPaths'
 
-// eslint-disable-next-line import/prefer-default-export
 export const prisonerSpecificDomainPermissionPaths: Record<
   PrisonerSpecificDomainPermission,
   Path<PrisonerPermissions>

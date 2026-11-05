@@ -18,5 +18,4 @@ const grantedScenarios = grantedRestrictedPatientCheckScenarios
   .and(grantedTransferringPrisonerCheckScenarios)
   .and(grantedCaseLoadCheckScenarios)
 
-// eslint-disable-next-line import/prefer-default-export
 export const locationDetailsAndHistoryReadScenarios = grantedScenarios.and(deniedScenarios)

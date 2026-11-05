@@ -40,5 +40,4 @@ const grantedScenarios = grantedCaseLoadCheckScenarios
   )
   .withUserRoles([Role.UpdateAlert])
 
-// eslint-disable-next-line import/prefer-default-export
 export const prisonerAlertsEditScenarios = grantedScenarios.and(deniedScenarios)

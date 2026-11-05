@@ -39,7 +39,6 @@ const grantedPrisonerAdjudicationsReadScenarios = grantedCaseLoadCheckScenarios
   .and(grantedRestrictedPatientCheckScenarios.withUserRoles([Role.PomUser]))
   .and(grantedRestrictedPatientCheckScenarios.withUserRoles([Role.ReceptionUser]))
 
-// eslint-disable-next-line import/prefer-default-export
 export const prisonerAdjudicationsReadPrisonerProfileScenarios = grantedPrisonerAdjudicationsReadScenarios.and(
   deniedPrisonerAdjudicationReadScenarios,
 )

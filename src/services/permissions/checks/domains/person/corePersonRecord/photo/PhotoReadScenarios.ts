@@ -28,5 +28,4 @@ const grantedScenarios = grantedRestrictedPatientCheckScenarios
       .expectsStatus(PermissionCheckStatus.OK),
   )
 
-// eslint-disable-next-line import/prefer-default-export
 export const photoReadScenarios = grantedScenarios.and(deniedScenarios)

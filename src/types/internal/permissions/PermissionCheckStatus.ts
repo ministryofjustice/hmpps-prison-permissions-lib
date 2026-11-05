@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export enum PermissionCheckStatus {
   NOT_PERMITTED = 'NOT_PERMITTED', // Generic not permitted status - default
   NOT_IN_CASELOAD = 'NOT_IN_CASELOAD',

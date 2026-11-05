@@ -11,5 +11,4 @@ const deniedScenarios = deniedCaseNotesReadAndEditScenarios(PermissionCheckStatu
 
 const grantedScenarios = grantedCaseNotesReadAndEditScenarios.withUserRole(Role.DeleteSensitiveCaseNotes)
 
-// eslint-disable-next-line import/prefer-default-export
 export const sensitiveCaseNotesDeleteScenarios = deniedScenarios.and(grantedScenarios)

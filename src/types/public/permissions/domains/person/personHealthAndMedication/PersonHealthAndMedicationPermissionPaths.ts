@@ -4,7 +4,6 @@ import { PersonHealthAndMedicationPermission } from './PersonHealthAndMedication
 
 const basePath: Path<PrisonerPermissions> = 'domainGroups.person.personHealthAndMedication'
 
-// eslint-disable-next-line import/prefer-default-export
 export const personHealthAndMedicationPermissionPaths: Record<
   PersonHealthAndMedicationPermission,
   Path<PrisonerPermissions>

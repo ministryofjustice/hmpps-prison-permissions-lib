@@ -35,5 +35,4 @@ const grantedScenarios = new TestScenarios([])
   .and(grantedCaseLoadCheckScenarios.withUserRole(Role.PomUser))
   .and(grantedCaseLoadCheckScenarios.withUserRole(Role.ViewProbationDocuments))
 
-// eslint-disable-next-line import/prefer-default-export
 export const probationDocumentsReadScenarios = grantedScenarios.and(deniedScenarios)

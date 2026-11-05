@@ -1,6 +1,5 @@
 import { PrisonerPermissions } from '../types/public/permissions/prisoner/PrisonerPermissions'
 
-// eslint-disable-next-line import/prefer-default-export
 export const prisonerPermissionsMock: PrisonerPermissions = {
   'prisoner:base-record:read': false,
 

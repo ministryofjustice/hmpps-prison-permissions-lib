@@ -4,7 +4,6 @@ import { CorePersonRecordPermission } from './CorePersonRecordPermissions'
 
 const basePath: Path<PrisonerPermissions> = 'domainGroups.person.corePersonRecord'
 
-// eslint-disable-next-line import/prefer-default-export
 export const corePersonRecordPermissionPaths: Record<CorePersonRecordPermission, Path<PrisonerPermissions>> = {
   [CorePersonRecordPermission.read_physical_characteristics]: `${basePath}.${CorePersonRecordPermission.read_physical_characteristics}`,
   [CorePersonRecordPermission.edit_physical_characteristics]: `${basePath}.${CorePersonRecordPermission.edit_physical_characteristics}`,
