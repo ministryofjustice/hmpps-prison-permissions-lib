@@ -2,6 +2,10 @@
 
 Please use this to capture reasoning behind changes:
 
+## 5.3.1
+
+No real changes, just a maintenance release.
+
 ## 5.3.0
 
 Updated select Core Person Record and Personal Relationships permissions to use the `inUsersCaseLoad` check rather

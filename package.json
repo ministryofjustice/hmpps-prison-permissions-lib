@@ -50,7 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "2.0.0-alpha.2",
+    "@ministryofjustice/eslint-config-hmpps": "2.0.0-alpha.3",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-multi-entry": "7.1.0",
@@ -63,7 +63,7 @@
     "@types/jest": "30.0.0",
     "jest": "30.5.2",
     "lint-staged": "17.6.0",
-    "rollup": "4.65.1",
+    "rollup": "4.66.0",
     "rollup-plugin-dts": "6.5.1",
     "ts-jest": "29.4.15",
     "tslib": "2.8.1",

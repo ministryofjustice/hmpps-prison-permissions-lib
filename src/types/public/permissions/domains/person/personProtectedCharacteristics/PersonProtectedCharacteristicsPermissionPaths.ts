@@ -4,7 +4,6 @@ import { PersonProtectedCharacteristicsPermission } from './PersonProtectedChara
 
 const basePath: Path<PrisonerPermissions> = 'domainGroups.person.personProtectedCharacteristics'
 
-// eslint-disable-next-line import/prefer-default-export
 export const personProtectedCharacteristicsPermissionPaths: Record<
   PersonProtectedCharacteristicsPermission,
   Path<PrisonerPermissions>

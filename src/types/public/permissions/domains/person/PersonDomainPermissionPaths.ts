@@ -8,7 +8,6 @@ import { personHealthAndMedicationPermissionPaths } from './personHealthAndMedic
 import { personalRelationshipsPermissionPaths } from './personalRelationships/PersonalRelationshipsPermissionPaths'
 import { xRayBodyScansPermissionPaths } from './xRayBodyScans/XRayBodyScansPermissionPaths'
 
-// eslint-disable-next-line import/prefer-default-export
 export const personDomainPermissionPaths: Record<PersonDomainPermission, Path<PrisonerPermissions>> = {
   ...caseNotesPermissionPaths,
   ...corePersonRecordPermissionPaths,

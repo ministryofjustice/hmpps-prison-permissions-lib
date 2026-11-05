@@ -12,7 +12,6 @@ import {
   grantedCaseNotesReadAndEditTransferringPrisonerScenarios,
 } from './CaseNotesReadAndEditScenarios'
 
-// eslint-disable-next-line import/prefer-default-export
 export function deniedSensitiveCaseNotesBaseScenarios(allPermissiveRoles: Role[]): TestScenarios {
   return new TestScenarios([])
     .and(

@@ -15,5 +15,4 @@ const deniedScenarios: TestScenarios = deniedReadPropertyDetailsScenarios
       .withExpectedStatus(PermissionCheckStatus.ROLE_NOT_PRESENT),
   )
 
-// eslint-disable-next-line import/prefer-default-export
 export const editPropertyDetailsScenarios = grantedScenarios.and(deniedScenarios)

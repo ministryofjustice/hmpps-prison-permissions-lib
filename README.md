@@ -2,7 +2,7 @@
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-prison-permissions-lib/badge?style=flat)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-prison-permissions-lib)
 [![Test, lint & publish](https://github.com/ministryofjustice/hmpps-prison-permissions-lib/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/ministryofjustice/hmpps-prison-permissions-lib/actions/workflows/pipeline.yml)
-![NPM version](https://img.shields.io/npm/v/%40ministryofjustice%2Fhmpps-prison-permissions-lib)
+[![NPM version](https://img.shields.io/npm/v/%40ministryofjustice%2Fhmpps-prison-permissions-lib)](https://www.npmjs.com/package/@ministryofjustice/hmpps-prison-permissions-lib)
 
 A Node.js client library to centralise the process of determining user permissions for prison services and data.
 

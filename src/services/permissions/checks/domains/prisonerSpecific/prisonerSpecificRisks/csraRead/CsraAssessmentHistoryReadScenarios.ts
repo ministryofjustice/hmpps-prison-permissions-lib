@@ -25,5 +25,4 @@ const grantedScenarios = grantedCaseLoadCheckScenarios.and(
   grantedTransferringPrisonerCheckScenarios.withUserRole(Role.GlobalSearch),
 )
 
-// eslint-disable-next-line import/prefer-default-export
 export const csraAssessmentHistoryReadScenarios = grantedScenarios.and(deniedScenarios)

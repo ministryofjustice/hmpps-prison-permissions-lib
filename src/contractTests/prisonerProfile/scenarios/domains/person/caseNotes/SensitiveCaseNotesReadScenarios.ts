@@ -19,7 +19,6 @@ const grantedScenarios = new TestScenarios([])
       .withExpectedStatus(PermissionCheckStatus.OK),
   )
 
-// eslint-disable-next-line import/prefer-default-export
 export const sensitiveCaseNotesReadScenarios = grantedScenarios.and(
   deniedSensitiveCaseNotesBaseScenarios(allPermissiveRoles),
 )

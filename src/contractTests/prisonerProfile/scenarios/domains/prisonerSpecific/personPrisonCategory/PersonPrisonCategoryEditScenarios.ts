@@ -26,5 +26,4 @@ const grantedScenarios = grantedBaseCheckScenarios
   .and(grantedBaseCheckScenarios.withUserRoles([Role.ApproveCategorisation]))
   .and(grantedBaseCheckScenarios.withUserRoles([Role.CategorisationSecurity]))
 
-// eslint-disable-next-line import/prefer-default-export
 export const personPrisonCategoryEditScenarios = grantedScenarios.and(deniedScenarios)

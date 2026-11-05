@@ -29,5 +29,4 @@ const grantedScenarios = new TestScenarios([])
       .expectsStatus(PermissionCheckStatus.OK),
   )
 
-// eslint-disable-next-line import/prefer-default-export
 export const incentiveLevelHistoryReadScenarios = grantedScenarios.and(deniedScenarios)

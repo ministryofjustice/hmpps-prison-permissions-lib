@@ -28,5 +28,4 @@ const grantedScenarios = grantedCaseLoadCheckScenarios
       .expectsStatus(PermissionCheckStatus.OK),
   )
 
-// eslint-disable-next-line import/prefer-default-export
 export const useOfForceEditScenarios = grantedScenarios.and(deniedScenarios)

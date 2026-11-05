@@ -26,7 +26,7 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - ">=25"
+          - ">=27"
       - dependency-name: "typescript"
         # TODO: remove once dependent libs are updated for v7
         versions:
