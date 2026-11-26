@@ -70,7 +70,7 @@
     "typescript": "6.0.3"
   },
   "dependencies": {
-    "@ministryofjustice/hmpps-rest-client": "2.2.0"
+    "@ministryofjustice/hmpps-rest-client": "2.3.0"
   },
   "overrides": {
     "brace-expansion": ">=5.0.12"
